@@ -1,0 +1,29 @@
+{% extends 'main/pre_base.html' %}
+{% block transfer_list %}
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Username</th>
+      <th>First name</th>
+      <th>Email</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for transfer in object_list %}
+      <tr>
+        <td>{{ transfer.Customer_ref }}</td>
+        <td>{{ transfer.Date }}</td>
+        <td>{{ transfer.Driver }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<!--<h1>transfer</h1>-->
+<!--<ul>-->
+<!--{% for transfer in object_list %}-->
+    <!--<li>{{ transfer.Date }}</li>-->
+<!--{% empty %}-->
+    <!--<li>No transfer yet.</li>-->
+<!--{% endfor %}-->
+<!--</ul>-->
+{% endblock %}
