@@ -14,7 +14,7 @@ class form_data_Customer_ref(forms.ModelForm):
 class project_form(forms.ModelForm):
     class Meta:
         model = project
-        fields = ['received_by', 'client_first_name', 'client_last_name', 'notes', 'status']
+        fields = []
 
     def __init__(self, *args, **kwargs):
         super(project_form, self).__init__(*args, **kwargs)
@@ -66,24 +66,14 @@ class transfer_form(forms.ModelForm):
                 Submit('submit', 'Submit', css_class='button white')
             )
         )
-        # customer_choices = formData.objects.all().values()['Customer_ref']
-        # print(customer_choices)
-
-        # site = forms.IntegerField(
-        #     widget=forms.Select(
-        #         choices=formData.objects.all().values_list('id', 'name')
-        #     )
-        # )
-        # self.fields['Customer_ref'].widget = forms.Select(choices=customer_choices)
 
         # self.fields['Date'].widget = forms.DateInput(
         #     attrs={'placeholder': "2009-10-03"})
-        self.fields['Driver'].widget = forms.Select(choices=CHOICES1)
-        self.fields['Provider'].widget = forms.Select(choices=CHOICES1)
-        self.fields['Car'].widget = forms.Select(choices=CHOICES1)
-        self.fields['Flight'].widget = forms.Select(choices=CHOICES1)
+        # self.fields['Driver'].widget = forms.Select(choices=CHOICES1)
+        # self.fields['Provider'].widget = forms.Select(choices=CHOICES1)
+        # self.fields['Car'].widget = forms.Select(choices=CHOICES1)
+        # self.fields['Flight'].widget = forms.Select(choices=CHOICES1)
 
         self.fields['KM'].widget = forms.NumberInput(
             attrs={'type': "number", 'min': 10, 'max': 500, 'step': "1", 'placeholder': "50"})
 
-        self.fields['Project'].widget = forms.Select(choices=CHOICES1)

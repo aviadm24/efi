@@ -4,24 +4,35 @@ from .forms import transfer_form, project_form, form_data_Customer_ref
 from django.forms import formset_factory
 from django.views.generic.list import ListView
 from django.utils import timezone
+from .models import transfer, project
 
-from .models import transfer
-
+# http://jsfiddle.net/QLfMU/116/
 class TransferListView(ListView):
     template_name = 'main/transfer_list.html'
     model = transfer
-
+    # https://stackoverflow.com/questions/5358800/django-listing-model-field-names-and-values-in-template
     def get_queryset(self):
         now = timezone.now()
-        upcoming = transfer.objects.filter(Date__gte=now).order_by('Date')
-        # passed = transfer.objects.filter(Date__lt=now).order_by('-date')
-        return list(upcoming) #+ list(passed)
+        # upcoming = transfer.objects.filter(Date__gte=now).order_by('Date')
+        passed = transfer.objects.filter(Date__lt=now).order_by('Date')
+        print(passed)
+        return list(passed) #+ list(passed)
 
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
     #     context['now'] = timezone.now()
     #     return context
 
+class ProjectListView(ListView):
+    template_name = 'main/project_list.html'
+    model = project
+    # https://stackoverflow.com/questions/5358800/django-listing-model-field-names-and-values-in-template
+    def get_queryset(self):
+        now = timezone.now()
+        # upcoming = transfer.objects.filter(Date__gte=now).order_by('Date')
+        passed = transfer.objects.filter(Date__lt=now).order_by('Date')
+        print(passed)
+        return list(passed) #+ list(passed)
 
 def customer_view(request):
     customer_FormSet = formset_factory(form_data_Customer_ref, extra=2)
