@@ -3,6 +3,7 @@
 <table class="table table-bordered">
   <thead>
     <tr>
+      <th>Edit</th>
       <th>Customer_ref</th>
       <th>Date</th>
       <th>Driver</th>
@@ -20,6 +21,7 @@
   <tbody>
     {% for transfer in object_list %}
       <tr>
+        <td><a href="edit_transfer/{{transfer.id}}">{{ forloop.counter }}</a></td>
         <td>{{ transfer.Customer_ref }}</td>
         <td>{{ transfer.Date }}</td>
         <td>{{ transfer.Driver }}</td>

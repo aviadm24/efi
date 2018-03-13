@@ -25,5 +25,5 @@ urlpatterns = [
     url(r'^customer_data$', views.customer_view, name='customer_data'),
     url(r'^thankyou$', TemplateView.as_view(template_name="thankyou.html"), name='thankyou'),
     url(r'^transfer_list$', views.TransferListView.as_view(), name='transfer_list'),
-    url(r'^project_list$', views.TransferListView.as_view(), name='project_list')
+    url(r'^project_list$', views.ProjectListView.as_view(), name='project_list')
 ]

@@ -14,7 +14,8 @@ class form_data_Customer_ref(forms.ModelForm):
 class project_form(forms.ModelForm):
     class Meta:
         model = project
-        fields = []
+        fields = ['Date', 'Name', 'Type_of_car', 'Type_of_service', 'Driver', 'Provider', 'Flight',
+                  'Based_on', 'Start_time', 'End_time', 'Extra_hours', 'KM', 'Extra_KM']
 
     def __init__(self, *args, **kwargs):
         super(project_form, self).__init__(*args, **kwargs)

@@ -3,36 +3,41 @@
 <table class="table table-bordered">
   <thead>
     <tr>
-      <th>Customer_ref</th>
       <th>Date</th>
+      <th>Name</th>
+      <th>Type_of_car</th>
+      <th>Type_of_service</th>
       <th>Driver</th>
       <th>Provider</th>
-      <th>Car</th>
-      <th>Clients_Name</th>
-      <th>Service_from_to</th>
       <th>Flight</th>
-      <th>Time_from_to</th>
+      <th>Based_on</th>
+      <th>Start_time</th>
+      <th>End_time</th>
+      <th>Extra_hours</th>
       <th>KM</th>
-      <th>Contact</th>
-      <th>Project</th>
+      <th>Extra_KM</th>
     </tr>
   </thead>
   <tbody>
-    {% for transfer in object_list %}
+    {% for project in object_list %}
       <tr>
-        <td>{{ transfer.Customer_ref }}</td>
-        <td>{{ transfer.Date }}</td>
-        <td>{{ transfer.Driver }}</td>
-        <td>{{ transfer.Provider }}</td>
-        <td>{{ transfer.Car }}</td>
-        <td>{{ transfer.Clients_Name }}</td>
-        <td>{{ transfer.Service_from_to }}</td>
-        <td>{{ transfer.Flight }}</td>
-        <td>{{ transfer.Time_from_to }}</td>
-        <td>{{ transfer.KM }}</td>
-        <td>{{ transfer.Contact }}</td>
-        <td>{{ transfer.Project }}</td>
+          <td><a href="edit_project/{{transfer.id}}">{{ forloop.counter }}</a></td>
+        <td>{{ project.Date }}</td>
+        <td>{{ project.Name }}</td>
+        <td>{{ project.Type_of_car }}</td>
+        <td>{{ project.Type_of_service }}</td>
+        <td>{{ project.Driver }}</td>
+        <td>{{ project.Provider }}</td>
+        <td>{{ project.Flight }}</td>
+        <td>{{ project.Based_on }}</td>
+        <td>{{ project.Start_time }}</td>
+        <td>{{ project.End_time }}</td>
+        <td>{{ project.Extra_hours }}</td>
+        <td>{{ project.KM }}</td>
+        <td>{{ project.Extra_KM }}</td>
       </tr>
+    {% empty %}
+    <tr>No project yet</tr>
     {% endfor %}
   </tbody>
 </table>
