@@ -1,7 +1,7 @@
 from django.db import models
 from django.urls import reverse
 #https://stackoverflow.com/questions/15454008/how-to-reset-db-in-django-i-get-a-command-reset-not-found-error
-
+# python manage.py reset_db
 class transfer(models.Model):
     # user = models.ForeignKey(User, related_name='user_ishi', on_delete=models.CASCADE)
     Customer_ref = models.CharField(max_length=100, blank=True, null=True)
