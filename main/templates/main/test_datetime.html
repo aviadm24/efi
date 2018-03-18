@@ -18,7 +18,7 @@
 
     <!-- Custom fonts for this template -->
 
-    <!--<link href="{% static 'vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">-->
+    <link href="{% static 'vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'vendor/simple-line-icons/css/simple-line-icons.css' %}" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
 
@@ -28,13 +28,39 @@
     <!-- for date pick -->
     <link rel="stylesheet" href="{% static 'css/bs4-datetimepicker.min.css' %}" />
     <script defer src="{% static 'js/fontawesome-all.js' %}"></script>
-    <script defer src="{% static 'js/get_diff.js' %}"></script>
   </head>
 
   <body>
+<div class="container">
+    <div class="row">
+        <div class='col-sm-6'>
+            <div class="form-group">
+                <div class='input-group date' id='datetimepicker1'>
+                    <input type='text' class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="fa fa-eraser"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
 
-            {% block base %}
-            {% endblock %}
+    </div>
+</div>
+<!--<div class="container">-->
+    <!--<div class="row">-->
+        <!--<div class="col-sm-6">-->
+            <!--<div class="form-group">-->
+                <!--<div class="input-group date" id="datetimepicker1" data-target-input="nearest">-->
+                    <!--<input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>-->
+                    <!--<div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">-->
+                        <!--<div class="input-group-text"><i class="fa fa-calendar"></i></div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+
+    <!--</div>-->
+<!--</div>-->
 
     <!-- Bootstrap core JavaScript -->
     <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
@@ -49,34 +75,12 @@
     <!-- for django admin date picker -->
     <!-- https://stackoverflow.com/questions/34818114/using-date-picker-from-django-admin -->
     <script type="text/javascript">
-    <!--dont use pickDate-->
-    <!--https://github.com/Eonasdan/bootstrap-datetimepicker/issues/811-->
-    <!--https://github.com/Eonasdan/bootstrap-datetimepicker/issues/1996-->
+        <!--https://stackoverflow.com/questions/23137720/disable-time-in-bootstrap-date-time-picker-->
         $(function () {
-            $('#id_Start_time').datetimepicker({
-            format: 'HH:mm'
-          });
-        });
-
-        $(function () {
-            $('#id_End_time').datetimepicker({
-            format: 'HH:mm'
-          });
-        });
-
-        $(function () {
-            $('#datepicker1').datetimepicker({
-              format: 'YYYY-MM-DD'
+            $('#datetimepicker1').datetimepicker({
+              format: 'DD/MM/YYYY'
             });
-        });
-
-        $(function () {
-            $('#id_Date').datetimepicker({
-              format: 'YYYY-MM-DD'
-            });
-        });
-
-
+        })
     </script>
 
   </body>

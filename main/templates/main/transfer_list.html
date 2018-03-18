@@ -1,8 +1,13 @@
 {% extends 'main/base.html' %}
 {% block transfer_list %}
+
+{% for e in error %}
+<h1>{{e}}</h1>
+{% endfor %}
 <table class="table table-bordered">
   <thead>
     <tr>
+      <th>Delete</th>
       <th>Edit</th>
       <th>Customer_ref</th>
       <th>Date</th>
@@ -20,21 +25,40 @@
   </thead>
   <tbody>
     {% for transfer in object_list %}
-      <tr>
-        <td><a href="edit_transfer/{{transfer.id}}">{{ forloop.counter }}</a></td>
-        <td>{{ transfer.Customer_ref }}</td>
-        <td>{{ transfer.Date }}</td>
-        <td>{{ transfer.Driver }}</td>
-        <td>{{ transfer.Provider }}</td>
-        <td>{{ transfer.Car }}</td>
-        <td>{{ transfer.Clients_Name }}</td>
-        <td>{{ transfer.Service_from_to }}</td>
-        <td>{{ transfer.Flight }}</td>
-        <td>{{ transfer.Time_from_to }}</td>
-        <td>{{ transfer.KM }}</td>
-        <td>{{ transfer.Contact }}</td>
-        <td>{{ transfer.Project }}</td>
-      </tr>
+        {% if transfer.Proj_name %}
+          <tr>
+            <td><a href="/project/{{transfer.id}}/delete/">{{ forloop.counter }}</a></td>
+            <td><a href="/project/{{transfer.id}}/">{{ forloop.counter }}</a></td>
+            <td></td>
+            <td>{{ transfer.Date }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>{{transfer.Proj_name}}</td>
+          </tr>
+        {% else %}
+          <tr>
+            <td><a href="/delete_transfer/{{transfer.id}}">{{ forloop.counter }}</a></td>
+            <td><a href="/edit_transfer/{{transfer.id}}">{{ forloop.counter }}</a></td>
+            <td>{{ transfer.Customer_ref }}</td>
+            <td>{{ transfer.Date }}</td>
+            <td>{{ transfer.Driver }}</td>
+            <td>{{ transfer.Provider }}</td>
+            <td>{{ transfer.Car }}</td>
+            <td>{{ transfer.Clients_Name }}</td>
+            <td>{{ transfer.Service_from_to }}</td>
+            <td>{{ transfer.Flight }}</td>
+            <td>{{ transfer.Time_from_to }}</td>
+            <td>{{ transfer.Contact }}</td>
+            <!--<td>{{ transfer.Project }}</td>-->
+          </tr>
+        {% endif %}
     {% endfor %}
   </tbody>
 </table>

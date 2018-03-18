@@ -1,0 +1,23 @@
+{% extends 'main/base.html' %}
+{% block transfer_list %}
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Edit</th>
+      <th>Date</th>
+      <th>Project Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for proj in object_list %}
+      <tr>
+          <td><a href="project_list/{{proj.id}}">{{ forloop.counter }}</a></td>
+        <td>{{ proj.Date }}</td>
+        <td>{{ proj.Proj_name }}</td>
+      </tr>
+    {% empty %}
+    <tr>No project yet</tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

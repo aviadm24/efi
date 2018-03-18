@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
+from django.urls import path
 from django.contrib import admin
 from django.views.generic import TemplateView
 from . import views
@@ -21,9 +22,17 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.homepage, name='homepage'),
-    url(r'^project$', views.project, name='project'),
-    url(r'^customer_data$', views.customer_view, name='customer_data'),
-    url(r'^thankyou$', TemplateView.as_view(template_name="thankyou.html"), name='thankyou'),
+    path('project/add/', views.ProjCreate.as_view(), name='project_add'),
+    path('project/<int:pk>/', views.ProjUpdate.as_view(), name='project_update'),
+    path('project/<int:pk>/delete/', views.ProjDelete.as_view(), name='project_delete'),
+    path('project_detail/add/', views.project_detailCreate.as_view(), name='project_detail_add'),
+    path('project_detail/<int:pk>/', views.project_detailUpdate.as_view(), name='project_detail_update'),
+    path('project_detail/<int:pk>/delete/', views.project_detailDelete.as_view(), name='project_detail_delete'),
+    url(r'^thankyou$', TemplateView.as_view(template_name="main/thankyou.html"), name='thankyou'),
+    url(r'^Proj_list$', views.ProjListView.as_view(), name='Proj_list'),
     url(r'^transfer_list$', views.TransferListView.as_view(), name='transfer_list'),
-    url(r'^project_list$', views.ProjectListView.as_view(), name='project_list')
+    path('project_list/<int:pk>', views.ProjectListView.as_view(), name='project_list'),
+    path('edit_transfer/<int:pk>', views.transfer_update.as_view(), name='transfer_update'),
+    path('delete_transfer/<int:pk>', views.transfer_delete.as_view(), name='transfer_delete'),
+    url(r'^test_datetime$', TemplateView.as_view(template_name="main/test_datetime.html"), name='test_datetime'),
 ]

@@ -1,17 +1,20 @@
-from .models import transfer, project, formData
+from .models import transfer, project, Model_data, Car_data, Provider_data\
+                    , Driver_data, Customer_ref_data, Proj
 from django import forms
 from django.contrib.admin import widgets
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, Div
 from bootstrap_datepicker.widgets import DatePicker
 
-class form_data_Customer_ref(forms.ModelForm):
-    class Meta:
-        model = formData
-        exclude = ['Driver', 'Provider', 'Car', 'Model',]
+# class new_project_form(forms.ModelForm):
+#     class Meta:
+#         model = Proj
+#         fields = '__all__'
 
 
 class project_form(forms.ModelForm):
+    # Start_time = forms.TimeField(widget=forms.TimeInput(format='%I:%M %p'))
+    # End_time = forms.TimeField(widget=forms.TimeInput(format='%I:%M %p'))
     class Meta:
         model = project
         fields = ['Date', 'Name', 'Type_of_car', 'Type_of_service', 'Driver', 'Provider', 'Flight',
@@ -19,36 +22,26 @@ class project_form(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(project_form, self).__init__(*args, **kwargs)
+        self.fields['Date'].widget = forms.DateInput(attrs={'id': 'datepicker1'})
+        self.fields['Based_on'].widget = forms.TimeInput(attrs={'id': 'timepicker1'})
+        # self.fields['End_time'].widget = forms.TimeInput(attrs={'id': 'timepicker1'})
+        self.fields['KM'].widget = forms.NumberInput(
+            attrs={'type': "number", 'min': 10, 'max': 500, 'step': "1", 'placeholder': "50"})
 
-        self.helper = FormHelper()
-        self.helper.form_id = 'id_intake_form'
-        self.helper.form_method = 'POST'
-        self.helper.form_tag = True
-        self.helper.layout = Layout(
-            Div(
-                Div('received_by', 'client_first_name', 'client_last_name', css_class='col-md-6'),
-                Div('status', 'notes', css_class='col-md-6'), css_class='row'
-            ),
-            Div(
-                Div(Submit('save', 'Save'), css_class='col-md-12'), css_class='row'
-            )
-        )
+
 # https://stackoverflow.com/questions/17492374/how-to-render-formset-in-template-django-and-create-vertical-table
 class transfer_form(forms.ModelForm):
-    Customer_ref = forms.ModelChoiceField(queryset=formData.objects.all())
-    Date = forms.DateField(
-        widget=DatePicker(
-            options={
-                "format": "mm/dd/yyyy",
-                "autoclose": True
-            }
-        )
-    )
+    # Date = forms.DateField(input_formats=settings.DATE_INPUT_FORMATS)
+    Customer_ref = forms.ModelChoiceField(queryset=Customer_ref_data.objects.all())
+    Driver = forms.ModelChoiceField(queryset=Driver_data.objects.all())
+    Car = forms.ModelChoiceField(queryset=Car_data.objects.all())
+    Provider = forms.ModelChoiceField(queryset=Provider_data.objects.all())
+    Model = forms.ModelChoiceField(queryset=Model_data.objects.all())
 
     class Meta:
         model = transfer
-        fields = ['Customer_ref', 'Date', 'Driver', 'Provider', 'Car', 'Clients_Name',
-                  'Service_from_to', 'Flight', 'Time_from_to', 'KM', 'Contact', 'Project']
+        fields = ['Customer_ref', 'Driver', 'Provider', 'Car', 'Model', 'Clients_Name',
+                  'Service_from_to', 'Flight', 'Time_from_to', 'Contact', 'Date']
 
     def __init__(self, *args, **kwargs):
         super(transfer_form, self).__init__(*args, **kwargs)
@@ -56,25 +49,9 @@ class transfer_form(forms.ModelForm):
             ('yes', 'כן'),
             ('no', 'לא'),
         )
-        self.helper = FormHelper()
-        self.helper.form_method = 'POST'
-        self.helper.form_tag = True
-        self.helper.layout = Layout(
-            Div(
-                'Customer_ref', 'Date', 'Driver', css_class="form-row"
-            ),
-            ButtonHolder(
-                Submit('submit', 'Submit', css_class='button white')
-            )
-        )
 
-        # self.fields['Date'].widget = forms.DateInput(
-        #     attrs={'placeholder': "2009-10-03"})
-        # self.fields['Driver'].widget = forms.Select(choices=CHOICES1)
-        # self.fields['Provider'].widget = forms.Select(choices=CHOICES1)
-        # self.fields['Car'].widget = forms.Select(choices=CHOICES1)
+        # https://stackoverflow.com/questions/1513502/django-how-to-format-a-datefields-date-representation
+        self.fields['Date'].widget = forms.DateInput(attrs={'id': 'datepicker1'})
         # self.fields['Flight'].widget = forms.Select(choices=CHOICES1)
 
-        self.fields['KM'].widget = forms.NumberInput(
-            attrs={'type': "number", 'min': 10, 'max': 500, 'step': "1", 'placeholder': "50"})
 

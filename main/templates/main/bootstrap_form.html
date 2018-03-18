@@ -2,8 +2,30 @@
 <form role="form" method="post" action="">
     <legend>Form Title</legend>
     {% csrf_token %}
+    {{ form.non_field_errors }}
+
+      {% for hidden_field in form.hidden_fields %}
+        {{ hidden_field.errors }}
+        {{ hidden_field }}
+      {% endfor %}
+    <!--<div class="form-group">-->
+        <!--<div class='input-group date' id='datepicker1'>-->
+            <!--<input type='text' class="form-control" name="Date" id="id_Date" />-->
+            <!--<span class="input-group-addon">-->
+                <!--&lt;!&ndash;https://fontawesome.com/how-to-use/svg-with-js#additional-styling&ndash;&gt;-->
+                <!--<i class="fas fa-calendar-alt fa-fw fa-lg"></i>-->
+            <!--</span>-->
+        <!--</div>-->
+    <!--</div>-->
+
     {{ form|bootstrap }}
     <div class="form-group">
+      <button type="" class="btn btn-success">
+          <a href="project/add/" style="color: rgb(255,255,255)">
+            Add Project
+          </a>
+      </button>
       <button type="submit" class="btn btn-primary">Submit</button>
+
     </div>
 </form>
