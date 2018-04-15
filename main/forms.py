@@ -43,12 +43,8 @@ class transfer_form(forms.ModelForm):
     # print('customer data: ', Customer_data.objects.all().values())
     # OptionalChoiceField(choices=(("", "-----"), ("1", "1"), ("2", "2")))
     # https://stackoverflow.com/questions/24783275/django-form-with-choices-but-also-with-freetext-option
-    customers = Customer_data.objects.all().values()
-    customer_list = []
-    for customer in customers:
-        customer_list.append(customer['Customer'])
 
-    Customer = OptionalChoiceField(choices=customer_list)
+
     Driver = forms.ModelChoiceField(queryset=Driver_data.objects.all(), required=False)
     Car = forms.ModelChoiceField(queryset=Car_data.objects.all(), required=False)
     Provider = forms.ModelChoiceField(queryset=Provider_data.objects.all(), required=False)
@@ -57,7 +53,7 @@ class transfer_form(forms.ModelForm):
 
     class Meta:
         model = transfer
-        fields = ['Customer', 'Customer_ref', 'Date', 'Clients_Name', 'Driver', 'Provider', 'Car', 'Model',
+        fields = ['Customer_ref', 'Date', 'Clients_Name', 'Driver', 'Provider', 'Car', 'Model',
                   'From', 'To', 'DepOrArr', 'Flight', 'Time_of_flight', 'Time_of_PU', 'Contact']
 
     def __init__(self, *args, **kwargs):
