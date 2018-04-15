@@ -1,0 +1,97 @@
+{% extends 'main/base.html' %}
+{% block transfer_list %}
+
+{% for e in error %}
+<h1>{{e}}</h1>
+{% endfor %}
+
+<h3>add to list</h3>
+<form method="post" action="#" style="">{% csrf_token %}
+<table class="table table-bordered">
+
+  <thead>
+  <tr>
+      {% for field in form %}
+      {% if field.label == 'Date' %}
+            <th style="width: 55px;">{{field.label}}</th>
+        {%else%}
+            <th>{{field.label}}</th>
+        {% endif %}
+
+      {% endfor %}
+  </tr>
+  </thead>
+  <tr>
+      {% for field in form %}
+        {% if field.name == 'Date' %}
+            <!--<td>{{field}}</td>-->
+            <td style="width:50px">
+              <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                  <input name="Date" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>
+                  <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                  </div>
+              </div>
+            </td>
+        {%else%}
+            <td>{{field}}</td>
+        {% endif %}
+      {% endfor %}
+  </tr>
+</table>
+<input type="submit" value="שמור" />
+</form>
+<h3>main list</h3>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>delete</th>
+      {% for name in field_names %}
+      <th>{{name}}</th>
+      {% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in upcoming %}
+
+          <tr>
+            <td><a href="/delete_transfer/{{transfer.id}}">{{ forloop.counter }}</a></td>
+            <td>{{ row.Project_num}}</td>
+            <td>{{ row.Customer}}</td>
+            <td>{{ row.Date }}</td>
+            <td>{{ row.Type_of_sevice}}</td>
+            <td>{{ row.Type_of_car }}</td>
+            <td>{{ row.Driver_name }}</td>
+            <td>{{ row.Luggage }}</td>
+            <td>{{ row.Name }}</td>
+            <td>{{ row.Flight_num }}</td>
+            <td>{{ row.Time_of_flight }}</td>
+            <td>{{ row.Time_of_PU }}</td>
+            <td>{{ row.End_time }}</td>
+            <td>{{ row.From }}</td>
+            <td>{{ row.To }}</td>
+            <td>{{ row.Extra_hours_client }}</td>
+            <td>{{ row.Based_on_client }}</td>
+            <td>{{ row.Extra_hours_provider }}</td>
+            <td>{{ row.Based_on_provider }}</td>
+            <td>{{ row.KM }}</td>
+            <td>{{ row.Comments }}</td>
+            <td>{{ row.Provider }}</td>
+            <td>{{ row.Cost_per_client }}</td>
+            <td>{{ row.Cost_per_provider }}</td>
+            <td>{{ row.Cost_extra_hour_client }}</td>
+            <td>{{ row.Cost_extra_hour_provider }}</td>
+            <td>{{ row.Cost_transfer_client }}</td>
+            <td>{{ row.Cost_transfer_provider }}</td>
+            <td>{{ row.Cost_VIP_client }}</td>
+            <td>{{ row.Cost_VIP_provider }}</td>
+            <td>{{ row.Status }}</td>
+
+
+          </tr>
+
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

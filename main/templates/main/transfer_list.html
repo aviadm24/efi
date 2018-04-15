@@ -9,15 +9,18 @@
     <tr>
       <th>Delete</th>
       <th>Edit</th>
+      <th>Customer</th>
       <th>Customer_ref</th>
       <th>Date</th>
       <th>Driver</th>
       <th>Provider</th>
       <th>Car</th>
       <th>Clients_Name</th>
-      <th>Service_from_to</th>
+      <th>From</th>
+      <th>To</th>
       <th>Flight</th>
-      <th>Time_from_to</th>
+      <th>Time_of_flight</th>
+      <th>Time_of_PU</th>
       <th>KM</th>
       <th>Contact</th>
       <th>Project</th>
@@ -46,15 +49,18 @@
           <tr>
             <td><a href="/delete_transfer/{{transfer.id}}">{{ forloop.counter }}</a></td>
             <td><a href="/edit_transfer/{{transfer.id}}">{{ forloop.counter }}</a></td>
+            <td>{{ transfer.Customer }}</td>
             <td>{{ transfer.Customer_ref }}</td>
             <td>{{ transfer.Date }}</td>
             <td>{{ transfer.Driver }}</td>
             <td>{{ transfer.Provider }}</td>
             <td>{{ transfer.Car }}</td>
             <td>{{ transfer.Clients_Name }}</td>
-            <td>{{ transfer.Service_from_to }}</td>
+            <td>{{ transfer.From }}</td>
+            <td>{{ transfer.To }}</td>
             <td>{{ transfer.Flight }}</td>
-            <td>{{ transfer.Time_from_to }}</td>
+            <td>{{ transfer.Time_of_flight }}</td>
+            <td>{{ transfer.Time_of_PU }}</td>
             <td>{{ transfer.Contact }}</td>
             <!--<td>{{ transfer.Project }}</td>-->
           </tr>

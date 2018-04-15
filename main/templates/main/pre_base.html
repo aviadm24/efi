@@ -1,5 +1,5 @@
 {% load staticfiles %}
-{% load crispy_forms_tags %}
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -18,16 +18,18 @@
 
     <!-- Custom fonts for this template -->
 
-    <!--<link href="{% static 'vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">-->
+    <link href="{% static 'vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'vendor/simple-line-icons/css/simple-line-icons.css' %}" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
 
     <!-- Custom styles for this template -->
     <link href="{% static 'css/landing-page.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/transfer_list.css' %}" rel="stylesheet">
 
     <!-- for date pick -->
-    <link rel="stylesheet" href="{% static 'css/bs4-datetimepicker.min.css' %}" />
-    <script defer src="{% static 'js/fontawesome-all.js' %}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha18/css/tempusdominus-bootstrap-4.min.css" />
+    <!--<link rel="stylesheet" href="{% static 'css/bs4-datetimepicker.min.css' %}" />-->
+    <!--<script defer src="{% static 'js/fontawesome-all.js' %}"></script>-->
     <script defer src="{% static 'js/get_diff.js' %}"></script>
   </head>
 
@@ -42,31 +44,28 @@
     <script type="text/javascript" src="{% static 'js/moment.js' %}"></script>
     <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     <!-- for date pick -->
-    <script type="text/javascript" src="{% static 'js/bs4-datetimepicker.min.js' %}"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha18/js/tempusdominus-bootstrap-4.min.js"></script>
+    <!--<script type="text/javascript" src="{% static 'js/bs4-datetimepicker.min.js' %}"></script>-->
 
 
 
-    <!-- for django admin date picker -->
-    <!-- https://stackoverflow.com/questions/34818114/using-date-picker-from-django-admin -->
-    <script type="text/javascript">
-    <!--dont use pickDate-->
-    <!--https://github.com/Eonasdan/bootstrap-datetimepicker/issues/811-->
-    <!--https://github.com/Eonasdan/bootstrap-datetimepicker/issues/1996-->
+   <script type="text/javascript">
         $(function () {
             $('#id_Start_time').datetimepicker({
-            format: 'HH:mm'
+            format: 'dddd HH:mm a'
+
           });
         });
 
         $(function () {
             $('#id_End_time').datetimepicker({
-            format: 'HH:mm'
+            format: 'dddd HH:mm a'
           });
         });
 
         $(function () {
-            $('#datepicker1').datetimepicker({
-              format: 'YYYY-MM-DD'
+            $('#datetimepicker1').datetimepicker({
+              format: 'L'
             });
         });
 

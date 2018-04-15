@@ -3,11 +3,50 @@
  
 {% block title %}Project form{% endblock %}
  
-{% block project %}
-    <form method="post" role="form">
+{% block project_detail %}
+<form method="post" role="form">
     <legend>Project Form</legend>
     {% csrf_token %}
-    {{ form|bootstrap }}
+    {% for field in form %}
+        <div class="form-group">
+           {{ field.label }}
+           {% if field.label == 'Date' %}
+                <div class="input-group date" id="datepicker1" data-target-input="nearest">
+                    <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>
+                    <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
+           {% endif %}
+           {% if field.label == 'Start_time'%}
+                <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                    <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>
+                    <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
+           {% endif %}
+
+        </div>
+    {% endfor %}
+    <div class="form-group">
+        {{ form.Proj_ref.label}}
+            <!--<label class="control-label  " for="id_Customer_ref">Customer ref</label>-->
+        <div class=" ">
+            <input type="text" name="Customer_ref" class=" form-control" maxlength="100" id="id_Customer_ref">
+        </div>
+    </div>
+
+        {{ form.Name}}
+        {{ form.Type_of_car}}
+        {{ form.Type_of_service}}
+        {{ form.Driver}}
+        {{ form.Provider}}
+        {{ form.Flight}}
+        {{ form.Based_on}}
+        {{ form.Extra_hours}}
+        {{ form.KM}}
+        {{ form.Extra_KM}}
     <div class="form-group">
       <button type="submit" class="btn btn-primary">Submit</button>
     </div>

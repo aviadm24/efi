@@ -21,7 +21,10 @@ from . import views
 
 
 urlpatterns = [
-    url(r'^$', views.homepage, name='homepage'),
+    url(r'^$', views.add_main_list, name='add_main_list'),
+    url(r'^search_list$', views.search_list, name='search_list'),
+    # url(r'^$', views.add_to_main_list.as_view(), name='add_to_main_list'),
+    # url(r'^$', views.homepage, name='homepage'),
     path('project/add/', views.ProjCreate.as_view(), name='project_add'),
     path('project/<int:pk>/', views.ProjUpdate.as_view(), name='project_update'),
     path('project/<int:pk>/delete/', views.ProjDelete.as_view(), name='project_delete'),

@@ -1,16 +1,96 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .forms import transfer_form, project_form
+from .forms import transfer_form, project_form, main_list_form
 from django.forms import formset_factory
 from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy, reverse
 from django.utils import timezone
-from .models import transfer, project, Proj
+from .models import transfer, project, Proj, main_list_model
 from itertools import chain
 
 # https://stackoverflow.com/questions/20926403/heroku-rake-dbmigrate-results-in-error-r13-attach-error-failed-to-attach-t/21148716#21148716
 # http://jsfiddle.net/QLfMU/116/
+
+def add_main_list(request):
+    if request.method == 'POST':
+        print('transfer -post')
+        form = main_list_form(request.POST)
+        if form.is_valid():
+            # for key, value in form.cleaned_data.items():
+            #     if key == 'Date':
+            #         print('key: ', key, 'val: ', value)
+            form.save()
+            messages.success(request, ('Your order was successfully updated!'))
+            return redirect('add_main_list')
+        else:
+            messages.error(request,('Please correct the error below.'))
+    else:
+        form = main_list_form
+        field_names = [f.name for f in main_list_model._meta.get_fields()]
+        # print(field_names)
+
+        now = timezone.now()
+        upcoming = main_list_model.objects.filter(Date__gte=now).order_by('Date')
+        # passed = transfer.objects.filter(Date__lt=now).order_by('Date')
+        print(upcoming)
+    return render(request, 'main/main_list_model_form.html', {'form': form, 'field_names': field_names[1:],'upcoming': upcoming})
+
+def search_list(request):
+    if request.method == 'POST':
+        print('transfer -post')
+        form = main_list_form(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, ('Your order was successfully updated!'))
+            return redirect('add_main_list')
+        else:
+            messages.error(request,('Please correct the error below.'))
+    else:
+        form = main_list_form
+        field_names = [f.name for f in main_list_model._meta.get_fields()]
+        # print(field_names)
+
+        now = timezone.now()
+        upcoming = main_list_model.objects.filter(Date__gte=now).order_by('Date')
+        # passed = transfer.objects.filter(Date__lt=now).order_by('Date')
+        print(upcoming)
+    return render(request, 'main/main_list_model_form.html', {'form': form, 'field_names': field_names[1:],'upcoming': upcoming})
+
+class add_to_main_list(CreateView):
+    model = main_list_model
+    fields = '__all__'
+    success_url = reverse_lazy('add_to_main_list')
+
+    def get_queryset(self):
+        now = timezone.now()
+        upcoming = main_list_model.objects.filter(Date__gte=now).order_by('Date')
+        # passed = transfer.objects.filter(Date__lt=now).order_by('Date')
+        print(upcoming)
+        try:
+            return upcoming
+        except TypeError as e:
+            self.context_object_name = 'error'
+            return ['there is an error', e]
+
+class main_list(ListView):
+    template_name = 'main/main_list.html'
+    model = main_list_model
+    # https://stackoverflow.com/questions/5358800/django-listing-model-field-names-and-values-in-template
+
+    def get_queryset(self):
+        now = timezone.now()
+        # upcoming = transfer.objects.filter(Date__gte=now).order_by('Date')
+        passed = transfer.objects.filter(Date__lt=now).order_by('Date')
+        # print(passed)
+        try:
+            trans_proj_list = get_transfer_and_project()
+            return trans_proj_list
+        except TypeError as e:
+            self.context_object_name = 'error'
+            return ['there is an error', e]
+
+
 
 def get_transfer_and_project():
     # https://howchoo.com/g/yzzkodmzzmj/combine-two-querysets-with-different-models
@@ -33,11 +113,14 @@ class ProjUpdate(UpdateView):
 
 class ProjDelete(DeleteView):
     model = Proj
+    template_name_suffix = '_confirm_delete'
     success_url = reverse_lazy('transfer_list')
 
 class project_detailCreate(CreateView):
-    model = project
-    fields = '__all__'
+    template_name = 'main/project_form.html'
+    # model = project
+    form_class = project_form
+    # fields = '__all__'
     success_url = reverse_lazy('Proj_list')
     # got an error when used this reverse circuler import ?
     # https://stackoverflow.com/questions/30460461/django-reverse-causes-circular-import/30460531

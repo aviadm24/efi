@@ -26,41 +26,42 @@
     <link href="{% static 'css/landing-page.min.css' %}" rel="stylesheet">
 
     <!-- for date pick -->
-    <link rel="stylesheet" href="{% static 'css/bs4-datetimepicker.min.css' %}" />
-    <script defer src="{% static 'js/fontawesome-all.js' %}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha18/css/tempusdominus-bootstrap-4.min.css" />
+    <!--<link rel="stylesheet" href="{% static 'css/bs4-datetimepicker.min.css' %}" />-->
+    <!--<script defer src="{% static 'js/fontawesome-all.js' %}"></script>-->
   </head>
 
   <body>
-<div class="container">
-    <div class="row">
-        <div class='col-sm-6'>
-            <div class="form-group">
-                <div class='input-group date' id='datetimepicker1'>
-                    <input type='text' class="form-control" />
-                    <span class="input-group-addon">
-                        <span class="fa fa-eraser"></span>
-                    </span>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
 <!--<div class="container">-->
     <!--<div class="row">-->
-        <!--<div class="col-sm-6">-->
+        <!--<div class='col-sm-6'>-->
             <!--<div class="form-group">-->
-                <!--<div class="input-group date" id="datetimepicker1" data-target-input="nearest">-->
-                    <!--<input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>-->
-                    <!--<div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">-->
-                        <!--<div class="input-group-text"><i class="fa fa-calendar"></i></div>-->
-                    <!--</div>-->
+                <!--<div class='input-group date' id='datetimepicker1'>-->
+                    <!--<input type='text' class="form-control" />-->
+                    <!--<span class="input-group-addon">-->
+                        <!--<span class="fa fa-eraser"></span>-->
+                    <!--</span>-->
                 <!--</div>-->
             <!--</div>-->
         <!--</div>-->
 
     <!--</div>-->
 <!--</div>-->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                    <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>
+                    <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
 
     <!-- Bootstrap core JavaScript -->
     <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
@@ -68,7 +69,9 @@
     <script type="text/javascript" src="{% static 'js/moment.js' %}"></script>
     <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     <!-- for date pick -->
-    <script type="text/javascript" src="{% static 'js/bs4-datetimepicker.min.js' %}"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha18/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <!--<script type="text/javascript" src="{% static 'js/bs4-datetimepicker.min.js' %}"></script>-->
 
 
 
@@ -77,9 +80,7 @@
     <script type="text/javascript">
         <!--https://stackoverflow.com/questions/23137720/disable-time-in-bootstrap-date-time-picker-->
         $(function () {
-            $('#datetimepicker1').datetimepicker({
-              format: 'DD/MM/YYYY'
-            });
+            $('#datetimepicker1').datetimepicker();
         })
     </script>
 
