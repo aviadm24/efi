@@ -4,6 +4,32 @@
 {% for e in error %}
 <h1>{{e}}</h1>
 {% endfor %}
+<form action="{% url 'customer_list' %}" method="get" accept-charset="utf-8">
+    <select id="customer" name="customer_list" onChange="">
+      <option  value="" selected="selected">---SELECT---</option>
+      {% for customer in customer_list %}
+       <option value="{{customer}}">{{customer|capfirst}}</option>
+      {% endfor %}
+    </select>
+    <input type="submit" value="Select">
+</form>
+
+<!--<form id="searchform" action="{% url 'p_num_list' %}" method="get" accept-charset="utf-8">-->
+  <!--<button class="searchbutton" type="submit">-->
+    <!--<i class="fa fa-search"></i>-->
+  <!--</button>-->
+  <!--<input class="searchfield" id="searchbox" name="q" type="text" placeholder="Search">-->
+<!--</form>-->
+<form action="{% url 'p_num_list' %}" method="get" accept-charset="utf-8">
+    <select id="p_num" name="p_num_list" onChange="">
+      <option  value="" selected="selected">---SELECT---</option>
+      {% for p_num in p_num_list %}
+       <option value="{{p_num}}">{{p_num|capfirst}}</option>
+      {% endfor %}
+    </select>
+    <input type="submit" value="Select">
+</form>
+
 
 <h3>add to list</h3>
 <form method="post" action="#" style="">{% csrf_token %}
@@ -12,8 +38,8 @@
   <thead>
   <tr>
       {% for field in form %}
-      {% if field.label == 'Date' %}
-            <th style="width: 55px;">{{field.label}}</th>
+      {% if field.label == 'Date' or field.name == 'Start_time' or field.name == 'End_time'%}
+            <th style="padding-right: 250px;">{{field.label}}</th>
         {%else%}
             <th>{{field.label}}</th>
         {% endif %}
@@ -23,18 +49,30 @@
   </thead>
   <tr>
       {% for field in form %}
-        {% if field.name == 'Date' %}
+        {% if field.name == 'Date'%}
             <!--<td>{{field}}</td>-->
-            <td style="width:50px">
+            <td>
               <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-                  <input name="Date" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>
+                  <input name="{{field.name}}" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>
                   <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
                       <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                   </div>
               </div>
             </td>
         {%else%}
-            <td>{{field}}</td>
+              {% if field.name == 'Start_time' or field.name == 'End_time' %}
+                    <td>
+                      <div class="input-group date" id="{{field.name}}" data-target-input="nearest">
+                          <input name="{{field.name}}" id="id_{{field.name}}" type="text" class="form-control datetimepicker-input" data-target="#{{field.name}}"/>
+                          <div class="input-group-append" data-target="#{{field.name}}" data-toggle="datetimepicker">
+                              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                          </div>
+                      </div>
+                    </td>
+                    {%else%}
+                    <td>{{field}}</td>
+              {% endif %}
+
         {% endif %}
       {% endfor %}
   </tr>

@@ -18,15 +18,15 @@ class main_list_model(models.Model):
     Luggage = models.IntegerField(blank=True, null=True)
     Name = models.CharField(max_length=256, blank=True, null=True)
     Flight_num = models.CharField(max_length=100, blank=True, null=True)
-    Time_of_flight = models.TimeField(blank=True, null=True)
-    Time_of_PU = models.TimeField(blank=True, null=True)
-    End_time = models.TimeField(blank=True, null=True)
+    Start_time = models.DateTimeField(blank=True, null=True)
+    # Time_of_PU = models.TimeField(blank=True, null=True)
+    End_time = models.DateTimeField(blank=True, null=True)
     From = models.CharField(max_length=100, blank=True, null=True)
     To = models.CharField(max_length=100, blank=True, null=True)
     Extra_hours_client = models.TimeField(blank=True, null=True)
-    Based_on_client = models.TimeField(max_length=256, blank=True, null=True, default='09:00')
+    Based_on_client = models.IntegerField(blank=True, null=True)
     Extra_hours_provider = models.TimeField(blank=True, null=True)
-    Based_on_provider = models.TimeField(max_length=256, blank=True, null=True, default='09:00')
+    Based_on_provider = models.IntegerField(blank=True, null=True)  # , default='09:00'
     KM = models.IntegerField(blank=True, null=True)
     Comments = models.TextField(blank=True)
     Provider = models.CharField(max_length=100, blank=True, null=True)
@@ -111,7 +111,7 @@ class Car_data(models.Model):
         return self.Car
 
 
-class Model_data(models.Model):
+class Service_data(models.Model):
     Model = models.CharField(max_length=256, blank=True, unique=True)
 
     def __str__(self):

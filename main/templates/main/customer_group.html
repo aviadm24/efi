@@ -1,0 +1,61 @@
+{% extends 'main/base.html' %}
+{% block transfer_list %}
+
+{% for e in error %}
+<h1>{{e}}</h1>
+{% endfor %}
+
+<h3>project list</h3>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>delete</th>
+      {% for name in field_names %}
+      <th>{{name}}</th>
+      {% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in customer_group %}
+
+          <tr>
+            <td><a href="/delete_transfer/{{transfer.id}}">{{ forloop.counter }}</a></td>
+            <td>{{ row.Project_num}}</td>
+            <td>{{ row.Customer}}</td>
+            <td>{{ row.Date }}</td>
+            <td>{{ row.Type_of_sevice}}</td>
+            <td>{{ row.Type_of_car }}</td>
+            <td>{{ row.Driver_name }}</td>
+            <td>{{ row.Luggage }}</td>
+            <td>{{ row.Name }}</td>
+            <td>{{ row.Flight_num }}</td>
+            <td>{{ row.Time_of_flight }}</td>
+            <td>{{ row.Time_of_PU }}</td>
+            <td>{{ row.End_time }}</td>
+            <td>{{ row.From }}</td>
+            <td>{{ row.To }}</td>
+            <td>{{ row.Extra_hours_client }}</td>
+            <td>{{ row.Based_on_client }}</td>
+            <td>{{ row.Extra_hours_provider }}</td>
+            <td>{{ row.Based_on_provider }}</td>
+            <td>{{ row.KM }}</td>
+            <td>{{ row.Comments }}</td>
+            <td>{{ row.Provider }}</td>
+            <td>{{ row.Cost_per_client }}</td>
+            <td>{{ row.Cost_per_provider }}</td>
+            <td>{{ row.Cost_extra_hour_client }}</td>
+            <td>{{ row.Cost_extra_hour_provider }}</td>
+            <td>{{ row.Cost_transfer_client }}</td>
+            <td>{{ row.Cost_transfer_provider }}</td>
+            <td>{{ row.Cost_VIP_client }}</td>
+            <td>{{ row.Cost_VIP_provider }}</td>
+            <td>{{ row.Status }}</td>
+
+
+          </tr>
+
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

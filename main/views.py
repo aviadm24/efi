@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .forms import transfer_form, project_form, main_list_form
+from .forms import main_list_form
 from django.forms import formset_factory
 from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
@@ -24,17 +24,25 @@ def add_main_list(request):
             messages.success(request, ('Your order was successfully updated!'))
             return redirect('add_main_list')
         else:
-            messages.error(request,('Please correct the error below.'))
+            messages.error(request, ('Please correct the error below.'))
     else:
+        now = timezone.now()
+        #  https://stackoverflow.com/questions/7503241/django-models-selecting-single-field
+        p_num_list = main_list_model.objects.values_list('Project_num', flat=True)
+        # for i in p_num_list:
+        #     print('p_num_list:', i)
+        customer_list = main_list_model.objects.values_list('Customer', flat=True)
+
+        upcoming = main_list_model.objects.filter(Date__gte=now).order_by('Date')
+        all = main_list_model.objects.all()
+        # passed = transfer.objects.filter(Date__lt=now).order_by('Date')
+        print('all: ', all)
+        print('upcoming: ', upcoming)
+
         form = main_list_form
         field_names = [f.name for f in main_list_model._meta.get_fields()]
-        # print(field_names)
 
-        now = timezone.now()
-        upcoming = main_list_model.objects.filter(Date__gte=now).order_by('Date')
-        # passed = transfer.objects.filter(Date__lt=now).order_by('Date')
-        print(upcoming)
-    return render(request, 'main/main_list_model_form.html', {'form': form, 'field_names': field_names[1:],'upcoming': upcoming})
+    return render(request, 'main/main_list_model_form.html', {'form': form, 'field_names': field_names[1:], 'upcoming': upcoming, 'p_num_list': p_num_list, 'customer_list': customer_list})
 
 def search_list(request):
     if request.method == 'POST':
@@ -57,6 +65,21 @@ def search_list(request):
         print(upcoming)
     return render(request, 'main/main_list_model_form.html', {'form': form, 'field_names': field_names[1:],'upcoming': upcoming})
 
+def p_num_list(request):
+    p_num = request.GET.get('p_num_list')
+    project_group = main_list_model.objects.filter(Project_num=p_num)
+    field_names = [f.name for f in main_list_model._meta.get_fields()]
+    # context = {'p_num': p_num}
+    return render(request, 'main/project_group.html', {'field_names': field_names[1:], 'project_group': project_group})
+
+def customer_list(request):
+    customer = request.GET.get('customer_list')
+    customer_group = main_list_model.objects.filter(Customer=customer)
+    field_names = [f.name for f in main_list_model._meta.get_fields()]
+    # context = {'p_num': p_num}
+    return render(request, 'main/customer_group.html', {'field_names': field_names[1:], 'customer_group': customer_group})
+
+'''
 class add_to_main_list(CreateView):
     model = main_list_model
     fields = '__all__'
@@ -237,3 +260,4 @@ class transfer_delete(DeleteView):
     model = transfer
     template_name_suffix = '_confirm_delete'
     success_url = reverse_lazy('transfer_list')
+'''

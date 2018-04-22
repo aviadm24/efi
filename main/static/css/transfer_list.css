@@ -1,3 +1,7 @@
 #transfer_list{
     margin:10px;
 }
+
+#main_list>tr>td{
+    border: 1px solid black;
+}
