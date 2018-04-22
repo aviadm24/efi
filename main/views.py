@@ -13,6 +13,20 @@ from itertools import chain
 # http://jsfiddle.net/QLfMU/116/
 
 def add_main_list(request):
+    field_names = [f.name for f in main_list_model._meta.get_fields()]
+    now = timezone.now()
+    #  https://stackoverflow.com/questions/7503241/django-models-selecting-single-field
+    p_num_list = main_list_model.objects.values_list('Project_num', flat=True)
+    # for i in p_num_list:
+    #     print('p_num_list:', i)
+    customer_list = main_list_model.objects.values_list('Customer', flat=True)
+
+    upcoming = main_list_model.objects.filter(Date__gte=now).order_by('Date')
+    all = main_list_model.objects.all()
+    # passed = transfer.objects.filter(Date__lt=now).order_by('Date')
+    print('all: ', all)
+    print('upcoming: ', upcoming)
+
     if request.method == 'POST':
         print('transfer -post')
         form = main_list_form(request.POST)
@@ -26,21 +40,7 @@ def add_main_list(request):
         else:
             messages.error(request, ('Please correct the error below.'))
     else:
-        now = timezone.now()
-        #  https://stackoverflow.com/questions/7503241/django-models-selecting-single-field
-        p_num_list = main_list_model.objects.values_list('Project_num', flat=True)
-        # for i in p_num_list:
-        #     print('p_num_list:', i)
-        customer_list = main_list_model.objects.values_list('Customer', flat=True)
-
-        upcoming = main_list_model.objects.filter(Date__gte=now).order_by('Date')
-        all = main_list_model.objects.all()
-        # passed = transfer.objects.filter(Date__lt=now).order_by('Date')
-        print('all: ', all)
-        print('upcoming: ', upcoming)
-
         form = main_list_form
-        field_names = [f.name for f in main_list_model._meta.get_fields()]
 
     return render(request, 'main/main_list_model_form.html', {'form': form, 'field_names': field_names[1:], 'upcoming': upcoming, 'p_num_list': p_num_list, 'customer_list': customer_list})
 
