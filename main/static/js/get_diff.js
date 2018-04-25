@@ -51,42 +51,40 @@ $('#End_time').on("change.datetimepicker", function (e) {
    	  //$('#getDate').text(date);
    });
 
+$('#id_Cost_extra_hour_client, #id_Cost_extra_hour_provider').on('input', function() {
+    console.log('extra hour was changed!');
+    var start = $('#id_Start_time').val(); // get the current value of the input field.
+    if (start != ''){
+        get_diff();
+    }
+
+});
+
 $('#id_Based_on_client, #id_Based_on_provider').on("change", function (e) {
       get_diff();
    });
 
 $('#id_Extra_hours_client, #id_Extra_hours_provider').on("change", function (e) {
-      get_cost();
+      console.log('extra hour was changed!')
+      get_diff();
+      //get_cost();
    });
 
 
-$(document).ready(function()
-{
- $("#id_DepOrArr").change(function()
- {
-  if($(this).val() == "Arr")
-  {
-   $("#id_Time_of_PU").show();
-  }
-  else
-  {
-   $("#id_Time_of_PU").hide();
-  }
- });
- $("#id_Time_of_PU").hide();
-});
+//$(document).ready(function()
+//{
+// $("#id_DepOrArr").change(function()
+// {
+//  if($(this).val() == "Arr")
+//  {
+//   $("#id_Time_of_PU").show();
+//  }
+//  else
+//  {
+//   $("#id_Time_of_PU").hide();
+//  }
+// });
+// $("#id_Time_of_PU").hide();
+//});
 
 
-//function DepArrCheck() {
-//  var deporarr = $('#id_DepOrArr').val();
-//  console.log(deporarr);
-//  if (deporarr == 'Dep') {
-//      console.log('Dep req');
-//      $('#id_Time_of_PU').style.display = 'none';
-//  }
-//  else{
-//      console.log('Arr req');
-//      $('#id_Time_of_PU').style.display = 'block';
-//  }
-//}
-//DepArrCheck()

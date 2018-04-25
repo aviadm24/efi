@@ -22,7 +22,20 @@ class main_list_form(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(main_list_form, self).__init__(*args, **kwargs)
+        self.fields['Project_num'].label = 'Project Number'
+        self.fields['Customer'].label = 'Refernce custumer'
+        self.fields['Luggage'].label = 'Number of PAX & Lugage'
+        self.fields['Start_time'].label = 'Imp Time /PU/ Start'
+        self.fields['Cost_per_client'].label = 'מחיר ללקוח'
+        self.fields['Cost_per_provider'].label = 'מחיר לספק'
+        self.fields['Cost_extra_hour_client'].label = 'מחיר שעה נוספת ללקוח'
+        self.fields['Cost_extra_hour_provider'].label = 'מחיר שעה נוספת לספק'
+        self.fields['Cost_transfer_client'].label = 'מחיר טרנספר ללקוח'
+        self.fields['Cost_transfer_provider'].label = 'מחיר טרנספר לספק'
+        self.fields['Cost_VIP_client'].label = 'מחיר VIP ללקוח'
+        self.fields['Cost_VIP_provider'].label = 'מחיר VIP לספק'
         # https://stackoverflow.com/questions/1513502/django-how-to-format-a-datefields-date-representation
+        self.fields['Project_num'].widget.attrs.update({'width': '150'})
         self.fields['Date'].widget = forms.DateInput(attrs={'id': 'datepicker1'})
         self.fields['Based_on_client'].widget.attrs.update({'value': '9'})
         self.fields['Based_on_provider'].widget.attrs.update({'value': '10'})

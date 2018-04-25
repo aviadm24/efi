@@ -4,6 +4,7 @@
 {% for e in error %}
 <h1>{{e}}</h1>
 {% endfor %}
+
 <form action="{% url 'customer_list' %}" method="get" accept-charset="utf-8">
     <select id="customer" name="customer_list" onChange="">
       <option  value="" selected="selected">---SELECT---</option>
@@ -11,7 +12,7 @@
        <option value="{{customer}}">{{customer|capfirst}}</option>
       {% endfor %}
     </select>
-    <input type="submit" value="Select">
+    <input type="submit" value="Select by customer name">
 </form>
 
 <!--<form id="searchform" action="{% url 'p_num_list' %}" method="get" accept-charset="utf-8">-->
@@ -27,7 +28,7 @@
        <option value="{{p_num}}">{{p_num|capfirst}}</option>
       {% endfor %}
     </select>
-    <input type="submit" value="Select">
+    <input type="submit" value="Select by project number">
 </form>
 
 
@@ -41,7 +42,7 @@
       {% if field.label == 'Date' or field.name == 'Start_time' or field.name == 'End_time'%}
             <th style="padding-right: 250px;">{{field.label}}</th>
         {%else%}
-            <th>{{field.label}}</th>
+            <th style="width: 150px;">{{field.label}}</th>
         {% endif %}
 
       {% endfor %}
@@ -112,6 +113,8 @@
             <td>{{ row.Based_on_client }}</td>
             <td>{{ row.Extra_hours_provider }}</td>
             <td>{{ row.Based_on_provider }}</td>
+              <td>{{ row.Total_extra_client }}</td>
+              <td>{{ row.Total_extra_provider }}</td>
             <td>{{ row.KM }}</td>
             <td>{{ row.Comments }}</td>
             <td>{{ row.Provider }}</td>

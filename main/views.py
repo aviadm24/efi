@@ -16,10 +16,11 @@ def add_main_list(request):
     field_names = [f.name for f in main_list_model._meta.get_fields()]
     now = timezone.now()
     #  https://stackoverflow.com/questions/7503241/django-models-selecting-single-field
-    p_num_list = main_list_model.objects.values_list('Project_num', flat=True)
-    # for i in p_num_list:
-    #     print('p_num_list:', i)
-    customer_list = main_list_model.objects.values_list('Customer', flat=True)
+    # p_num_list = main_list_model.objects.values_list('Project_num', flat=True)
+    p_num_filterd_list = main_list_model.objects.filter(Date__gte=now).values_list('Project_num', flat=True)
+    for i in p_num_filterd_list:
+        print('p_num_filterd_list:', i)
+    customer_filterd_list = main_list_model.objects.filter(Date__gte=now).values_list('Customer', flat=True)
 
     upcoming = main_list_model.objects.filter(Date__gte=now).order_by('Date')
     all = main_list_model.objects.all()
@@ -42,7 +43,7 @@ def add_main_list(request):
     else:
         form = main_list_form
 
-    return render(request, 'main/main_list_model_form.html', {'form': form, 'field_names': field_names[1:], 'upcoming': upcoming, 'p_num_list': p_num_list, 'customer_list': customer_list})
+    return render(request, 'main/main_list_model_form.html', {'form': form, 'field_names': field_names[1:], 'upcoming': upcoming, 'p_num_list': p_num_filterd_list, 'customer_list': customer_filterd_list})
 
 def search_list(request):
     if request.method == 'POST':
