@@ -62,20 +62,7 @@
 
     </div>
 </div>
-<div class="container">
-    <!--<div class="row">-->
-        <!--<div class="col-sm-6">-->
-            <input type="text" class="datetimepicker-input" id="datetimepicker5" data-toggle="datetimepicker" data-target="#datetimepicker5"/>
-        <!--</div>-->
-        <script type="text/javascript">
-            $(function () {
-                $('#datetimepicker5').datetimepicker();
-            });
-        </script>
 
-
-    <!--</div>-->
-</div>
 
     <!-- Bootstrap core JavaScript -->
     <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
@@ -94,7 +81,9 @@
     <script type="text/javascript">
         <!--https://stackoverflow.com/questions/23137720/disable-time-in-bootstrap-date-time-picker-->
         $(function () {
-            $('#datetimepicker1').datetimepicker();
+            $('#datetimepicker1').datetimepicker({
+                format: 'hh:mm A'
+                });
         })
     </script>
 

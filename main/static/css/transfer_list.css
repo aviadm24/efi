@@ -5,3 +5,7 @@
 #main_list>tr>td{
     border: 1px solid black;
 }
+
+input.form-control datetimepicker-input{
+    width:150px;
+}

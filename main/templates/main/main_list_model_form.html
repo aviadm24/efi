@@ -34,6 +34,9 @@
 
 <h3>add to list</h3>
 <form method="post" action="/" style="">{% csrf_token %}
+    {% for error in field.errors %}-->
+        <p style="color: red">{{ error }}</p>
+    {% endfor %}
 <table class="table table-bordered">
 
   <thead>
@@ -51,7 +54,6 @@
   <tr>
       {% for field in form %}
         {% if field.name == 'Date'%}
-            <!--<td>{{field}}</td>-->
             <td>
               <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
                   <input name="{{field.name}}" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>
@@ -84,7 +86,7 @@
 <table class="table table-bordered">
   <thead>
     <tr>
-      <th>delete</th>
+      <th>Update</th>
       {% for name in field_names %}
       <th>{{name}}</th>
       {% endfor %}
@@ -94,11 +96,11 @@
     {% for row in upcoming %}
 
           <tr>
-            <td><a href="/delete_transfer/{{transfer.id}}">{{ forloop.counter }}</a></td>
+            <td><a href="/update_row/{{row.id}}">{{ forloop.counter }}</a></td>
             <td>{{ row.Project_num}}</td>
             <td>{{ row.Customer}}</td>
             <td>{{ row.Date }}</td>
-            <td>{{ row.Type_of_sevice}}</td>
+            <td>{{ row.Type_of_service}}</td>
             <td>{{ row.Type_of_car }}</td>
             <td>{{ row.Driver_name }}</td>
             <td>{{ row.Luggage }}</td>

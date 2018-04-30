@@ -51,11 +51,15 @@
 
    <script type="text/javascript">
         $(function () {
-            $('#id_Start_time').datetimepicker();
+            $('#Start_time').datetimepicker({
+              format: 'YYYY-MM-DD HH:mm'
+            });
         });
 
         $(function () {
-            $('#id_End_time').datetimepicker();
+            $('#End_time').datetimepicker({
+              format: 'YYYY-MM-DD HH:mm'
+            });
         });
 
         $(function () {
@@ -70,6 +74,7 @@
             });
         });
 
+        $('input[name="Date"]').width($('#id_Project_num').width());
 
     </script>
 

@@ -29,7 +29,7 @@ def add_main_list(request):
     print('upcoming: ', upcoming)
 
     if request.method == 'POST':
-        print('transfer -post')
+        print('main list - post')
         form = main_list_form(request.POST)
         if form.is_valid():
             # for key, value in form.cleaned_data.items():
@@ -39,6 +39,7 @@ def add_main_list(request):
             messages.success(request, ('Your order was successfully updated!'))
             return redirect('add_main_list')
         else:
+            print('main list - got an error: ', form.errors)
             messages.error(request, ('Please correct the error below.'))
     else:
         form = main_list_form
@@ -80,6 +81,9 @@ def customer_list(request):
     # context = {'p_num': p_num}
     return render(request, 'main/customer_group.html', {'field_names': field_names[1:], 'customer_group': customer_group})
 
+class update_row(UpdateView):
+    model = main_list_model
+    fields = '__all__'
 '''
 class add_to_main_list(CreateView):
     model = main_list_model

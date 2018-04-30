@@ -1,5 +1,5 @@
 from .models import Service_data, Car_data, Provider_data \
-                    ,Driver_data, Customer_data, Flight_data, main_list_model
+                    , Driver_data, Customer_data, Flight_data, main_list_model, Status_data
 from django import forms
 from .utils import OptionalChoiceField
 from django.contrib.admin import widgets
@@ -15,6 +15,7 @@ class main_list_form(forms.ModelForm):
     Driver_name = forms.ModelChoiceField(queryset=Driver_data.objects.all(), required=False)
     Flight_num = forms.ModelChoiceField(queryset=Flight_data.objects.all(), required=False)
     Provider = forms.ModelChoiceField(queryset=Provider_data.objects.all(), required=False)
+    Status = forms.ModelChoiceField(queryset=Status_data.objects.all(), required=False)
 
     class Meta:
         model = main_list_model
@@ -35,8 +36,9 @@ class main_list_form(forms.ModelForm):
         self.fields['Cost_VIP_client'].label = 'מחיר VIP ללקוח'
         self.fields['Cost_VIP_provider'].label = 'מחיר VIP לספק'
         # https://stackoverflow.com/questions/1513502/django-how-to-format-a-datefields-date-representation
-        self.fields['Project_num'].widget.attrs.update({'width': '150'})
+        self.fields['Project_num'].widget.attrs.update({'style': 'width:100px'})
         self.fields['Date'].widget = forms.DateInput(attrs={'id': 'datepicker1'})
+        self.fields['Date'].widget.attrs.update({'style': 'width:100px'})
         self.fields['Based_on_client'].widget.attrs.update({'value': '9'})
         self.fields['Based_on_provider'].widget.attrs.update({'value': '10'})
         self.fields['Cost_extra_hour_client'].widget.attrs.update({'value': '50'})

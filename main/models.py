@@ -23,9 +23,9 @@ class main_list_model(models.Model):
     End_time = models.DateTimeField(blank=True, null=True)
     From = models.CharField(max_length=100, blank=True, null=True)
     To = models.CharField(max_length=100, blank=True, null=True)
-    Extra_hours_client = models.TimeField(blank=True, null=True)
+    Extra_hours_client = models.IntegerField(blank=True, null=True)
     Based_on_client = models.IntegerField(blank=True, null=True)
-    Extra_hours_provider = models.TimeField(blank=True, null=True)
+    Extra_hours_provider = models.IntegerField(blank=True, null=True)
     Based_on_provider = models.IntegerField(blank=True, null=True)  # , default='09:00'
     Total_extra_client = models.IntegerField(blank=True, null=True)  # new
     Total_extra_provider = models.IntegerField(blank=True, null=True)  # new
@@ -41,8 +41,7 @@ class main_list_model(models.Model):
     Cost_VIP_client = models.IntegerField(blank=True, null=True)
     Cost_VIP_provider = models.IntegerField(blank=True, null=True)
     Status = models.CharField(max_length=100, blank=True, null=True)
-
-    DepOrArr = models.NullBooleanField(blank=True, null=True, choices=type_choice)  # new models.NullBooleanField()
+    # DepOrArr = models.NullBooleanField(blank=True, null=True, choices=type_choice)  # new models.NullBooleanField()
     Contact = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):

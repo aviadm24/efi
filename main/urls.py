@@ -25,7 +25,7 @@ urlpatterns = [
     url(r'^search_list$', views.search_list, name='search_list'),
     url(r'^p_num_list$', views.p_num_list, name='p_num_list'),
     url(r'^customer_list$', views.customer_list, name='customer_list'),
-
+    path('update_row/<int:pk>', views.update_row.as_view(), name='update_row'),
     # url(r'^app/(?P<id>\d+)/new-page/$', views.myfunc, name="my_func"),
     # url(r'^$', views.add_to_main_list.as_view(), name='add_to_main_list'),
     # url(r'^$', views.homepage, name='homepage'),
@@ -40,6 +40,6 @@ urlpatterns = [
     # url(r'^transfer_list$', views.TransferListView.as_view(), name='transfer_list'),
     # path('project_list/<int:pk>', views.ProjectListView.as_view(), name='project_list'),
     # path('edit_transfer/<int:pk>', views.transfer_update.as_view(), name='transfer_update'),
-    # path('delete_transfer/<int:pk>', views.transfer_delete.as_view(), name='transfer_delete'),
-    # url(r'^test_datetime$', TemplateView.as_view(template_name="main/test_datetime.html"), name='test_datetime'),
+    #
+    url(r'^test_datetime$', TemplateView.as_view(template_name="main/test_datetime.html"), name='test_datetime'),
 ]
