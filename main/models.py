@@ -5,10 +5,6 @@ from django.urls import reverse
 # heroku pg:reset
 class main_list_model(models.Model):
 
-    type_choice = (
-        ('Dep', 'Dep'),
-        ('Arr', 'Arr'),
-    )
     Project_num = models.IntegerField(blank=True, null=True)
     Customer = models.CharField(max_length=100, blank=True, null=True)
     Date = models.DateField(blank=True, null=True)
