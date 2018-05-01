@@ -19,17 +19,17 @@ class main_list_model(models.Model):
     End_time = models.DateTimeField(blank=True, null=True)
     From = models.CharField(max_length=100, blank=True, null=True)
     To = models.CharField(max_length=100, blank=True, null=True)
-    Extra_hours_client = models.IntegerField(blank=True, null=True)
+    Extra_hours_client = models.FloatField(null=True, blank=True)
     Based_on_client = models.IntegerField(blank=True, null=True)
-    Extra_hours_provider = models.IntegerField(blank=True, null=True)
+    Extra_hours_provider = models.FloatField(null=True, blank=True)
     Based_on_provider = models.IntegerField(blank=True, null=True)  # , default='09:00'
     Total_extra_client = models.IntegerField(blank=True, null=True)  # new
     Total_extra_provider = models.IntegerField(blank=True, null=True)  # new
     KM = models.IntegerField(blank=True, null=True)
     Comments = models.TextField(blank=True)
     Provider = models.CharField(max_length=100, blank=True, null=True)
-    Cost_per_client = models.IntegerField(blank=True, null=True)
-    Cost_per_provider = models.IntegerField(blank=True, null=True)
+    Cost_per_client = models.FloatField(blank=True, null=True)
+    Cost_per_provider = models.FloatField(blank=True, null=True)
     Cost_extra_hour_client = models.IntegerField(blank=True, null=True)
     Cost_extra_hour_provider = models.IntegerField(blank=True, null=True)
     Cost_transfer_client = models.IntegerField(blank=True, null=True)

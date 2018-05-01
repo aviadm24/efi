@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, render_to_response
 from django.contrib import messages
 from .forms import main_list_form
 from django.forms import formset_factory
@@ -6,7 +6,7 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy, reverse
 from django.utils import timezone
-from .models import  main_list_model
+from .models import main_list_model
 from itertools import chain
 
 # https://stackoverflow.com/questions/20926403/heroku-rake-dbmigrate-results-in-error-r13-attach-error-failed-to-attach-t/21148716#21148716
@@ -81,9 +81,30 @@ def customer_list(request):
     # context = {'p_num': p_num}
     return render(request, 'main/customer_group.html', {'field_names': field_names[1:], 'customer_group': customer_group})
 
-class update_row(UpdateView):
+class update(UpdateView):
     model = main_list_model
+    # form_class = main_list_form
     fields = '__all__'
+    success_url = reverse_lazy('add_main_list')
+    template_name_suffix = '_update_form'
+
+    def get_pk(self, **kwargs):
+        return self.object.pk
+
+
+
+def update_row(request):
+    if request.method == 'POST':
+        print('update_row - view')
+        form = main_list_form(request.POST)
+        if form.is_valid():
+            print('form pk:', form.pk)
+            form.save()
+            messages.success(request, ('Your order was successfully updated!'))
+            return redirect('add_main_list')
+        else:
+            messages.error(request, ('Please correct the error below.'))
+    return render(request, 'main/main_list_model_form.html')
 '''
 class add_to_main_list(CreateView):
     model = main_list_model
