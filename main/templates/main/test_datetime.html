@@ -29,6 +29,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha18/css/tempusdominus-bootstrap-4.min.css" />
     <!--<link rel="stylesheet" href="{% static 'css/bs4-datetimepicker.min.css' %}" />-->
     <!--<script defer src="{% static 'js/fontawesome-all.js' %}"></script>-->
+
+    <link rel='stylesheet' href="{% static 'color_picker/spectrum.css' %}" />
   </head>
 
   <body>
@@ -47,6 +49,18 @@
 
     <!--</div>-->
 <!--</div>-->
+<input type='text' id="custom" />
+<button id="add">
+  Add to table
+</button>
+<div id="id1" class="input-group colorpicker-component formcolorpicker">
+    <input type="text" name="name1" id="id2" value="#000" class="form-control"/>
+    <div class="input-group-append">
+        <span class="input-group-text input-group-addon"><i></i></span>
+    </div>
+</div>
+
+
 <div class="container">
     <div class="row">
         <div class="col-sm-6">
@@ -71,7 +85,7 @@
     <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     <!-- for date pick -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha18/js/tempusdominus-bootstrap-4.min.js"></script>
-
+    <script src="{% static 'color_picker/spectrum.js' %}"></script>
     <!--<script type="text/javascript" src="{% static 'js/bs4-datetimepicker.min.js' %}"></script>-->
 
 
@@ -85,6 +99,24 @@
                 format: 'hh:mm A'
                 });
         })
+
+
+    <!--$('.formcolorpicker').each(function () {-->
+        <!--$(this).colorpicker();-->
+    <!--});-->
+
+    $("#custom").spectrum({
+    preferredFormat: "rgb",
+    });
+
+    $(document).ready(function() {
+        $('#add').click(function() {
+            var color = $('#custom').val();
+            console.log('color:'+color);
+
+          })
+    })
+
     </script>
 
   </body>

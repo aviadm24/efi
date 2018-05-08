@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^search_list$', views.search_list, name='search_list'),
     url(r'^p_num_list$', views.p_num_list, name='p_num_list'),
     url(r'^customer_list$', views.customer_list, name='customer_list'),
+    url(r'^whole_list$', views.whole_list, name='whole_list'),
     path('update_row/<int:pk>', views.update.as_view(), name='update_row'),
     # url(r'^app/(?P<id>\d+)/new-page/$', views.myfunc, name="my_func"),
     # url(r'^$', views.add_to_main_list.as_view(), name='add_to_main_list'),

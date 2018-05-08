@@ -23,7 +23,7 @@ def add_main_list(request):
     customer_filterd_list = main_list_model.objects.filter(Date__gte=now).values_list('Customer', flat=True)
 
     upcoming = main_list_model.objects.filter(Date__gte=now).order_by('Date')
-    all = main_list_model.objects.all()
+    all = main_list_model.objects.all().order_by('Date')
     # passed = transfer.objects.filter(Date__lt=now).order_by('Date')
     print('all: ', all)
     print('upcoming: ', upcoming)
@@ -45,6 +45,13 @@ def add_main_list(request):
         form = main_list_form
 
     return render(request, 'main/main_list_model_form.html', {'form': form, 'field_names': field_names[1:], 'upcoming': upcoming, 'p_num_list': p_num_filterd_list, 'customer_list': customer_filterd_list})
+
+def whole_list(request):
+    field_names = [f.name for f in main_list_model._meta.get_fields()]
+    all = main_list_model.objects.all().order_by('Date')
+    print('all: ', all)
+    return render(request, 'main/whole_list.html', {'all': all, 'field_names': field_names[1:]})
+
 
 def search_list(request):
     if request.method == 'POST':
@@ -77,6 +84,7 @@ def p_num_list(request):
 def customer_list(request):
     customer = request.GET.get('customer_list')
     customer_group = main_list_model.objects.filter(Customer=customer)
+    print('customer_list', customer_group)
     field_names = [f.name for f in main_list_model._meta.get_fields()]
     # context = {'p_num': p_num}
     return render(request, 'main/customer_group.html', {'field_names': field_names[1:], 'customer_group': customer_group})
@@ -87,10 +95,6 @@ class update(UpdateView):
     fields = '__all__'
     success_url = reverse_lazy('add_main_list')
     template_name_suffix = '_update_form'
-
-    def get_pk(self, **kwargs):
-        return self.object.pk
-
 
 
 def update_row(request):

@@ -25,12 +25,14 @@
     <!-- Custom styles for this template -->
     <link href="{% static 'css/landing-page.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/transfer_list.css' %}" rel="stylesheet">
+    <link rel='stylesheet' href="{% static 'color_picker/spectrum.css' %}" />
 
     <!-- for date pick -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha18/css/tempusdominus-bootstrap-4.min.css" />
     <!--<link rel="stylesheet" href="{% static 'css/bs4-datetimepicker.min.css' %}" />-->
     <!--<script defer src="{% static 'js/fontawesome-all.js' %}"></script>-->
     <script defer src="{% static 'js/get_diff.js' %}"></script>
+    <script defer src="{% static 'js/get_set_color.js' %}"></script>
   </head>
 
   <body>
@@ -43,6 +45,7 @@
     <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/moment.js' %}"></script>
     <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'color_picker/spectrum.js' %}"></script>
     <!-- for date pick -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha18/js/tempusdominus-bootstrap-4.min.js"></script>
     <!--<script type="text/javascript" src="{% static 'js/bs4-datetimepicker.min.js' %}"></script>-->
@@ -75,6 +78,11 @@
         });
 
         $('input[name="Date"]').width($('#id_Project_num').width());
+
+        $("#custom").spectrum({
+          preferredFormat: "rgb",
+        });
+
 
     </script>
 

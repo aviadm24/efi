@@ -4,7 +4,6 @@ from django.urls import reverse
 # python manage.py reset_db
 # heroku pg:reset
 class main_list_model(models.Model):
-
     Project_num = models.IntegerField(blank=True, null=True)
     Customer = models.CharField(max_length=100, blank=True, null=True)
     Date = models.DateField(blank=True, null=True)
@@ -39,6 +38,7 @@ class main_list_model(models.Model):
     Status = models.CharField(max_length=100, blank=True, null=True)
     # DepOrArr = models.NullBooleanField(blank=True, null=True, choices=type_choice)  # new models.NullBooleanField()
     Contact = models.CharField(max_length=100, blank=True, null=True)
+    Color = models.CharField(max_length=50, blank=True, null=True)
 
     def __str__(self):
         return str(self.Project_num)

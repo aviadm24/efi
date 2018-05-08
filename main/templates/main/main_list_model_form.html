@@ -4,6 +4,8 @@
 {% for e in error %}
 <h1>{{e}}</h1>
 {% endfor %}
+<input type='text' id="custom" />
+<a type="button" class="btn btn-info" href="{% url 'whole_list' %}">whole list</a>
 
 <form action="{% url 'customer_list' %}" method="get" accept-charset="utf-8">
     <select id="customer" name="customer_list" onChange="">
@@ -73,7 +75,9 @@
                       </div>
                     </td>
                     {%else%}
-                    <td>{{field}}</td>
+
+                         <td>{{field}}</td>
+
               {% endif %}
 
         {% endif %}
@@ -83,7 +87,7 @@
 <input type="submit" value="שמור" />
 </form>
 <h3>main list</h3>
-<table class="table table-bordered">
+<table class="table table-bordered" id="main_list">
   <thead>
     <tr>
       <th>Update</th>
@@ -129,6 +133,7 @@
             <td>{{ row.Cost_VIP_client }}</td>
             <td>{{ row.Cost_VIP_provider }}</td>
             <td>{{ row.Status }}</td>
+            <td class="color_id">{{ row.Color }}</td>
 
 
           </tr>
