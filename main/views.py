@@ -97,18 +97,18 @@ class update(UpdateView):
     template_name_suffix = '_update_form'
 
 
-def update_row(request):
-    if request.method == 'POST':
-        print('update_row - view')
-        form = main_list_form(request.POST)
-        if form.is_valid():
-            print('form pk:', form.pk)
-            form.save()
-            messages.success(request, ('Your order was successfully updated!'))
-            return redirect('add_main_list')
-        else:
-            messages.error(request, ('Please correct the error below.'))
-    return render(request, 'main/main_list_model_form.html')
+# def update_row(request):
+#     if request.method == 'POST':
+#         print('update_row - view')
+#         form = main_list_form(request.POST)
+#         if form.is_valid():
+#             print('form pk:', form.pk)
+#             form.save()
+#             messages.success(request, ('Your order was successfully updated!'))
+#             return redirect('add_main_list')
+#         else:
+#             messages.error(request, ('Please correct the error below.'))
+#     return render(request, 'main/main_list_model_form.html')
 '''
 class add_to_main_list(CreateView):
     model = main_list_model
