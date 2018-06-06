@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    //$('.Color').hide();
+    $('.Color').hide();
     $('table tr').each(function () {
         var color_string = $(this).find(".Color").text();
         var color_list = color_string.split("^");
