@@ -1,25 +1,25 @@
 $(document).ready(function() {
-    $('.Color').hide();
+    //$('.Color').hide();
     $('table tr').each(function () {
         var color_string = $(this).find(".Color").text();
         var color_list = color_string.split("^");
-        //console.log('color_list: '+color_list)
+        console.log('color_list: '+color_list)
         for(var i = 0; i < color_list.length-1; i++){
            var color_list_split =  color_list[i].split("-")
-           //console.log('color_list_split length: '+color_list_split.length)
+           console.log('color_list_split length: '+color_list_split.length)
            if (color_list_split.length > 2){
                var td_class = color_list_split[0];
                var color = color_list_split[1];
-               //console.log('td_class: '+td_class)
+               console.log('td_class: '+td_class)
                var td = $(this).find("."+td_class);
-               //console.log('td: '+td)
+               console.log('td: '+td)
                td.css('color', color);
            }else{
                var td_class = color_list_split[0];
                var color = color_list_split[1];
-               //console.log('td_class: '+td_class)
+               console.log('td_class: '+td_class)
                var td = $(this).find("."+td_class);
-               //console.log('td: '+td)
+               console.log('td: '+td)
                td.css('background', color);
            }
 
