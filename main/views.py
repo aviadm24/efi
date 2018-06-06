@@ -7,10 +7,19 @@ from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy, reverse
 from django.utils import timezone
 from .models import main_list_model
+from django.http import JsonResponse
 from itertools import chain
 
 # https://stackoverflow.com/questions/20926403/heroku-rake-dbmigrate-results-in-error-r13-attach-error-failed-to-attach-t/21148716#21148716
 # http://jsfiddle.net/QLfMU/116/
+from django_tables2 import RequestConfig
+from .tables import main_list_Table
+
+def table_view(request):
+    table = main_list_Table(main_list_model.objects.all())
+    RequestConfig(request).configure(table)
+    return render(request, 'main/table_view.html', {'table': table})
+
 
 def add_main_list(request):
     field_names = [f.name for f in main_list_model._meta.get_fields()]
@@ -28,6 +37,9 @@ def add_main_list(request):
     print('all: ', all)
     print('upcoming: ', upcoming)
 
+    table = main_list_Table(main_list_model.objects.all())
+    RequestConfig(request).configure(table)
+
     if request.method == 'POST':
         print('main list - post')
         form = main_list_form(request.POST)
@@ -44,7 +56,7 @@ def add_main_list(request):
     else:
         form = main_list_form
 
-    return render(request, 'main/main_list_model_form.html', {'form': form, 'field_names': field_names[1:], 'upcoming': upcoming, 'p_num_list': p_num_filterd_list, 'customer_list': customer_filterd_list})
+    return render(request, 'main/main_list_model_form.html', {'form': form, 'field_names': field_names[1:], 'table': table, 'upcoming': upcoming, 'p_num_list': p_num_filterd_list, 'customer_list': customer_filterd_list})
 
 def whole_list(request):
     field_names = [f.name for f in main_list_model._meta.get_fields()]
@@ -88,6 +100,37 @@ def customer_list(request):
     field_names = [f.name for f in main_list_model._meta.get_fields()]
     # context = {'p_num': p_num}
     return render(request, 'main/customer_group.html', {'field_names': field_names[1:], 'customer_group': customer_group})
+
+def add_color(request):
+
+    color = request.GET.get('color')
+    if color == '':
+        pass
+    else:
+        id = request.GET.get('id')
+        td_id = request.GET.get('td_id')
+        text_color = request.GET.get('text_color')
+        print('text_color: ', text_color)
+
+        old_color = main_list_model.objects.filter(pk=id)
+        old_color_data = old_color.values()[0]['Color']
+        if old_color_data == None:
+            old_color_data = ''
+        print('old_color: ', old_color_data)
+
+        if text_color == 'true':
+            main_list_model.objects.filter(pk=id).update(Color=old_color_data + td_id + '-' + color + '-' + text_color + '^')
+            print('new text color: ', td_id + '-' + color + '-' + text_color + '^')
+        else:
+            main_list_model.objects.filter(pk=id).update(Color=old_color_data + td_id + '-' + color + '^')
+            print('new color: ', td_id + '-' + color + '-' + '^')
+    # print('new_color: ', old_color + td_id + '-' + color + '^')
+
+    # data = {
+    #     'is_taken': main_list_model.objects.filter(pk=id).exists()
+    # }
+
+    return JsonResponse({'is_taken': 'is_taken'})
 
 class update(UpdateView):
     model = main_list_model

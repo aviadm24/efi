@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'bootstrapform',
     'bootstrap_datepicker',
     'django_extensions',
+    'django_tables2',
 ]
 
 MIDDLEWARE = [

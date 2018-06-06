@@ -6,6 +6,108 @@
     border: 1px solid black;
 }
 
-input.form-control datetimepicker-input{
-    width:150px;
+//input.form-control datetimepicker-input{
+//    width:150px;
+//}
+
+#id_Name{
+    width:70px;
+}
+
+#id_Flight_num{
+    width:70px;
+}
+
+#id_Luggage{
+    width:70px;
+}
+
+#datetimepicker1{
+    width:155px;
+}
+
+
+#Start_time{
+    width:200px;
+}
+
+#End_time{
+    width:200px;
+}
+
+#id_From{
+    width:100px;
+}
+
+#id_To{
+    width:100px;
+}
+
+#id_Extra_hours_client{
+    width:60px;
+}
+
+#id_Based_on_client{
+    width:60px;
+}
+
+#id_Extra_hours_provider{
+    width:60px;
+}
+
+#id_Based_on_provider{
+    width:60px;
+}
+
+#id_Total_extra_client{
+    width:60px;
+}
+
+#id_Total_extra_provider{
+    width:60px;
+}
+
+#id_KM{
+    width:60px;
+}
+
+#id_Comments{
+    width:100px;
+    height:100px;
+}
+
+#id_Cost_per_client{
+    width:60px;
+}
+
+#id_Cost_per_provider{
+    width:60px;
+}
+
+#id_Cost_extra_hour_client{
+    width:60px;
+}
+
+#id_Cost_extra_hour_provider{
+    width:60px;
+}
+
+#id_Cost_transfer_client{
+    width:60px;
+}
+
+#id_Cost_transfer_provider{
+    width:60px;
+}
+
+#id_Cost_VIP_client{
+    width:60px;
+}
+
+#id_Cost_VIP_provider{
+    width:60px;
+}
+
+#id_Contact{
+    width:60px;
 }

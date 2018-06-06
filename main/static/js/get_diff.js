@@ -25,11 +25,11 @@ function get_cost(){
     var extra_p = $("#id_Extra_hours_provider").val();
     var base_cost_c = $("#id_Cost_extra_hour_client").val();
     var base_cost_p = $("#id_Cost_extra_hour_provider").val();
-    console.log('extra_c: '+extra_c);
-    console.log('base_cost_c: '+base_cost_c);
+    //console.log('extra_c: '+extra_c);
+    //console.log('base_cost_c: '+base_cost_c);
     var cost_c = extra_c*base_cost_c;
     var cost_p = extra_p*base_cost_p;
-    console.log('cost c: '+cost_c);
+    //console.log('cost c: '+cost_c);
     $("#id_Cost_per_client").val(cost_c.toFixed(2));
     $("#id_Cost_per_provider").val(cost_p.toFixed(2));
 
@@ -52,7 +52,7 @@ $('#End_time').on("change.datetimepicker", function (e) {
    });
 
 $('#id_Cost_extra_hour_client, #id_Cost_extra_hour_provider').on('input', function() {
-    console.log('extra hour was changed!');
+    //console.log('extra hour was changed!');
     var start = $('#id_Start_time').val(); // get the current value of the input field.
     if (start != ''){
         get_diff();
@@ -65,26 +65,15 @@ $('#id_Based_on_client, #id_Based_on_provider').on("change", function (e) {
    });
 
 $('#id_Extra_hours_client, #id_Extra_hours_provider').on("change", function (e) {
-      console.log('extra hour was changed!')
+      //console.log('extra hour was changed!')
       get_diff();
       //get_cost();
    });
 
-
-//$(document).ready(function()
-//{
-// $("#id_DepOrArr").change(function()
-// {
-//  if($(this).val() == "Arr")
-//  {
-//   $("#id_Time_of_PU").show();
-//  }
-//  else
-//  {
-//   $("#id_Time_of_PU").hide();
-//  }
-// });
-// $("#id_Time_of_PU").hide();
-//});
-
-
+$(document).ready(function() {
+    $('table#mainlist tbody tr').each(function () {
+        var id = $(this).find("td").eq(0).html();
+        console.log('id: '+ id);
+        $(this).find("td").eq(0).html('<a href="/update_row/'+id+'">'+id+'</a>');
+    });
+});

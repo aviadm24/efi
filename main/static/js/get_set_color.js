@@ -1,16 +1,19 @@
 // https://stackoverflow.com/questions/17843478/changing-the-color-of-a-row-on-click?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
 $(document).ready(function () {
 
+
+
     $('tr').click(function () {
         var color = $('#custom').val();
+
         //Check to see if background color is set or if it's set to white.
         $('#id_Color').val(color);
         if(this.style.background == "" || this.style.background =="white") {
             $(this).css('background', color);
         }
-        else {
-            $(this).css('background', 'white');
-        }
+//        else {
+//            $(this).css('background', 'white');
+//        }
     });
 
 
@@ -24,14 +27,21 @@ $(document).ready(function () {
 
 });
 
-//$(document).ready(function() {
-//    $('#add').click(function() {
-//        var color = $('#custom').val();
-//        console.log('color:'+color);
-//        var row = $(this).closest("tr");
-//        var row = $(this).parent().parent();
-//        console.log(row.text())
-//        row.style.backgroundColor = "lightblue";
-//      })
-//})
+$('#id_Type_of_service').on("change", function (e) {
+    console.log('id_Type_of_service change')
+    hide_for_transfer();
+});
+
+
+// if type of service is transfer then black out some td's
+function hide_for_transfer() {
+    var transfer = $('#id_Type_of_service option:selected').text();
+    // https://stackoverflow.com/questions/10613873/get-the-jquery-index-of-td-element
+    console.log('Type_of_service:' + transfer)
+    if(transfer == "Transfer") {
+        $('td:nth-child(9),th:nth-child(9)').hide();
+        //$('#id_Type_of_service').hide();
+    }
+}
+
 //https://stackoverflow.com/questions/14460421/get-the-contents-of-a-table-row-with-a-button-click?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa

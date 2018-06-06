@@ -38,7 +38,7 @@ class main_list_model(models.Model):
     Status = models.CharField(max_length=100, blank=True, null=True)
     # DepOrArr = models.NullBooleanField(blank=True, null=True, choices=type_choice)  # new models.NullBooleanField()
     Contact = models.CharField(max_length=100, blank=True, null=True)
-    Color = models.CharField(max_length=50, blank=True, null=True)
+    Color = models.CharField(max_length=3000, blank=True, null=True)
 
     def __str__(self):
         return str(self.Project_num)

@@ -1,10 +1,12 @@
 {% extends 'main/base.html' %}
 {% block transfer_list %}
-
+{% load render_table from django_tables2 %}
 {% for e in error %}
 <h1>{{e}}</h1>
 {% endfor %}
 <input type='text' id="custom" />
+<label>תצוגת כתב</label>
+<input type="checkbox" id="color_method">
 <a type="button" class="btn btn-info" href="{% url 'whole_list' %}">whole list</a>
 
 <form action="{% url 'customer_list' %}" method="get" accept-charset="utf-8">
@@ -44,12 +46,7 @@
   <thead>
   <tr>
       {% for field in form %}
-      {% if field.label == 'Date' or field.name == 'Start_time' or field.name == 'End_time'%}
-            <th style="padding-right: 250px;">{{field.label}}</th>
-        {%else%}
-            <th style="width: 150px;">{{field.label}}</th>
-        {% endif %}
-
+        <th>{{field.label}}</th>
       {% endfor %}
   </tr>
   </thead>
@@ -86,61 +83,63 @@
 </table>
 <input type="submit" value="שמור" />
 </form>
+
 <h3>main list</h3>
-<table class="table table-bordered" id="main_list">
-  <thead>
-    <tr>
-      <th>Update</th>
-      {% for name in field_names %}
-      <th>{{name}}</th>
-      {% endfor %}
-    </tr>
-  </thead>
-  <tbody>
-    {% for row in upcoming %}
+{% render_table table %}
+<!--<table class="table table-bordered" id="main_list">-->
+  <!--<thead>-->
+    <!--<tr>-->
+      <!--<th>Update</th>-->
+      <!--{% for name in field_names %}-->
+      <!--<th>{{name}}</th>-->
+      <!--{% endfor %}-->
+    <!--</tr>-->
+  <!--</thead>-->
+  <!--<tbody>-->
+    <!--{% for row in upcoming %}-->
 
-          <tr>
-            <td><a href="/update_row/{{row.id}}">{{ forloop.counter }}</a></td>
-            <td>{{ row.Project_num}}</td>
-            <td>{{ row.Customer}}</td>
-            <td>{{ row.Date }}</td>
-            <td>{{ row.Type_of_service}}</td>
-            <td>{{ row.Type_of_car }}</td>
-            <td>{{ row.Driver_name }}</td>
-            <td>{{ row.Luggage }}</td>
-            <td>{{ row.Name }}</td>
-            <td>{{ row.Flight_num }}</td>
-            <!--<td>{{ row.Time_of_flight }}</td>-->
-            <!--<td>{{ row.Time_of_PU }}</td>-->
-              <td>{{ row.Start_time }}</td>
-            <td>{{ row.End_time }}</td>
-            <td>{{ row.From }}</td>
-            <td>{{ row.To }}</td>
-            <td>{{ row.Extra_hours_client }}</td>
-            <td>{{ row.Based_on_client }}</td>
-            <td>{{ row.Extra_hours_provider }}</td>
-            <td>{{ row.Based_on_provider }}</td>
-            <td>{{ row.Total_extra_client }}</td>
-            <td>{{ row.Total_extra_provider }}</td>
-            <td>{{ row.KM }}</td>
-            <td>{{ row.Comments }}</td>
-            <td>{{ row.Provider }}</td>
-            <td>{{ row.Cost_per_client }}</td>
-            <td>{{ row.Cost_per_provider }}</td>
-            <td>{{ row.Cost_extra_hour_client }}</td>
-            <td>{{ row.Cost_extra_hour_provider }}</td>
-            <td>{{ row.Cost_transfer_client }}</td>
-            <td>{{ row.Cost_transfer_provider }}</td>
-            <td>{{ row.Cost_VIP_client }}</td>
-            <td>{{ row.Cost_VIP_provider }}</td>
-            <td>{{ row.Status }}</td>
-            <td class="color_id">{{ row.Color }}</td>
+          <!--<tr>-->
+            <!--<td><a href="/update_row/{{row.id}}">{{ forloop.counter }}</a></td>-->
+            <!--<td>{{ row.Project_num}}</td>-->
+            <!--<td>{{ row.Customer}}</td>-->
+            <!--<td>{{ row.Date }}</td>-->
+            <!--<td>{{ row.Type_of_service}}</td>-->
+            <!--<td>{{ row.Type_of_car }}</td>-->
+            <!--<td>{{ row.Driver_name }}</td>-->
+            <!--<td>{{ row.Luggage }}</td>-->
+            <!--<td>{{ row.Name }}</td>-->
+            <!--<td>{{ row.Flight_num }}</td>-->
+            <!--&lt;!&ndash;<td>{{ row.Time_of_flight }}</td>&ndash;&gt;-->
+            <!--&lt;!&ndash;<td>{{ row.Time_of_PU }}</td>&ndash;&gt;-->
+              <!--<td>{{ row.Start_time }}</td>-->
+            <!--<td>{{ row.End_time }}</td>-->
+            <!--<td>{{ row.From }}</td>-->
+            <!--<td>{{ row.To }}</td>-->
+            <!--<td>{{ row.Extra_hours_client }}</td>-->
+            <!--<td>{{ row.Based_on_client }}</td>-->
+            <!--<td>{{ row.Extra_hours_provider }}</td>-->
+            <!--<td>{{ row.Based_on_provider }}</td>-->
+            <!--<td>{{ row.Total_extra_client }}</td>-->
+            <!--<td>{{ row.Total_extra_provider }}</td>-->
+            <!--<td>{{ row.KM }}</td>-->
+            <!--<td>{{ row.Comments }}</td>-->
+            <!--<td>{{ row.Provider }}</td>-->
+            <!--<td>{{ row.Cost_per_client }}</td>-->
+            <!--<td>{{ row.Cost_per_provider }}</td>-->
+            <!--<td>{{ row.Cost_extra_hour_client }}</td>-->
+            <!--<td>{{ row.Cost_extra_hour_provider }}</td>-->
+            <!--<td>{{ row.Cost_transfer_client }}</td>-->
+            <!--<td>{{ row.Cost_transfer_provider }}</td>-->
+            <!--<td>{{ row.Cost_VIP_client }}</td>-->
+            <!--<td>{{ row.Cost_VIP_provider }}</td>-->
+            <!--<td>{{ row.Status }}</td>-->
+            <!--<td class="color_id">{{ row.Color }}</td>-->
 
 
-          </tr>
+          <!--</tr>-->
 
-    {% endfor %}
-  </tbody>
-</table>
+    <!--{% endfor %}-->
+  <!--</tbody>-->
+<!--</table>-->
 
 {% endblock %}

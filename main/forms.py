@@ -25,7 +25,7 @@ class main_list_form(forms.ModelForm):
         super(main_list_form, self).__init__(*args, **kwargs)
         self.fields['Project_num'].label = 'Project Number'
         self.fields['Customer'].label = 'Refernce custumer'
-        self.fields['Luggage'].label = 'Number of PAX & Lugage'
+        self.fields['Luggage'].label = 'Number of PAX & Luggage'
         self.fields['Start_time'].label = 'Imp Time /PU/ Start'
         self.fields['Cost_per_client'].label = 'מחיר ללקוח'
         self.fields['Cost_per_provider'].label = 'מחיר לספק'
@@ -38,7 +38,6 @@ class main_list_form(forms.ModelForm):
         # https://stackoverflow.com/questions/1513502/django-how-to-format-a-datefields-date-representation
         self.fields['Project_num'].widget.attrs.update({'style': 'width:100px'})
         self.fields['Date'].widget = forms.DateInput(attrs={'id': 'datepicker1'})
-        self.fields['Date'].widget.attrs.update({'style': 'width:100px'})
         self.fields['Based_on_client'].widget.attrs.update({'value': '9'})
         self.fields['Based_on_provider'].widget.attrs.update({'value': '10'})
         self.fields['Cost_extra_hour_client'].widget.attrs.update({'value': '50'})
