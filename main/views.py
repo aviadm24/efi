@@ -9,6 +9,7 @@ from django.utils import timezone
 from .models import main_list_model
 from django.http import JsonResponse
 from itertools import chain
+import json
 
 # https://stackoverflow.com/questions/20926403/heroku-rake-dbmigrate-results-in-error-r13-attach-error-failed-to-attach-t/21148716#21148716
 # http://jsfiddle.net/QLfMU/116/
@@ -45,8 +46,9 @@ def add_main_list(request):
         form = main_list_form(request.POST)
         if form.is_valid():
             # for key, value in form.cleaned_data.items():
-            #     if key == 'Date':
-            #         print('key: ', key, 'val: ', value)
+                # if key == 'Color':
+                #     value = '{}'
+                # print('key: ', key, 'val: ', value)
             form.save()
             messages.success(request, ('Your order was successfully updated!'))
             return redirect('add_main_list')
@@ -101,8 +103,66 @@ def customer_list(request):
     # context = {'p_num': p_num}
     return render(request, 'main/customer_group.html', {'field_names': field_names[1:], 'customer_group': customer_group})
 
-def add_color(request):
 
+def add_color_json(request):
+    color = request.GET.get('color')
+    if color == '':
+        id = request.GET.get('id')
+        td_id = request.GET.get('td_id')
+        text_color = request.GET.get('text_color')
+        print('text_color: ', text_color)
+
+        data = main_list_model.objects.filter(pk=id)
+        color_data = data.values()[0]['Color']
+        try:
+            color_json_load = json.loads(color_data)
+        except TypeError:
+            color_json_load = json.loads('{}')
+        print('color data: ', type(color_json_load))
+        print('color: ', color_json_load)
+
+        if text_color == 'true':
+            color_json_load.pop(td_id + '_text', None)
+            color_json = json.dumps(color_json_load)
+            main_list_model.objects.filter(pk=id).update(Color=color_json)
+            print('new text color: ', type(color_json))
+        else:
+            color_json_load.pop(td_id, None)
+            color_json = json.dumps(color_json_load)
+            main_list_model.objects.filter(pk=id).update(Color=color_json)
+            print('new color: ', type(color_json))
+
+    else:
+        id = request.GET.get('id')
+        td_id = request.GET.get('td_id')
+        text_color = request.GET.get('text_color')
+        print('text_color: ', text_color)
+
+        data = main_list_model.objects.filter(pk=id)
+        color_data = data.values()[0]['Color']
+        try:
+            color_json_load = json.loads(color_data)
+        except TypeError:
+            color_json_load = json.loads('{}')
+        print('color data: ', type(color_json_load))
+        if color_data == None:
+            color_data = {}
+        print('color: ', color_json_load)
+
+        if text_color == 'true':
+            color_json_load[td_id+'_text'] = color
+            color_json = json.dumps(color_json_load)
+            main_list_model.objects.filter(pk=id).update(Color=color_json)
+            print('new text color: ', type(color_json))
+        else:
+            color_json_load[td_id] = color
+            color_json = json.dumps(color_json_load)
+            main_list_model.objects.filter(pk=id).update(Color=color_json)
+            print('new color: ', type(color_json))
+
+    return JsonResponse({'is_taken': 'is_taken'})
+
+def add_color(request):
     color = request.GET.get('color')
     if color == '':
         pass
@@ -124,11 +184,6 @@ def add_color(request):
         else:
             main_list_model.objects.filter(pk=id).update(Color=old_color_data + td_id + '-' + color + '^')
             print('new color: ', td_id + '-' + color + '-' + '^')
-    # print('new_color: ', old_color + td_id + '-' + color + '^')
-
-    # data = {
-    #     'is_taken': main_list_model.objects.filter(pk=id).exists()
-    # }
 
     return JsonResponse({'is_taken': 'is_taken'})
 
