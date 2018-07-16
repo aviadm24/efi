@@ -23,7 +23,7 @@ class main_list_form(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(main_list_form, self).__init__(*args, **kwargs)
-        self.fields['Project_num'].label = 'Project Number'
+        # self.fields['Project_num'].label = 'Project Number'
         self.fields['Customer'].label = 'Refernce custumer'
         self.fields['Luggage'].label = 'Number of PAX & Luggage'
         self.fields['Start_time'].label = 'Imp Time /PU/ Start'

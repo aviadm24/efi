@@ -3,18 +3,15 @@ $(document).ready(function () {
 
 
 
-    $('tr').click(function () {
-        var color = $('#custom').val();
-
-        //Check to see if background color is set or if it's set to white.
-        $('#id_Color').val(color);
-        if(this.style.background == "" || this.style.background =="white") {
-            $(this).css('background', color);
-        }
-//        else {
-//            $(this).css('background', 'white');
+//    $('table.mainlist tr').click(function () {
+//        var color = $('#custom').val();
+//        console.log('main list tr')
+//        //Check to see if background color is set or if it's set to white.
+//        $('#id_Color').val(color);
+//        if(this.style.background == "" || this.style.background =="white") {
+//            $(this).css('background', color);
 //        }
-    });
+//    });
 
 
     $('table tr').each(function () {

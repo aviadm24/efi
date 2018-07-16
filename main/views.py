@@ -26,11 +26,15 @@ def add_main_list(request):
     field_names = [f.name for f in main_list_model._meta.get_fields()]
     now = timezone.now()
     #  https://stackoverflow.com/questions/7503241/django-models-selecting-single-field
-    # p_num_list = main_list_model.objects.values_list('Project_num', flat=True)
-    p_num_filterd_list = main_list_model.objects.filter(Date__gte=now).values_list('Project_num', flat=True)
-    for i in p_num_filterd_list:
-        print('p_num_filterd_list:', i)
-    customer_filterd_list = main_list_model.objects.filter(Date__gte=now).values_list('Customer', flat=True)
+    p_num_list = main_list_model.objects.values_list('Project_num', flat=True)
+    p_num_set = set(p_num_list)
+    # p_num_filterd_list = main_list_model.objects.filter(Date__gte=now).values_list('Project_num', flat=True)
+    customer_list = main_list_model.objects.values_list('Customer', flat=True)
+    customer_set = set(customer_list)
+    # for i in customer_list:
+    #     print('customer_list: ', i)
+    provider_list = main_list_model.objects.values_list('Provider', flat=True)
+    provider_set = set(provider_list)
 
     upcoming = main_list_model.objects.filter(Date__gte=now).order_by('Date')
     all = main_list_model.objects.all().order_by('Date')
@@ -58,7 +62,11 @@ def add_main_list(request):
     else:
         form = main_list_form
 
-    return render(request, 'main/main_list_model_form.html', {'form': form, 'field_names': field_names[1:], 'table': table, 'upcoming': upcoming, 'p_num_list': p_num_filterd_list, 'customer_list': customer_filterd_list})
+    return render(request, 'main/main_list_model_form.html', {'form': form, 'field_names': field_names[1:],
+                                                              'table': table, 'upcoming': upcoming,
+                                                              'p_num_list': p_num_set,
+                                                              'customer_list': customer_set,
+                                                              'provider_lsit': provider_list})
 
 def whole_list(request):
     field_names = [f.name for f in main_list_model._meta.get_fields()]
@@ -73,10 +81,10 @@ def search_list(request):
         form = main_list_form(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, ('Your order was successfully updated!'))
+            messages.success(request, 'Your order was successfully updated!')
             return redirect('add_main_list')
         else:
-            messages.error(request,('Please correct the error below.'))
+            messages.error(request, 'Please correct the error below')
     else:
         form = main_list_form
         field_names = [f.name for f in main_list_model._meta.get_fields()]
@@ -86,7 +94,8 @@ def search_list(request):
         upcoming = main_list_model.objects.filter(Date__gte=now).order_by('Date')
         # passed = transfer.objects.filter(Date__lt=now).order_by('Date')
         print(upcoming)
-    return render(request, 'main/main_list_model_form.html', {'form': form, 'field_names': field_names[1:],'upcoming': upcoming})
+    return render(request, 'main/main_list_model_form.html', {'form': form, 'field_names': field_names[1:],
+                                                              'upcoming': upcoming})
 
 def p_num_list(request):
     p_num = request.GET.get('p_num_list')
@@ -101,8 +110,74 @@ def customer_list(request):
     print('customer_list', customer_group)
     field_names = [f.name for f in main_list_model._meta.get_fields()]
     # context = {'p_num': p_num}
-    return render(request, 'main/customer_group.html', {'field_names': field_names[1:], 'customer_group': customer_group})
+    return render(request, 'main/customer_group.html', {'field_names': field_names[1:],
+                                                        'customer_group': customer_group})
 
+def add_dollar(request):
+    id = request.GET.get('id')
+    td_id = request.GET.get('td_id')
+    new_int = request.GET.get('new_int')
+    data = main_list_model.objects.filter(pk=id)
+    print('data: ', data.values())
+    td_data = data.values()[0][td_id]
+    print('td_data: ', td_data)
+
+    if td_id == 'Extra_KM_client':
+        main_list_model.objects.filter(pk=id).update(Extra_KM_client=new_int)
+    if td_id == 'Extra_KM_provider':
+        main_list_model.objects.filter(pk=id).update(Extra_KM_provider=new_int)
+    if td_id == 'Cost_per_client':
+        main_list_model.objects.filter(pk=id).update(Cost_per_client=new_int)
+    if td_id == 'Cost_per_provider':
+        main_list_model.objects.filter(pk=id).update(Cost_per_provider=new_int)
+    if td_id == 'Cost_transfer_client':
+        main_list_model.objects.filter(pk=id).update(Cost_transfer_client=new_int)
+
+    if td_id == 'Cost_transfer_provider':
+        main_list_model.objects.filter(pk=id).update(Cost_transfer_provider=new_int)
+    if td_id == 'Cost_extra_hour_client':
+        main_list_model.objects.filter(pk=id).update(Cost_extra_hour_client=new_int)
+    if td_id == 'Cost_extra_hour_provider':
+        main_list_model.objects.filter(pk=id).update(Cost_extra_hour_provider=new_int)
+    if td_id == 'Cost_VIP_client':
+        main_list_model.objects.filter(pk=id).update(Cost_VIP_client=new_int)
+    if td_id == 'Cost_VIP_provider':
+        main_list_model.objects.filter(pk=id).update(Cost_VIP_provider=new_int)
+
+    return JsonResponse({})
+
+def add_shekel(request):
+    id = request.GET.get('id')
+    td_id = request.GET.get('td_id')
+    new_int = request.GET.get('new_int')
+    data = main_list_model.objects.filter(pk=id)
+    print('data: ', data.values())
+    td_data = data.values()[0][td_id]
+    print('td_data: ', td_data)
+
+    if td_id == 'Extra_KM_client':
+        main_list_model.objects.filter(pk=id).update(Extra_KM_client=new_int)
+    if td_id == 'Extra_KM_provider':
+        main_list_model.objects.filter(pk=id).update(Extra_KM_provider=new_int)
+    if td_id == 'Cost_per_client':
+        main_list_model.objects.filter(pk=id).update(Cost_per_client=new_int)
+    if td_id == 'Cost_per_provider':
+        main_list_model.objects.filter(pk=id).update(Cost_per_provider=new_int)
+    if td_id == 'Cost_transfer_client':
+        main_list_model.objects.filter(pk=id).update(Cost_transfer_client=new_int)
+
+    if td_id == 'Cost_transfer_provider':
+        main_list_model.objects.filter(pk=id).update(Cost_transfer_provider=new_int)
+    if td_id == 'Cost_extra_hour_client':
+        main_list_model.objects.filter(pk=id).update(Cost_extra_hour_client=new_int)
+    if td_id == 'Cost_extra_hour_provider':
+        main_list_model.objects.filter(pk=id).update(Cost_extra_hour_provider=new_int)
+    if td_id == 'Cost_VIP_client':
+        main_list_model.objects.filter(pk=id).update(Cost_VIP_client=new_int)
+    if td_id == 'Cost_VIP_provider':
+        main_list_model.objects.filter(pk=id).update(Cost_VIP_provider=new_int)
+
+    return JsonResponse({})
 
 def add_color_json(request):
     color = request.GET.get('color')

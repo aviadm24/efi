@@ -3,27 +3,31 @@ $(document).ready(function() {
 //    $('.Color').hide();
     $('table#mainlist tbody tr').each(function () {
         var color_string = $(this).find(".Color").text();
-        console.log('color_string: '+color_string)
-        var obj = JSON.parse(color_string);
-        var color_list = color_string.split("^");
+        //console.log('color_string: '+color_string)
+        if (color_string != '—'){
+            //console.log(color_string=='—')
+            var obj = JSON.parse(color_string);
+        }
+
+        //var color_list = color_string.split("^");
         var row  = $(this);
         $.each(obj, function(key,val){
-            console.log("key : "+key+" ; value : "+val);
+            //console.log("key : "+key+" ; value : "+val);
 //            var color_list_split =  val.split("-")
 //               if (color_list_split.length > 1){
                if (key.endsWith('_text')){
-                    console.log('ends with text! '+key)
+                   //console.log('ends with text! '+key)
                    var new_key =  key.split("_")[0]
-                   console.log('new_key: '+new_key)
+                   //console.log('new_key: '+new_key)
                    var td = row.find("."+new_key);
-                   console.log('td: '+td)
+                   //console.log('td: '+td)
                    td.css('color', val);
                }else{
 //                   var td_class = key;
 //                   var color = color_list_split[0];
 //                   console.log('td_class: '+td_class)
                    var td = row.find("."+key);
-                   console.log('td: '+td.text())
+                   //console.log('td: '+td.text())
                    td.css('background', val);
                }
 
@@ -33,33 +37,64 @@ $(document).ready(function() {
 function light_for_transfer() {
     var transfer = $('#id_Type_of_service option:selected').text();
     // https://stackoverflow.com/questions/10613873/get-the-jquery-index-of-td-element
-    console.log('Type_of_service:' + transfer)
-    if(transfer == "TRN") {
-        $('th').css('color', 'rgb(0,0,0)');
-        $('th:nth-child(4),th:nth-child(5),th:nth-child(6),th:nth-child(7),th:nth-child(8),th:nth-child(10),th:nth-child(12),th:nth-child(13),th:nth-child(22),th:nth-child(23),th:nth-child(24),th:nth-child(31),th:nth-child(32)').css('color', 'rgb(34,200,200)');
-    }
-    if(transfer == "ARR" || transfer == "DEP") {
-        $('th:nth-child(2),th:nth-child(3),th:nth-child(4),th:nth-child(5),th:nth-child(6),th:nth-child(7),th:nth-child(8),th:nth-child(9),th:nth-child(10),th:nth-child(12),th:nth-child(13),th:nth-child(22),th:nth-child(23),th:nth-child(24),th:nth-child(31),th:nth-child(32)').css('color', 'rgb(34,200,200)');
-    }
-    if(transfer == "FT ARR" || transfer == "FT DEP") {
-        $('th').css('color', 'rgb(0,0,0)');
-        $('th:nth-child(2),th:nth-child(3),th:nth-child(4),th:nth-child(8),th:nth-child(9),th:nth-child(10),th:nth-child(21),th:nth-child(23),th:nth-child(24),th:nth-child(31)').css('color', 'rgb(34,200,200)');
-    }
+    //console.log('Type_of_service:' + transfer)
+    //console.log('FT DEP VIP'==transfer)
 
-    if(transfer == "---------") {
-        $('th').css('color', 'rgb(0,0,0)');
-    }
+    switch(transfer) {
+        case "FD":
+            $('th').css('color', 'rgb(0,0,0)');
+            $('th:nth-child(1),th:nth-child(2),th:nth-child(3),th:nth-child(4),th:nth-child(6),th:nth-child(7),th:nth-child(8),th:nth-child(9),th:nth-child(10),th:nth-child(12),th:nth-child(13),th:nth-child(14),th:nth-child(15),th:nth-child(16),th:nth-child(18),th:nth-child(21),th:nth-child(23),th:nth-child(27),th:nth-child(28),th:nth-child(31),th:nth-child(32)').css('color', 'rgb(34,200,200)');
+            break;
+        case "TRN":
+            $('th').css('color', 'rgb(0,0,0)');
+            $('th:nth-child(1),th:nth-child(2),th:nth-child(3),th:nth-child(4),th:nth-child(6),th:nth-child(7),th:nth-child(8),th:nth-child(9),th:nth-child(10),th:nth-child(12),th:nth-child(13),th:nth-child(14),th:nth-child(15),th:nth-child(16),th:nth-child(18),th:nth-child(27),th:nth-child(28)').css('color', 'rgb(34,200,200)');
+            break;
+        case "TRN ARR":
+        case "TRN DEP":
+            $('th').css('color', 'rgb(0,0,0)');
+            $('th:nth-child(1),th:nth-child(2),th:nth-child(3),th:nth-child(4),th:nth-child(6),th:nth-child(7),th:nth-child(8),th:nth-child(9),th:nth-child(10),th:nth-child(12),th:nth-child(13),th:nth-child(14),th:nth-child(15),th:nth-child(16),th:nth-child(18),th:nth-child(29),th:nth-child(30)').css('color', 'rgb(34,200,200)');
+            break;
+        case "FT ARR VIP":
+        case "FT DEP VIP":
+            $('th').css('color', 'rgb(0,0,0)');
+            $('th:nth-child(1),th:nth-child(2),th:nth-child(3),th:nth-child(4),th:nth-child(7),th:nth-child(9),th:nth-child(10),th:nth-child(16),th:nth-child(18),th:nth-child(33),th:nth-child(34)').css('color', 'rgb(34,200,200)');
+            break;
+
+
+
+
+        default:
+            $('th').css('color', 'rgb(0,0,0)');
+            //console.log('default');
+            break;
+        }
+//    if(transfer == "TRN") {
+//        $('th').css('color', 'rgb(0,0,0)');
+//        $('th:nth-child(4),th:nth-child(5),th:nth-child(6),th:nth-child(7),th:nth-child(8),th:nth-child(10),th:nth-child(12),th:nth-child(13),th:nth-child(22),th:nth-child(23),th:nth-child(24),th:nth-child(31),th:nth-child(32)').css('color', 'rgb(34,200,200)');
+//    }
+//    if(transfer == "ARR" || transfer == "DEP") {
+//        $('th:nth-child(2),th:nth-child(3),th:nth-child(4),th:nth-child(5),th:nth-child(6),th:nth-child(7),th:nth-child(8),th:nth-child(9),th:nth-child(10),th:nth-child(12),th:nth-child(13),th:nth-child(22),th:nth-child(23),th:nth-child(24),th:nth-child(31),th:nth-child(32)').css('color', 'rgb(34,200,200)');
+//    }
+//    if(transfer == "FT ARR" || transfer == "FT DEP") {
+//        $('th').css('color', 'rgb(0,0,0)');
+//        $('th:nth-child(2),th:nth-child(3),th:nth-child(4),th:nth-child(8),th:nth-child(9),th:nth-child(10),th:nth-child(21),th:nth-child(23),th:nth-child(24),th:nth-child(31)').css('color', 'rgb(34,200,200)');
+//    }
+//
+//    if(transfer == "---------") {
+//        $('th').css('color', 'rgb(0,0,0)');
+//    }
 }
 
 $('#id_Type_of_service').on("change", function (e) {
-    console.log('id_Type_of_service change')
+    //console.log('id_Type_of_service change')
     light_for_transfer();
 });
 
 
 $(document).ready(function () {
 
-    $('td').click(function () {
+    $('table#mainlist tbody tr td').click(function () {
+        //console.log('main list tr')
         var color = $('#custom').val();
         var color_method = $('#color_method').prop('checked')
 //        console.log('color_method: '+color_method)
@@ -67,7 +102,7 @@ $(document).ready(function () {
         var td_id = $(this).attr('class');
         //$('#id_Color').val(color);
         if (color_method == false){
-                console.log('color_method false')
+                //console.log('color_method false')
                 $.ajax({
                 url: '/ajax/add_color/',
                 data: {
@@ -86,7 +121,7 @@ $(document).ready(function () {
                 $(this).css('background', color);
 
             }else{
-                console.log('color_method true')
+                //console.log('color_method true')
                 $.ajax({
                 url: '/ajax/add_color/',
                 data: {
@@ -124,7 +159,7 @@ $(document).ready(function () {
         var id = $(this).closest('tr').find('.id').text();
         var td_id = $(this).attr('class');
         if (color_method == false){
-                console.log('color_method false')
+                //console.log('color_method false')
                 $.ajax({
                 url: '/ajax/add_color/',
                 data: {

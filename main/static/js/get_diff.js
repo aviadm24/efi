@@ -73,7 +73,7 @@ $('#id_Extra_hours_client, #id_Extra_hours_provider').on("change", function (e) 
 $(document).ready(function() {
     $('table#mainlist tbody tr').each(function () {
         var id = $(this).find("td").eq(0).html();
-        console.log('id: '+ id);
+//        console.log('id: '+ id);
         $(this).find("td").eq(0).html('<a href="/update_row/'+id+'">'+id+'</a>');
     });
 });

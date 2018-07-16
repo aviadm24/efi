@@ -7,17 +7,13 @@
 <input type='text' id="custom" />
 <label>תצוגת כתב</label>
 <input type="checkbox" id="color_method">
+<label>dollar mode</label>
+<input type="checkbox" id="dollar_mode">
+
 <a type="button" class="btn btn-info" href="{% url 'whole_list' %}">whole list</a>
 
-<form action="{% url 'customer_list' %}" method="get" accept-charset="utf-8">
-    <select id="customer" name="customer_list" onChange="">
-      <option  value="" selected="selected">---SELECT---</option>
-      {% for customer in customer_list %}
-       <option value="{{customer}}">{{customer|capfirst}}</option>
-      {% endfor %}
-    </select>
-    <input type="submit" value="Select by customer name">
-</form>
+
+
 
 <!--<form id="searchform" action="{% url 'p_num_list' %}" method="get" accept-charset="utf-8">-->
   <!--<button class="searchbutton" type="submit">-->
@@ -25,15 +21,17 @@
   <!--</button>-->
   <!--<input class="searchfield" id="searchbox" name="q" type="text" placeholder="Search">-->
 <!--</form>-->
-<form action="{% url 'p_num_list' %}" method="get" accept-charset="utf-8">
-    <select id="p_num" name="p_num_list" onChange="">
-      <option  value="" selected="selected">---SELECT---</option>
-      {% for p_num in p_num_list %}
-       <option value="{{p_num}}">{{p_num|capfirst}}</option>
-      {% endfor %}
-    </select>
-    <input type="submit" value="Select by project number">
-</form>
+
+
+<!--<form action="{% url 'p_num_list' %}" method="get" accept-charset="utf-8">-->
+    <!--<select id="p_num" name="p_num_list" onChange="">-->
+      <!--<option  value="" selected="selected">-&#45;&#45;SELECT-&#45;&#45;</option>-->
+      <!--{% for p_num in p_num_list %}-->
+       <!--<option value="{{p_num}}">{{p_num|capfirst}}</option>-->
+      <!--{% endfor %}-->
+    <!--</select>-->
+    <!--<input type="submit" value="Select by project number">-->
+<!--</form>-->
 
 
 <h3>add to list</h3>
@@ -84,8 +82,56 @@
 <input type="submit" value="שמור" />
 </form>
 
+<select id="p_num" name="p_num_list" onChange="project_filter()">
+  <option  value="" selected="selected">---SELECT---</option>
+  {% for p_num in p_num_list %}
+   <option value="{{p_num}}">{{p_num|capfirst}}</option>
+  {% endfor %}
+</select>
+<select id="customer" name="customer_list" onChange="customer_filter()">
+  <option  value="" selected="selected">---SELECT---</option>
+  {% for customer in customer_list %}
+   <option value="{{customer}}">{{customer|capfirst}}</option>
+  {% endfor %}
+</select>
+<select id="provider" name="provider_list" onChange="provider_filter()">
+  <option  value="" selected="selected">---SELECT---</option>
+  {% for provider in provider_list %}
+   <option value="{{customer}}">{{provider|capfirst}}</option>
+  {% endfor %}
+</select>
+
+<button id="reset">reset</button>
 <h3>main list</h3>
 {% render_table table %}
+
+<table class="table table-bordered" id="sum_list">
+  <thead>
+    <tr>
+        <th>מחיר ללקוח</th>
+        <th>מחיר לספק</th>
+        <th>מחיר טרנספר ללקוח</th>
+        <th>מחיר טרנספר לספק</th>
+        <th>מחיר שעה נוספת ללקוח</th>
+        <th>מחיר שעה נוספת לספק</th>
+        <th>מחיר VIP ללקוח</th>
+        <th>מחיר VIP לספק</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td id="Cost_per_client"></td>
+        <td id="Cost_per_provider"></td>
+        <td id="Cost_transfer_client"></td>
+        <td id="Cost_transfer_provider"></td>
+        <td id="Cost_extra_hour_client"></td>
+        <td id="Cost_extra_hour_provider"></td>
+        <td id="Cost_VIP_client"></td>
+        <td id="Cost_VIP_provider"></td>
+      </tr>
+   </tbody>
+</table>
+
 <!--<table class="table table-bordered" id="main_list">-->
   <!--<thead>-->
     <!--<tr>-->

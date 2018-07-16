@@ -1,6 +1,4 @@
 {% load staticfiles %}
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,7 +30,7 @@
     <!--<link rel="stylesheet" href="{% static 'css/bs4-datetimepicker.min.css' %}" />-->
     <!--<script defer src="{% static 'js/fontawesome-all.js' %}"></script>-->
     <script defer src="{% static 'js/get_diff.js' %}"></script>
-    <!--<script defer src="{% static 'js/get_set_color.js' %}"></script>-->
+
   </head>
 
   <body>
@@ -50,6 +48,11 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha18/js/tempusdominus-bootstrap-4.min.js"></script>
     <!--<script type="text/javascript" src="{% static 'js/bs4-datetimepicker.min.js' %}"></script>-->
     <script src="{% static 'js/table_colors.js' %}"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    <script defer src="{% static 'js/table_filter.js' %}"></script>
+    <script defer src="{% static 'js/add_dollar_shekel.js' %}"></script>
+
 
 
 
@@ -82,6 +85,10 @@
         $("#custom").spectrum({
           preferredFormat: "rgb",
         });
+
+        $(document).ready(function() {
+            $('#mainlist').DataTable();
+        } );
 
 
     </script>
