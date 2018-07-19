@@ -1,4 +1,17 @@
 
+$('#datetimepicker1').on("change.datetimepicker", function (e) {
+    var date = $('#datetimepicker1').datetimepicker('viewDate');
+    console.log('date: '+moment(date).format("dddd, MMMM DD YYYY"));
+    //var today = new Date(date.getFullYear(), date.getMonth(), date.getDate()+1);
+    $('#id_Start_time').datetimepicker({
+        defaultDate: moment(date).format("dddd, MMMM DD YYYY")
+    })
+    $('#id_End_time').datetimepicker({
+        defaultDate: moment(date).format("dddd, MMMM DD YYYY")
+    })
+});
+
+
 function get_diff(){
     var start = $("#id_Start_time").val();
     var end = $("#id_End_time").val();
@@ -45,8 +58,8 @@ function get_cost(){
 
 // https://stackoverflow.com/questions/47490154/how-can-i-get-date-object-from-a-bootstrap-datetime-picker-plugin
 $('#End_time').on("change.datetimepicker", function (e) {
-      //date = $('#datetimepicker1').datetimepicker('viewDate');
-      //console.log('change to: '+date);
+//      date = $('#datetimepicker1').datetimepicker('viewDate');
+//      console.log('change to: '+date);
       get_diff();
    	  //$('#getDate').text(date);
    });

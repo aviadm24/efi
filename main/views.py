@@ -1,16 +1,19 @@
 from django.shortcuts import render, redirect, render_to_response
 from django.contrib import messages
-from .forms import main_list_form
+from .forms import main_list_form, UploadFileForm
 from django.forms import formset_factory
 from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy, reverse
 from django.utils import timezone
-from .models import main_list_model
+from .models import main_list_model, Provider_data
 from django.http import JsonResponse
 from itertools import chain
 import json
-
+import csv
+import io
+from django.db import IntegrityError
+# import codecs
 # https://stackoverflow.com/questions/20926403/heroku-rake-dbmigrate-results-in-error-r13-attach-error-failed-to-attach-t/21148716#21148716
 # http://jsfiddle.net/QLfMU/116/
 from django_tables2 import RequestConfig
@@ -21,6 +24,74 @@ def table_view(request):
     RequestConfig(request).configure(table)
     return render(request, 'main/table_view.html', {'table': table})
 
+def handle_uploaded_file():
+    pass
+
+def upload_file(request):
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            # handle_uploaded_file(request.FILES['file'])
+            csvfile = request.FILES['file']
+            # dialect = csv.Sniffer().sniff(codecs.EncodedFile(csvfile, "utf-8").read(1024).decode('utf-8'))
+            # https: // stackoverflow.com / questions / 29663749 / typeerror - cant - use - a - string - pattern - on - a - bytes - like - object - api
+            # csvfile.open()
+            # reader = csv.reader(codecs.EncodedFile(csvfile, "utf-8"), delimiter=',', dialect=dialect)
+
+            # very important!!!
+            # https://andromedayelton.com/2017/04/25/adventures-with-parsing-django-uploaded-csv-files-in-python3/
+            csvfile.seek(0)
+            file_reader = csv.DictReader(io.StringIO(csvfile.read().decode('utf-8')))
+
+            for num, row in enumerate(file_reader):
+                if row['\ufeffשם ספק'] != '':
+                    try:
+                        Provider = Provider_data()
+                        print('name: ', row['\ufeffשם ספק'])
+                        name = row['\ufeffשם ספק']
+                        Provider.Provider_name = name
+                        mail = row['כתובות מייל']
+                        if mail == '':
+                            mail = 'חסר'
+                        Provider.email = mail
+                        phone = row['טלפון']
+                        if phone == '':
+                            phone = 'חסר'
+                        Provider.phone_num = phone
+                        city = row['עיר']
+                        if city == '':
+                            city = 'חסר'
+                        Provider.city = city
+                        address = row['כתובת']
+                        if address == '':
+                            address = 'חסר'
+                        Provider.address = address
+                        id_num = row['מספר עוסק']
+                        if id_num == '':
+                            id_num = 'חסר'
+                        print('id num: ', id_num)
+                        Provider.id_num = id_num
+                        contact = row['שם איש קשר']
+                        if contact == '':
+                            contact = 'חסר'
+                        Provider.contact = contact
+                        used_a_lot = row['ספק']
+                        if used_a_lot == 'סס':
+                            Provider.used_a_lot = True
+                        Provider.save()
+                    except IntegrityError:
+                        print('IntegrityError: ', row['\ufeffשם ספק'])
+            # data = file_reader[0]
+
+            # file_reader = csv.reader(csvfile, delimiter=',')
+            # for row in file_reader:
+            #     print(row)
+
+
+            return render(request, 'main/upload.html', locals())
+    else:
+        form = UploadFileForm()
+    return render(request, 'main/upload.html', {'form': form})
 
 def add_main_list(request):
     field_names = [f.name for f in main_list_model._meta.get_fields()]

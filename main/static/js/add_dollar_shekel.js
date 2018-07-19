@@ -23,7 +23,7 @@ $("#mainlist tbody tr td").bind("contextmenu",function(e) {
             }else{
                 var new_text = text.replace('$','');
             }
-            var int_to_save_in_db = parseInt(new_text+ '00')
+            var int_to_save_in_db = parseInt(new_text+ '33')
             console.log('int_to_save_in db:'+ int_to_save_in_db)
             $(this).text('$'+ new_text);
             $.ajax({
@@ -41,7 +41,7 @@ $("#mainlist tbody tr td").bind("contextmenu",function(e) {
             }else{
                 var new_text = text.replace('₪','');
             }
-            var int_to_save_in_db = parseInt(new_text+ '01')
+            var int_to_save_in_db = parseInt(new_text+ '34')
             console.log('int_to_save_in db:'+ int_to_save_in_db)
             $(this).text('₪'+ new_text);
             $.ajax({
@@ -67,10 +67,10 @@ $(document).ready(function () {
         var doll_or_shek = from_db % 100;
         var new_var = (from_db/100).toFixed(0)
 
-        if (from_db != '—' && new_var>2){
+        if (from_db != '—' && doll_or_shek==33 || doll_or_shek==34){
             console.log('from_db '+ from_db)
             console.log('new var: '+ new_var)
-            if (doll_or_shek == 0){
+            if (doll_or_shek == 33){
                 $(this).text('$'+ new_var);
             }else{
                 $(this).text('₪'+ new_var);

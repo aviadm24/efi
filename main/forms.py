@@ -1,5 +1,5 @@
-from .models import Service_data, Car_data, Provider_data \
-                    , Driver_data, Customer_data, Flight_data, main_list_model, Status_data
+from .models import Service_data, Car_data, Provider_data,\
+    Driver_data, Customer_data, Flight_data, main_list_model, Status_data
 from django import forms
 from .utils import OptionalChoiceField
 from django.contrib.admin import widgets
@@ -7,6 +7,12 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, Div
 # how to use helper crispy forms
 # https://stackoverflow.com/questions/18680063/change-input-types-and-attributes-for-a-form-used-in-a-createview-and-updatevi
+
+
+class UploadFileForm(forms.Form):
+    title = forms.CharField(max_length=50)
+    file = forms.FileField()
+
 
 class main_list_form(forms.ModelForm):
     Customer = forms.ModelChoiceField(queryset=Customer_data.objects.all(), required=False)

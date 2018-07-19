@@ -22,6 +22,7 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.add_main_list, name='add_main_list'),
+    url(r'^upload$', views.upload_file, name='upload'),
     url(r'^search_list$', views.search_list, name='search_list'),
     url(r'^p_num_list$', views.p_num_list, name='p_num_list'),
     url(r'^customer_list$', views.customer_list, name='customer_list'),

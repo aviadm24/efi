@@ -89,15 +89,17 @@ class Flight_data(models.Model):  # new
 
 
 class Customer_data(models.Model):  # new
-    Customer = models.CharField(max_length=256, blank=True, unique=True)
+    Customer_name = models.CharField(max_length=256, blank=True, unique=True)
     email = models.EmailField(max_length=70, blank=True, unique=True)
     phone_num = models.CharField(max_length=20, blank=True, unique=True)
     address = models.CharField(max_length=256, blank=True)
+    city = models.CharField(max_length=50, blank=True)
     contact = models.CharField(max_length=50, blank=True)
-
+    id_num = models.CharField(max_length=20, blank=True, unique=True)
+    used_a_lot = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.Customer
+        return self.Customer_name
 
 
 class Driver_data(models.Model):
@@ -113,15 +115,17 @@ class Driver_data(models.Model):
 
 
 class Provider_data(models.Model):
-    Provider = models.CharField(max_length=256, blank=True, unique=True)
+    Provider_name = models.CharField(max_length=256, blank=True, unique=True)
     email = models.EmailField(max_length=70, blank=True, unique=True)
     phone_num = models.CharField(max_length=20, blank=True, unique=True)
     address = models.CharField(max_length=256, blank=True)
+    city = models.CharField(max_length=50, blank=True)
     contact = models.CharField(max_length=50, blank=True)
     id_num = models.CharField(max_length=20, blank=True, unique=True)
+    used_a_lot = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.Provider
+        return self.Provider_name
 
 
 class Car_data(models.Model):

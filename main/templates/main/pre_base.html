@@ -50,13 +50,34 @@
     <script src="{% static 'js/table_colors.js' %}"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-    <script defer src="{% static 'js/table_filter.js' %}"></script>
+
     <script defer src="{% static 'js/add_dollar_shekel.js' %}"></script>
+    <script defer src="{% static 'js/table_filter.js' %}"></script>
 
 
 
 
    <script type="text/javascript">
+
+        $(function () {
+            $('#datetimepicker1').datetimepicker({
+              format: "dddd, MMMM DD YYYY"
+            });
+        });
+
+        //https://stackoverflow.com/questions/41716125/set-min-date-in-bootstrap-datetimepicker-2
+        //https://stackoverflow.com/questions/30891880/set-date-in-bootstrap-datetimepicker-input
+        //https://momentjs.com/docs/
+
+        //$('#datetimepicker1').on("change.datetimepicker", function (e) {
+        //    var date = $('#Start_time').val();
+        //    console.log('date: '+date);
+            //var today = new Date(date.getFullYear(), date.getMonth(), date.getDate()+1);
+        //    $('#Start_time').datetimepicker({
+        //        defaultDate: date
+        //    })
+        //});
+
         $(function () {
             $('#Start_time').datetimepicker({
               format: 'YYYY-MM-DD HH:mm'
@@ -69,11 +90,6 @@
             });
         });
 
-        $(function () {
-            $('#datetimepicker1').datetimepicker({
-              format: 'L'
-            });
-        });
 
         //$(function () {
         //    $('#id_Date').datetimepicker({

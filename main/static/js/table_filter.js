@@ -12,7 +12,9 @@ function sum_price(cla){
         if (value.includes('₪')){
             var new_value = parseInt(value.replace('₪',''));
         }else{
+            if (value.includes('$')){
             var new_value = parseInt(value.replace('$',''));
+            }
         }
 
 
@@ -22,7 +24,9 @@ function sum_price(cla){
             if(value.includes("$")){
                 sum_dollar += parseFloat(new_value);
             }else{
+                if (value.includes('₪')){
                 sum_shekel += parseFloat(new_value);
+                }
             }
         }
     });

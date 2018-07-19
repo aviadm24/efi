@@ -82,24 +82,48 @@
 <input type="submit" value="שמור" />
 </form>
 
-<select id="p_num" name="p_num_list" onChange="project_filter()">
-  <option  value="" selected="selected">---SELECT---</option>
-  {% for p_num in p_num_list %}
-   <option value="{{p_num}}">{{p_num|capfirst}}</option>
-  {% endfor %}
-</select>
-<select id="customer" name="customer_list" onChange="customer_filter()">
-  <option  value="" selected="selected">---SELECT---</option>
-  {% for customer in customer_list %}
-   <option value="{{customer}}">{{customer|capfirst}}</option>
-  {% endfor %}
-</select>
-<select id="provider" name="provider_list" onChange="provider_filter()">
-  <option  value="" selected="selected">---SELECT---</option>
-  {% for provider in provider_list %}
-   <option value="{{customer}}">{{provider|capfirst}}</option>
-  {% endfor %}
-</select>
+<table class="table table-bordered" id="sum_list">
+  <thead>
+    <tr>
+        <th>project_filter</th>
+        <th>customer_filter</th>
+        <th>provider_filter</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td>
+            <select id="p_num" name="p_num_list" onChange="project_filter()">
+              <option  value="" selected="selected">---SELECT---</option>
+              {% for p_num in p_num_list %}
+               <option value="{{p_num}}">{{p_num|capfirst}}</option>
+              {% endfor %}
+            </select>
+        </td>
+        <td>
+            <select id="customer" name="customer_list" onChange="customer_filter()">
+              <option  value="" selected="selected">---SELECT---</option>
+              {% for customer in customer_list %}
+               <option value="{{customer}}">{{customer|capfirst}}</option>
+              {% endfor %}
+            </select>
+        </td>
+        <td>
+            <select id="provider" name="provider_list" onChange="provider_filter()">
+              <option  value="" selected="selected">---SELECT---</option>
+              {% for provider in provider_list %}
+               <option value="{{customer}}">{{provider|capfirst}}</option>
+              {% endfor %}
+            </select>
+        </td>
+     </tr>
+   </tbody>
+</table>
+
+
+
+
+
 
 <button id="reset">reset</button>
 <h3>main list</h3>
