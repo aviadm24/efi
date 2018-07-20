@@ -6,7 +6,7 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy, reverse
 from django.utils import timezone
-from .models import main_list_model, Provider_data
+from .models import main_list_model, Provider_data, Customer_data
 from django.http import JsonResponse
 from itertools import chain
 import json
@@ -42,10 +42,11 @@ def upload_file(request):
             # https://andromedayelton.com/2017/04/25/adventures-with-parsing-django-uploaded-csv-files-in-python3/
             csvfile.seek(0)
             file_reader = csv.DictReader(io.StringIO(csvfile.read().decode('utf-8')))
-
-            for num, row in enumerate(file_reader):
-                if row['\ufeffשם ספק'] != '':
-                    try:
+            if csvfile.name == 'csv_data.csv':
+                for num, row in enumerate(file_reader):
+                    if row['\ufeffשם ספק'] != '':
+                        print('num: ', num, 'name: ',  row['\ufeffשם ספק'])
+                        # try:
                         Provider = Provider_data()
                         print('name: ', row['\ufeffשם ספק'])
                         name = row['\ufeffשם ספק']
@@ -79,8 +80,53 @@ def upload_file(request):
                         if used_a_lot == 'סס':
                             Provider.used_a_lot = True
                         Provider.save()
-                    except IntegrityError:
-                        print('IntegrityError: ', row['\ufeffשם ספק'])
+                        # except IntegrityError:
+                        #     print('row: ', row)
+                        #     print('IntegrityError: ', row['\ufeffשם ספק'])
+            else:
+                print('file name: ', csvfile.name)
+                for num, row in enumerate(file_reader):
+                    print('row: ', num)
+                    if row['\ufeffשם לקוח'] != '':
+                        try:
+                            Customer = Customer_data()
+                            # print('name: ', row['\ufeffשם לקוח'])
+                            name = row['\ufeffשם לקוח']
+                            if '"' in name:
+                                print('bad name: ', name)
+                                name = '-'.join(name.split('"'))
+                            Customer.Customer_name = name
+                            mail = row['כתובות מייל']
+                            if mail == '':
+                                mail = 'חסר'
+                            Customer.email = mail
+                            phone = row['טלפון']
+                            if phone == '':
+                                phone = 'חסר'
+                            Customer.phone_num = phone
+                            city = row['עיר']
+                            if city == '':
+                                city = 'חסר'
+                            Customer.city = city
+                            address = row['כתובת']
+                            if address == '':
+                                address = 'חסר'
+                            Customer.address = address
+                            id_num = row['מספר עוסק']
+                            if id_num == '':
+                                id_num = 'חסר'
+                            print('id num: ', id_num)
+                            Customer.id_num = id_num
+                            contact = row['שם איש קשר']
+                            if contact == '':
+                                contact = 'חסר'
+                            Customer.contact = contact
+                            used_a_lot = row['לקוח']
+                            if used_a_lot == 'לל':
+                                Customer.used_a_lot = True
+                            Customer.save()
+                        except IntegrityError:
+                            print('IntegrityError: ', row['\ufeffשם לקוח'])
             # data = file_reader[0]
 
             # file_reader = csv.reader(csvfile, delimiter=',')

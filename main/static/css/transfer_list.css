@@ -71,6 +71,14 @@
     width:60px;
 }
 
+#id_Extra_KM_client{
+    width:60px;
+}
+
+#id_Extra_KM_provider{
+    width:60px;
+}
+
 #id_Comments{
     width:100px;
     height:100px;
