@@ -90,12 +90,12 @@ class Flight_data(models.Model):  # new
 
 class Customer_data(models.Model):  # new
     Customer_name = models.CharField(max_length=256, blank=True, unique=True)
-    email = models.EmailField(max_length=70, blank=True, unique=False)
-    phone_num = models.CharField(max_length=20, blank=True, unique=False)
+    email = models.EmailField(max_length=250, blank=True, unique=False)
+    phone_num = models.CharField(max_length=80, blank=True, unique=False)
     address = models.CharField(max_length=256, blank=True, unique=False)
     city = models.CharField(max_length=50, blank=True, unique=False)
     contact = models.CharField(max_length=50, blank=True, unique=False)
-    id_num = models.CharField(max_length=20, blank=True, unique=False)
+    id_num = models.CharField(max_length=30, blank=True, unique=False)
     used_a_lot = models.BooleanField(default=False)
 
     def __str__(self):
@@ -104,11 +104,11 @@ class Customer_data(models.Model):  # new
 
 class Driver_data(models.Model):
     Driver = models.CharField(max_length=256, blank=True, unique=True)
-    email = models.EmailField(max_length=70, blank=True, unique=False)
-    phone_num = models.CharField(max_length=20, blank=True, unique=False)
+    email = models.EmailField(max_length=250, blank=True, unique=False)
+    phone_num = models.CharField(max_length=80, blank=True, unique=False)
     address = models.CharField(max_length=256, blank=True, unique=False)
     contact = models.CharField(max_length=50, blank=True, unique=False)
-    id_num = models.CharField(max_length=20, blank=True, unique=False)
+    id_num = models.CharField(max_length=30, blank=True, unique=False)
 
     def __str__(self):
         return self.Driver
@@ -116,12 +116,12 @@ class Driver_data(models.Model):
 
 class Provider_data(models.Model):
     Provider_name = models.CharField(max_length=256, blank=True, unique=True)
-    email = models.EmailField(max_length=70, blank=True, unique=False)
-    phone_num = models.CharField(max_length=20, blank=True, unique=False)
+    email = models.EmailField(max_length=250, blank=True, unique=False)
+    phone_num = models.CharField(max_length=80, blank=True, unique=False)
     address = models.CharField(max_length=256, blank=True, unique=False)
     city = models.CharField(max_length=50, blank=True, unique=False)
     contact = models.CharField(max_length=50, blank=True, unique=False)
-    id_num = models.CharField(max_length=20, blank=True, unique=False)
+    id_num = models.CharField(max_length=30, blank=True, unique=False)
     used_a_lot = models.BooleanField(default=False)
 
     def __str__(self):
