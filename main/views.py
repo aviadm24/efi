@@ -6,7 +6,8 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy, reverse
 from django.utils import timezone
-from .models import main_list_model, Provider_data, Customer_data
+from .models import main_list_model, Provider_data, Customer_data, From_data, To_data, Yeruka2_data, Yeruka_data,\
+    Status_data, Service_data, Car_data
 from django.http import JsonResponse
 from itertools import chain
 import json
@@ -41,29 +42,67 @@ def upload_file(request):
             # very important!!!
             # https://andromedayelton.com/2017/04/25/adventures-with-parsing-django-uploaded-csv-files-in-python3/
             csvfile.seek(0)
-            file_reader = csv.DictReader(io.StringIO(csvfile.read().decode('utf-8')))
+            # file_reader = csv.DictReader(io.StringIO(csvfile.read().decode('utf-8')))
+            file_reader = csv.reader(io.StringIO(csvfile.read().decode('utf-8')))
             if csvfile.name == 'model_data.csv':
                 for num, row in enumerate(file_reader):
-                    print('row: ',row)
-                    # if row['\ufeffשם ספק'] != '':
-                    #     print('num: ', num, 'name: ',  row['\ufeffשם ספק'])
-                    #     # try:
-                    #     Provider = Provider_data()
-                    #     print('name: ', row['\ufeffשם ספק'])
-                    #     name = row['\ufeffשם ספק']
-                    #     Provider.Provider_name = name
-                    #     mail = row['כתובות מייל']
-                    #     if mail == '':
-                    #         mail = 'חסר'
-                    #     Provider.email = mail
-                    #     phone = row['טלפון']
-                    #     if phone == '':
-                    #         phone = 'חסר'
-                    #     Provider.phone_num = phone
-                    #     city = row['עיר']
-                    #     if city == '':
-                    #         city = 'חסר'
-                    #     Provider.city = city
+                    # print('row: ',row)
+                    if row[0] == '\ufeffType of service':
+                        for data in row[1:]:
+                            try:
+                                Ser = Service_data()
+                                Ser.Service = data
+                                Ser.save()
+                            except IntegrityError:
+                                pass
+                    elif row[0] == 'From':
+                        for data in row[1:]:
+                            try:
+                                Fr = From_data()
+                                Fr.From = data
+                                Fr.save()
+                            except IntegrityError:
+                                pass
+                    elif row[0] == 'To':
+                        for data in row[1:]:
+                            try:
+                                T = To_data()
+                                T.To = data
+                                T.save()
+                            except IntegrityError:
+                                pass
+                    elif row[0] == 'Yeruka':
+                        for data in row[1:]:
+                            try:
+                                Yer = Yeruka_data()
+                                Yer.Yeruka = data
+                                Yer.save()
+                            except IntegrityError:
+                                pass
+                    elif row[0] == 'Yeruka2':
+                        for data in row[1:]:
+                            try:
+                                Yer2 = Yeruka2_data()
+                                Yer2.Yeruka2 = data
+                                Yer2.save()
+                            except IntegrityError:
+                                pass
+                    elif row[0] == 'Status':
+                        for data in row[1:]:
+                            try:
+                                Sta = Status_data()
+                                Sta.Status = data
+                                Sta.save()
+                            except IntegrityError:
+                                pass
+                    elif row[0] == 'Type of car':
+                        for data in row[1:]:
+                            try:
+                                Ca = Car_data()
+                                Ca.Car = data
+                                Ca.save()
+                            except IntegrityError:
+                                pass
             elif csvfile.name == 'csv_data.csv':
                 for num, row in enumerate(file_reader):
                     if row['\ufeffשם ספק'] != '':
@@ -188,10 +227,8 @@ def add_main_list(request):
         print('main list - post')
         form = main_list_form(request.POST)
         if form.is_valid():
-            # for key, value in form.cleaned_data.items():
-                # if key == 'Color':
-                #     value = '{}'
-                # print('key: ', key, 'val: ', value)
+            for key, value in form.cleaned_data.items():
+                print('key: ', key, 'val: ', value)
             form.save()
             messages.success(request, ('Your order was successfully updated!'))
             return redirect('add_main_list')
@@ -205,7 +242,7 @@ def add_main_list(request):
                                                               'table': table, 'upcoming': upcoming,
                                                               'p_num_list': p_num_set,
                                                               'customer_list': customer_set,
-                                                              'provider_lsit': provider_list})
+                                                              'provider_list': provider_list})
 
 def whole_list(request):
     field_names = [f.name for f in main_list_model._meta.get_fields()]

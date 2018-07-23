@@ -10,7 +10,7 @@ from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, Div
 
 
 class UploadFileForm(forms.Form):
-    title = forms.CharField(max_length=50)
+    # title = forms.CharField(max_length=50)
     file = forms.FileField()
 
 
@@ -31,8 +31,9 @@ class main_list_form(forms.ModelForm):
         super(main_list_form, self).__init__(*args, **kwargs)
         # self.fields['Project_num'].label = 'Project Number'
         self.fields['Customer'].label = 'Refernce custumer'
+        self.fields['Customer'].widget.attrs.update({'class': 'js_tags'})
         self.fields['Luggage'].label = 'Number of PAX & Luggage'
-        self.fields['Start_time'].label = 'Imp Time /PU/ Start'
+        # self.fields['Start_time'].label = 'Start_time'
         self.fields['Cost_per_client'].label = 'מחיר ללקוח'
         self.fields['Cost_per_provider'].label = 'מחיר לספק'
         self.fields['Cost_extra_hour_client'].label = 'מחיר שעה נוספת ללקוח'

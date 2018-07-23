@@ -119,8 +119,8 @@ class Provider_data(models.Model):
     email = models.EmailField(max_length=250, blank=True, unique=False)
     phone_num = models.CharField(max_length=80, blank=True, unique=False)
     address = models.CharField(max_length=256, blank=True, unique=False)
-    city = models.CharField(max_length=50, blank=True, unique=False)
-    contact = models.CharField(max_length=50, blank=True, unique=False)
+    city = models.CharField(max_length=100, blank=True, unique=False)
+    contact = models.CharField(max_length=100, blank=True, unique=False)
     id_num = models.CharField(max_length=30, blank=True, unique=False)
     used_a_lot = models.BooleanField(default=False)
 
