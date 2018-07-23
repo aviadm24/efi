@@ -43,8 +43,8 @@ def upload_file(request):
             # https://andromedayelton.com/2017/04/25/adventures-with-parsing-django-uploaded-csv-files-in-python3/
             csvfile.seek(0)
             # file_reader = csv.DictReader(io.StringIO(csvfile.read().decode('utf-8')))
-            file_reader = csv.reader(io.StringIO(csvfile.read().decode('utf-8')))
             if csvfile.name == 'model_data.csv':
+                file_reader = csv.reader(io.StringIO(csvfile.read().decode('utf-8')))
                 for num, row in enumerate(file_reader):
                     # print('row: ',row)
                     if row[0] == '\ufeffType of service':
@@ -104,6 +104,7 @@ def upload_file(request):
                             except IntegrityError:
                                 pass
             elif csvfile.name == 'csv_data.csv':
+                file_reader = csv.DictReader(io.StringIO(csvfile.read().decode('utf-8')))
                 for num, row in enumerate(file_reader):
                     if row['\ufeffשם ספק'] != '':
                         print('num: ', num, 'name: ',  row['\ufeffשם ספק'])
@@ -146,6 +147,7 @@ def upload_file(request):
                         #     print('IntegrityError: ', row['\ufeffשם ספק'])
             else:
                 print('file name: ', csvfile.name)
+                file_reader = csv.DictReader(io.StringIO(csvfile.read().decode('utf-8')))
                 for num, row in enumerate(file_reader):
                     print('row: ', num)
                     if row['\ufeffשם לקוח'] != '':
