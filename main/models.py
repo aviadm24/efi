@@ -147,7 +147,35 @@ class Status_data(models.Model):
     def __str__(self):
         return self.Status
 
-# class Proj(models.Model):
+
+class Yeruka_data(models.Model):
+    Yeruka = models.CharField(max_length=256, blank=True, unique=True)
+
+    def __str__(self):
+        return self.Yeruka
+
+
+class Yeruka2_data(models.Model):
+    Yeruka2 = models.CharField(max_length=256, blank=True, unique=True)
+
+    def __str__(self):
+        return self.Yeruka2
+
+
+class To_data(models.Model):
+    To = models.CharField(max_length=256, blank=True, unique=True)
+
+    def __str__(self):
+        return self.To
+
+
+class From_data(models.Model):
+    From = models.CharField(max_length=256, blank=True, unique=True)
+
+    def __str__(self):
+        return self.From
+
+                # class Proj(models.Model):
 #     Proj_name = models.CharField(max_length=100, blank=True, null=True, unique=True)
 #     Date = models.DateField(blank=True, null=True)
 #

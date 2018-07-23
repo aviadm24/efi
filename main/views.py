@@ -42,7 +42,29 @@ def upload_file(request):
             # https://andromedayelton.com/2017/04/25/adventures-with-parsing-django-uploaded-csv-files-in-python3/
             csvfile.seek(0)
             file_reader = csv.DictReader(io.StringIO(csvfile.read().decode('utf-8')))
-            if csvfile.name == 'csv_data.csv':
+            if csvfile.name == 'model_data.csv':
+                for num, row in enumerate(file_reader):
+                    print('row: ',row)
+                    # if row['\ufeffשם ספק'] != '':
+                    #     print('num: ', num, 'name: ',  row['\ufeffשם ספק'])
+                    #     # try:
+                    #     Provider = Provider_data()
+                    #     print('name: ', row['\ufeffשם ספק'])
+                    #     name = row['\ufeffשם ספק']
+                    #     Provider.Provider_name = name
+                    #     mail = row['כתובות מייל']
+                    #     if mail == '':
+                    #         mail = 'חסר'
+                    #     Provider.email = mail
+                    #     phone = row['טלפון']
+                    #     if phone == '':
+                    #         phone = 'חסר'
+                    #     Provider.phone_num = phone
+                    #     city = row['עיר']
+                    #     if city == '':
+                    #         city = 'חסר'
+                    #     Provider.city = city
+            elif csvfile.name == 'csv_data.csv':
                 for num, row in enumerate(file_reader):
                     if row['\ufeffשם ספק'] != '':
                         print('num: ', num, 'name: ',  row['\ufeffשם ספק'])
