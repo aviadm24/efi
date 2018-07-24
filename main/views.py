@@ -20,6 +20,9 @@ from django.db import IntegrityError
 from django_tables2 import RequestConfig
 from .tables import main_list_Table
 
+
+
+
 def table_view(request):
     table = main_list_Table(main_list_model.objects.all())
     RequestConfig(request).configure(table)
@@ -236,12 +239,14 @@ def add_main_list(request):
             return redirect('add_main_list')
         else:
             print('main list - got an error: ', form.errors)
-            messages.error(request, ('Please correct the error below.'))
+            messages.error(request, ('Please correct the error below \n {}'.format(request.POST)))
     else:
         form = main_list_form
 
-    return render(request, 'main/main_list_model_form.html', {'form': form, 'field_names': field_names[1:],
-                                                              'table': table, 'upcoming': upcoming,
+    return render(request, 'main/main_list_model_form.html', {'form': form,
+                                                              'field_names': field_names[1:],
+                                                              'table': table,
+                                                              'upcoming': upcoming,
                                                               'p_num_list': p_num_set,
                                                               'customer_list': customer_set,
                                                               'provider_list': provider_list})

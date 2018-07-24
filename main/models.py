@@ -29,16 +29,16 @@ class main_list_model(models.Model):
     Status = models.CharField(max_length=100, blank=True, null=True)
     status_cheshbonit_yeruka2 = models.CharField(max_length=100, blank=True, null=True,
                                                  verbose_name='Status חשבונית ירוקה')  # new
-    Extra_hours_client = models.FloatField(null=True, blank=True)
+    Extra_hours_client = models.IntegerField(null=True, blank=True)
     Based_on_client = models.IntegerField(blank=True, null=True)
-    Extra_hours_provider = models.FloatField(null=True, blank=True)
+    Extra_hours_provider = models.IntegerField(null=True, blank=True)
     Based_on_provider = models.IntegerField(blank=True, null=True)  # , default='09:00'
 
     KM = models.IntegerField(blank=True, null=True)
     Extra_KM_client = models.IntegerField(blank=True, null=True)
     Extra_KM_provider = models.IntegerField(blank=True, null=True)
-    Cost_per_client = models.FloatField(blank=True, null=True)
-    Cost_per_provider = models.FloatField(blank=True, null=True)
+    Cost_per_client = models.IntegerField(blank=True, null=True)
+    Cost_per_provider = models.IntegerField(blank=True, null=True)
     Cost_transfer_client = models.IntegerField(blank=True, null=True)
     Cost_transfer_provider = models.IntegerField(blank=True, null=True)
     Cost_extra_hour_client = models.IntegerField(blank=True, null=True)

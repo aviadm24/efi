@@ -71,34 +71,19 @@
         //https://stackoverflow.com/questions/30891880/set-date-in-bootstrap-datetimepicker-input
         //https://momentjs.com/docs/
 
-        //$('#datetimepicker1').on("change.datetimepicker", function (e) {
-        //    var date = $('#Start_time').val();
-        //    console.log('date: '+date);
-            //var today = new Date(date.getFullYear(), date.getMonth(), date.getDate()+1);
-        //    $('#Start_time').datetimepicker({
-        //        defaultDate: date
-        //    })
-        //});
-
         $(function () {
             $('#Start_time').datetimepicker({
-              format: 'YYYY-MM-DD HH:mm'
+              format: 'YYYY-MM-DD HH:mm',
+              useCurrent: false
             });
         });
 
         $(function () {
             $('#End_time').datetimepicker({
-              format: 'YYYY-MM-DD HH:mm'
+              format: 'YYYY-MM-DD HH:mm',
+              useCurrent: false
             });
         });
-
-
-        //$(function () {
-        //    $('#id_Date').datetimepicker({
-        //      format: 'YYYY-MM-DD'
-        //    });
-        //});
-
 
         $("#custom").spectrum({
           preferredFormat: "rgb",

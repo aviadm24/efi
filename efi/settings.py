@@ -127,11 +127,13 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_L10N = True
+# importent to be able to use dae format!
+USE_L10N = False
 
 USE_TZ = True
 
-DATE_INPUT_FORMATS = ('%d-%m-%Y', '%m/%d/%Y', '%d/%m/%Y', '%Y/%m/%d')
+DATE_INPUT_FORMATS = ('%d-%m-%Y', '%m/%d/%Y', '%d/%m/%Y', '%Y/%m/%d', '%A, %B %d %Y')
+DATE_FORMATS = '%A, %B %d %Y'
 # DATETIME_INPUT_FORMATS = ('%m/%d/%Y %H:%M',)
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/

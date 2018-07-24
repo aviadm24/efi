@@ -23,7 +23,7 @@ $("#mainlist tbody tr td").bind("contextmenu",function(e) {
             }else{
                 var new_text = text.replace('$','');
             }
-            var int_to_save_in_db = parseInt(new_text+ '33')
+            var int_to_save_in_db = parseInt(new_text)+ '33'
             console.log('int_to_save_in db:'+ int_to_save_in_db)
             $(this).text('$'+ new_text);
             $.ajax({

@@ -1,9 +1,7 @@
 {% extends 'main/base.html' %}
 {% block transfer_list %}
 {% load render_table from django_tables2 %}
-{% for e in error %}
-<h1>{{e}}</h1>
-{% endfor %}
+
 <input type='text' id="custom" />
 <label>תצוגת כתב</label>
 <input type="checkbox" id="color_method">
@@ -36,12 +34,21 @@
 
 <h3>add to list</h3>
 <form method="post" action="/" style="">{% csrf_token %}
-    {% for error in field.errors %}-->
+    {% for error in from.errors %}
         <p style="color: red">{{ error }}</p>
     {% endfor %}
 <table class="table table-bordered">
 
   <thead>
+   <tr>
+       <th style="text-align: center; background-color: coral;" colspan="3">כללי לקוחות</th>
+       <th style="text-align: center; background-color: green;" colspan="10">נתוני משימה</th>
+       <th style="text-align: center; background-color: red;" colspan="3">ספקים</th>
+       <th style="text-align: center; background-color: orange;" colspan="3">שליטה וניהול</th>
+       <th style="text-align: center; background-color: blue;" colspan="7">תפעול</th>
+       <th style="text-align: center; background-color: navy;" colspan="8">מחירים</th>
+       <th style="text-align: center; background-color: coral;" colspan="1"></th>
+  </tr>
   <tr>
       {% for field in form %}
         <th style="text-align: center;">{{field.label}}</th>
@@ -81,6 +88,12 @@
 </table>
 <input type="submit" value="שמור" />
 </form>
+
+{% if messages %}
+    {% for message in messages %}
+    <p style="font-size:26px"><b>{{ message }}</b></p>
+    {% endfor %}
+{% endif %}
 
 <table class="table table-bordered" id="select_list">
   <thead>

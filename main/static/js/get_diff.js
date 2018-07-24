@@ -2,13 +2,10 @@
 $('#datetimepicker1').on("change.datetimepicker", function (e) {
     var date = $('#datetimepicker1').datetimepicker('viewDate');
     console.log('date: '+moment(date).format("dddd, MMMM DD YYYY"));
-    //var today = new Date(date.getFullYear(), date.getMonth(), date.getDate()+1);
-    $('#id_Start_time').datetimepicker({
-        defaultDate: moment(date).format("dddd, MMMM DD YYYY")
-    })
-    $('#id_End_time').datetimepicker({
-        defaultDate: moment(date).format("dddd, MMMM DD YYYY")
-    })
+    $('#Start_time').datetimepicker('date', e.date);
+    $('#End_time').datetimepicker('date', e.date);
+    // https://tempusdominus.github.io/bootstrap-4/Usage/
+    // linked datetime pickers!!!
 });
 
 
@@ -30,7 +27,7 @@ function get_diff(){
     //console.log('diff: '+extra_c);
     $("#id_Extra_hours_client").val(extra_c.toFixed(2));
     $("#id_Extra_hours_provider").val(extra_p.toFixed(2));
-    get_cost();
+//    get_cost();
 }
 
 function get_cost(){
