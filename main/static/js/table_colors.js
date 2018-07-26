@@ -43,29 +43,26 @@ function light_for_transfer() {
 
     switch(transfer) {
         case "FD":
-            $('th').css('color', 'rgb(0,0,0)');
-            $('th:nth-child(1),th:nth-child(2),th:nth-child(3),th:nth-child(4),th:nth-child(6),th:nth-child(7),th:nth-child(8),th:nth-child(9),th:nth-child(10),th:nth-child(12),th:nth-child(13),th:nth-child(14),th:nth-child(15),th:nth-child(16),th:nth-child(18),th:nth-child(21),th:nth-child(23),th:nth-child(27),th:nth-child(28),th:nth-child(31),th:nth-child(32)').css('color', 'rgb(34,200,200)');
+            $('#input_table tr:nth-child(2)').find('th').css('color', 'rgb(0,0,0)');
+            $('#input_table tr:nth-child(2)').find('th:nth-child(1),th:nth-child(2),th:nth-child(3),th:nth-child(4),th:nth-child(6),th:nth-child(7),th:nth-child(8),th:nth-child(9),th:nth-child(10),th:nth-child(12),th:nth-child(13),th:nth-child(14),th:nth-child(15),th:nth-child(16),th:nth-child(18),th:nth-child(21),th:nth-child(23),th:nth-child(27),th:nth-child(28),th:nth-child(31),th:nth-child(32)').css('color', 'rgb(34,200,200)');
             break;
         case "TRN":
-            $('th').css('color', 'rgb(0,0,0)');
-            $('th:nth-child(1),th:nth-child(2),th:nth-child(3),th:nth-child(4),th:nth-child(6),th:nth-child(7),th:nth-child(8),th:nth-child(9),th:nth-child(10),th:nth-child(12),th:nth-child(13),th:nth-child(14),th:nth-child(15),th:nth-child(16),th:nth-child(18),th:nth-child(27),th:nth-child(28)').css('color', 'rgb(34,200,200)');
+            $('#input_table tr:nth-child(2)').find('th').css('color', 'rgb(0,0,0)');
+            $('#input_table tr:nth-child(2)').find('th:nth-child(1),th:nth-child(2),th:nth-child(3),th:nth-child(4),th:nth-child(6),th:nth-child(7),th:nth-child(8),th:nth-child(9),th:nth-child(10),th:nth-child(12),th:nth-child(13),th:nth-child(14),th:nth-child(15),th:nth-child(16),th:nth-child(18),th:nth-child(27),th:nth-child(28)').css('color', 'rgb(34,200,200)');
             break;
         case "TRN ARR":
         case "TRN DEP":
-            $('th').css('color', 'rgb(0,0,0)');
-            $('th:nth-child(1),th:nth-child(2),th:nth-child(3),th:nth-child(4),th:nth-child(6),th:nth-child(7),th:nth-child(8),th:nth-child(9),th:nth-child(10),th:nth-child(12),th:nth-child(13),th:nth-child(14),th:nth-child(15),th:nth-child(16),th:nth-child(18),th:nth-child(29),th:nth-child(30)').css('color', 'rgb(34,200,200)');
+            $('#input_table tr:nth-child(2)').find('th').css('color', 'rgb(0,0,0)');
+            $('#input_table tr:nth-child(2)').find('th:nth-child(1),th:nth-child(2),th:nth-child(3),th:nth-child(4),th:nth-child(6),th:nth-child(7),th:nth-child(8),th:nth-child(9),th:nth-child(10),th:nth-child(12),th:nth-child(13),th:nth-child(14),th:nth-child(15),th:nth-child(16),th:nth-child(18),th:nth-child(29),th:nth-child(30)').css('color', 'rgb(34,200,200)');
             break;
         case "FT ARR VIP":
         case "FT DEP VIP":
-            $('th').css('color', 'rgb(0,0,0)');
-            $('th:nth-child(1),th:nth-child(2),th:nth-child(3),th:nth-child(4),th:nth-child(7),th:nth-child(9),th:nth-child(10),th:nth-child(16),th:nth-child(18),th:nth-child(33),th:nth-child(34)').css('color', 'rgb(34,200,200)');
+            $('#input_table tr:nth-child(2)').find('th').css('color', 'rgb(0,0,0)');
+            $('#input_table tr:nth-child(2)').find('th:nth-child(1),th:nth-child(2),th:nth-child(3),th:nth-child(4),th:nth-child(7),th:nth-child(9),th:nth-child(10),th:nth-child(16),th:nth-child(18),th:nth-child(33),th:nth-child(34)').css('color', 'rgb(34,200,200)');
             break;
 
-
-
-
         default:
-            $('th').css('color', 'rgb(0,0,0)');
+            $('#input_table tr:nth-child(2)').find('th').css('color', 'rgb(0,0,0)');
             //console.log('default');
             break;
         }

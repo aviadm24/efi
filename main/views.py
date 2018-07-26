@@ -19,7 +19,7 @@ from django.db import IntegrityError
 # http://jsfiddle.net/QLfMU/116/
 from django_tables2 import RequestConfig
 from .tables import main_list_Table
-
+from datetime import datetime, timedelta
 
 
 
@@ -218,15 +218,14 @@ def add_main_list(request):
     #     print('customer_list: ', i)
     provider_list = main_list_model.objects.values_list('Provider', flat=True)
     provider_set = set(provider_list)
-
-    upcoming = main_list_model.objects.filter(Date__gte=now).order_by('Date')
-    all = main_list_model.objects.all().order_by('Date')
+    last_month = datetime.today() - timedelta(days=30)
+    # all = main_list_model.objects.all().order_by('Date')
     # passed = transfer.objects.filter(Date__lt=now).order_by('Date')
-    print('all: ', all)
-    print('upcoming: ', upcoming)
 
-    table = main_list_Table(main_list_model.objects.all())
-    RequestConfig(request).configure(table)
+    # table_upcoming = main_list_model.objects.filter(Date__gte=last_month).order_by('Date')
+    table_upcoming = main_list_Table(main_list_model.objects.filter(Date__gte=last_month).order_by('Date'))
+    table_all = main_list_Table(main_list_model.objects.all())
+    RequestConfig(request).configure(table_upcoming)
 
     if request.method == 'POST':
         print('main list - post')
@@ -245,17 +244,20 @@ def add_main_list(request):
 
     return render(request, 'main/main_list_model_form.html', {'form': form,
                                                               'field_names': field_names[1:],
-                                                              'table': table,
-                                                              'upcoming': upcoming,
+                                                              'table_upcoming': table_upcoming,
                                                               'p_num_list': p_num_set,
                                                               'customer_list': customer_set,
-                                                              'provider_list': provider_list})
+                                                              'provider_list': provider_set})
 
 def whole_list(request):
-    field_names = [f.name for f in main_list_model._meta.get_fields()]
-    all = main_list_model.objects.all().order_by('Date')
-    print('all: ', all)
-    return render(request, 'main/whole_list.html', {'all': all, 'field_names': field_names[1:]})
+
+    table_all = main_list_Table(main_list_model.objects.all())
+    RequestConfig(request).configure(table_all)
+
+    # field_names = [f.name for f in main_list_model._meta.get_fields()]
+    # all = main_list_model.objects.all().order_by('Date')
+    # print('all: ', all)
+    return render(request, 'main/whole_list.html', {'table_all': table_all})
 
 
 def search_list(request):

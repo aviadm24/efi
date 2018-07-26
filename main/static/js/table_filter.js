@@ -157,7 +157,7 @@ $("#reset").click(function() {
     $('#mainlist thead tr th').show();
     $('#mainlist tbody tr td').show();
     //console.log($('#p_num').data('default'))
-    $('#p_num').val(1);
+    $('#p_num').val(0);
     $('#customer').val(1);
     $('#provider').val(1);
 });
