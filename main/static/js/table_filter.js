@@ -65,9 +65,16 @@ function project_filter() {
 //    );
     table.draw();
 
-    // delete unwanted td's
-    $('#mainlist thead tr th:nth-child(18),th:nth-child(19),th:nth-child(20),th:nth-child(21),th:nth-child(22),th:nth-child(27),th:nth-child(29),th:nth-child(31),th:nth-child(33),th:nth-child(35)').hide();
-    $('#mainlist tbody tr td:nth-child(18),td:nth-child(19),td:nth-child(20),td:nth-child(21),td:nth-child(22),td:nth-child(27),td:nth-child(29),td:nth-child(31),td:nth-child(33),td:nth-child(35)').hide();
+    console.log('tables: '+$('#mainlist'))
+    // hide unwanted td's
+    $('#mainlist').find('thead tr th:nth-child(18),th:nth-child(19),th:nth-child(20),th:nth-child(21),th:nth-child(22),th:nth-child(27),th:nth-child(29),th:nth-child(31),th:nth-child(33),th:nth-child(35)').hide();
+    $('#mainlist').find('tbody tr td:nth-child(18),td:nth-child(19),td:nth-child(20),td:nth-child(21),td:nth-child(22),td:nth-child(27),td:nth-child(29),td:nth-child(31),td:nth-child(33),td:nth-child(35)').hide();
+
+     $("#sum_list td").each(function() {
+        var id = $(this).attr("id");
+        var [sum_dollar, sum_shekel] = sum_price(id)
+        $("#"+id).text('$'+sum_dollar+'\n'+'₪'+sum_shekel)
+    });
 }
 
 function customer_filter() {
@@ -89,8 +96,8 @@ function customer_filter() {
     table.draw();
 
     // delete unwanted td's
-    $('#mainlist thead tr th:nth-child(15),th:nth-child(16),th:nth-child(17),th:nth-child(18),th:nth-child(19),th:nth-child(20),th:nth-child(23),th:nth-child(24),th:nth-child(27),th:nth-child(29),th:nth-child(31),th:nth-child(33),th:nth-child(35)').hide();
-    $('#mainlist tbody tr td:nth-child(15),td:nth-child(16),td:nth-child(17),td:nth-child(18),td:nth-child(19),td:nth-child(20),td:nth-child(23),td:nth-child(24),td:nth-child(27),td:nth-child(29),td:nth-child(31),td:nth-child(33),td:nth-child(35)').hide();
+    $('#mainlist').find('thead tr th:nth-child(15),th:nth-child(16),th:nth-child(17),th:nth-child(18),th:nth-child(19),th:nth-child(20),th:nth-child(23),th:nth-child(24),th:nth-child(27),th:nth-child(29),th:nth-child(31),th:nth-child(33),th:nth-child(35)').hide();
+    $('#mainlist').find('tbody tr td:nth-child(15),td:nth-child(16),td:nth-child(17),td:nth-child(18),td:nth-child(19),td:nth-child(20),td:nth-child(23),td:nth-child(24),td:nth-child(27),td:nth-child(29),td:nth-child(31),td:nth-child(33),td:nth-child(35)').hide();
 
     $("#sum_list td").each(function() {
         var id = $(this).attr("id");
@@ -105,6 +112,8 @@ function provider_filter() {
 
     var provider = $('#provider').val()
     console.log('provider:' + provider)
+
+
     $.fn.dataTable.ext.search.push(
        function(settings, data, dataIndex) {
           var dataLabel = table
@@ -120,8 +129,14 @@ function provider_filter() {
     table.draw();
 
     // delete unwanted td's
-    $('#mainlist thead tr th:nth-child(18),th:nth-child(19),th:nth-child(20),th:nth-child(21),th:nth-child(22),th:nth-child(27),th:nth-child(29),th:nth-child(31),th:nth-child(33),th:nth-child(35)').hide();
-    $('#mainlist tbody tr td:nth-child(18),td:nth-child(19),td:nth-child(20),td:nth-child(21),td:nth-child(22),td:nth-child(27),td:nth-child(29),td:nth-child(31),td:nth-child(33),td:nth-child(35)').hide();
+    $('#mainlist').find('thead tr th:nth-child(18),th:nth-child(19),th:nth-child(20),th:nth-child(21),th:nth-child(22),th:nth-child(27),th:nth-child(29),th:nth-child(31),th:nth-child(33),th:nth-child(35)').hide();
+    $('#mainlist').find('tbody tr td:nth-child(18),td:nth-child(19),td:nth-child(20),td:nth-child(21),td:nth-child(22),td:nth-child(27),td:nth-child(29),td:nth-child(31),td:nth-child(33),td:nth-child(35)').hide();
+
+     $("#sum_list td").each(function() {
+        var id = $(this).attr("id");
+        var [sum_dollar,sum_shekel] = sum_price(id)
+        $("#"+id).text('$'+sum_dollar+'\n'+'₪'+sum_shekel)
+    });
 }
 
 
@@ -139,4 +154,10 @@ $("#hide").click(function() {
 $("#reset").click(function() {
     $.fn.dataTable.ext.search.pop();
     table.draw();
+    $('#mainlist thead tr th').show();
+    $('#mainlist tbody tr td').show();
+    //console.log($('#p_num').data('default'))
+    $('#p_num').val(1);
+    $('#customer').val(1);
+    $('#provider').val(1);
 });

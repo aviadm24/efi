@@ -24,9 +24,15 @@ function get_diff(){
     //https://stackoverflow.com/questions/18623783/get-the-time-difference-between-two-datetimes
     var extra_c = diff_c/3600000;
     var extra_p = diff_p/3600000;
+    if (extra_c < 0){
+        extra_c = 0;
+    }
+    if (extra_p < 0){
+        extra_p = 0;
+    }
     //console.log('diff: '+extra_c);
-    $("#id_Extra_hours_client").val(extra_c.toFixed(2));
-    $("#id_Extra_hours_provider").val(extra_p.toFixed(2));
+    $("#id_Extra_hours_client").val(extra_c.toFixed(0));
+    $("#id_Extra_hours_provider").val(extra_p.toFixed(0));
 //    get_cost();
 }
 

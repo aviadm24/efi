@@ -1,6 +1,6 @@
 
 $(document).ready(function() {
-//    $('.Color').hide();
+    $('.Color').hide();
     $('table#mainlist tbody tr').each(function () {
         var color_string = $(this).find(".Color").text();
         //console.log('color_string: '+color_string)
@@ -34,10 +34,11 @@ $(document).ready(function() {
         });
     });
 });
+
 function light_for_transfer() {
     var transfer = $('#id_Type_of_service option:selected').text();
     // https://stackoverflow.com/questions/10613873/get-the-jquery-index-of-td-element
-    //console.log('Type_of_service:' + transfer)
+    console.log('Type_of_service:' + transfer)
     //console.log('FT DEP VIP'==transfer)
 
     switch(transfer) {

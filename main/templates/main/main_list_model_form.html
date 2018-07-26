@@ -37,7 +37,7 @@
     {% for error in from.errors %}
         <p style="color: red">{{ error }}</p>
     {% endfor %}
-<table class="table table-bordered">
+<table class="table table-bordered" id="input_table">
 
   <thead>
    <tr>
@@ -106,8 +106,8 @@
   <tbody>
       <tr>
         <td>
-            <select id="p_num" name="p_num_list" onChange="project_filter()">
-              <option  value="" selected="selected">---SELECT---</option>
+            <select id="p_num" name="p_num_list" onChange="project_filter()" data-default="---SELECT---">
+              <option  value="---SELECT---" selected="selected">---SELECT---</option>
               {% for p_num in p_num_list %}
                <option value="{{p_num}}">{{p_num|capfirst}}</option>
               {% endfor %}
@@ -115,7 +115,7 @@
         </td>
         <td>
             <select id="customer" name="customer_list" onChange="customer_filter()">
-              <option  value="" selected="selected">---SELECT---</option>
+              <option  value="---SELECT---" selected="selected">---SELECT---</option>
               {% for customer in customer_list %}
                <option value="{{customer}}">{{customer|capfirst}}</option>
               {% endfor %}
@@ -123,9 +123,9 @@
         </td>
         <td>
             <select id="provider" name="provider_list" onChange="provider_filter()">
-              <option  value="" selected="selected">---SELECT---</option>
+              <option  value="---SELECT---" selected="selected">---SELECT---</option>
               {% for provider in provider_list %}
-               <option value="{{customer}}">{{provider|capfirst}}</option>
+               <option value="{{provider}}">{{provider|capfirst}}</option>
               {% endfor %}
             </select>
         </td>

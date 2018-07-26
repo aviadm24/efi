@@ -68,8 +68,8 @@ $(document).ready(function () {
         var new_var = (from_db/100).toFixed(0)
 
         if (from_db != '—' && doll_or_shek==33 || doll_or_shek==34){
-            console.log('from_db '+ from_db)
-            console.log('new var: '+ new_var)
+//            console.log('from_db '+ from_db)
+//            console.log('new var: '+ new_var)
             if (doll_or_shek == 33){
                 $(this).text('$'+ new_var);
             }else{
