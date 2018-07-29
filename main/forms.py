@@ -51,6 +51,7 @@ class main_list_form(forms.ModelForm):
         self.fields['Based_on_provider'].widget.attrs.update({'value': '10'})
         self.fields['Cost_extra_hour_client'].widget.attrs.update({'value': '50'})
         self.fields['Cost_extra_hour_provider'].widget.attrs.update({'value': '60'})
+        # self.fields['Color'].widget.attrs.update(attrs={'display': 'none'})
 
 
 # class project_form(forms.ModelForm):

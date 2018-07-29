@@ -12,6 +12,7 @@ from django.http import JsonResponse
 from itertools import chain
 import json
 import csv
+# from io import StringIO
 import io
 from django.db import IntegrityError
 # import codecs
@@ -20,7 +21,97 @@ from django.db import IntegrityError
 from django_tables2 import RequestConfig
 from .tables import main_list_Table
 from datetime import datetime, timedelta
+from .admin import main_list_Resource
+import os
+from django.conf import settings
+from django.core.files import File
+from django.http import HttpResponse, StreamingHttpResponse
+BASE_DIR = settings.BASE_DIR
 
+
+class Echo:
+    """An object that implements just the write method of the file-like
+    interface.
+    """
+    def write(self, value):
+        """Write the value by returning it, instead of storing in a buffer."""
+        return value
+
+def get_model_field_names(model, ignore_fields=['Color']):
+    '''
+    ::param model is a Django model class
+    ::param ignore_fields is a list of field names to ignore by default
+    This method gets all model field names (as strings) and returns a list
+    of them ignoring the ones we know don't work (like the 'content_object' field)
+    '''
+    model_fields = model._meta.get_fields()
+    # model_field_names = list(set([f.name for f in model_fields if f.name not in ignore_fields]))
+    model_field_names = list(set([f.name for f in model_fields]))
+    return model_field_names
+
+def qs_to_local_csv(path=None, filename=None):
+    if path is None:
+        path = os.path.join(os.path.dirname(BASE_DIR), 'csvstorage')
+        if not os.path.exists(path):
+            '''
+            CSV storage folder doesn't exist, make it!
+            '''
+            os.mkdir(path)
+    if filename is None:
+        model_name = 'main_list_model'
+        filename = "{}.csv".format(model_name)
+    filepath = os.path.join(path, filename)
+    lookups = get_model_field_names(main_list_model)
+    qs = main_list_model.objects.all()
+    dataset = list(qs.values())
+    rows_done = 0
+    with open(filepath, 'w') as my_file:
+        writer = csv.DictWriter(my_file, fieldnames=lookups)
+        writer.writeheader()
+        for data_item in dataset:
+            writer.writerow(data_item)
+            rows_done += 1
+    print("{} rows completed".format(rows_done))
+
+
+def CSVDownload(request, path=None, filename=None):
+    if path is None:
+        path = os.path.join(os.path.dirname(BASE_DIR), 'csvstorage')
+        if not os.path.exists(path):
+            '''
+            CSV storage folder doesn't exist, make it!
+            '''
+            os.mkdir(path)
+    if filename is None:
+        model_name = 'main_list_model'
+        filename = "{}.csv".format(model_name)
+    filepath = os.path.join(path, filename)
+    qs = main_list_model.objects.all()
+    model_name = 'main_list_model'
+    filename = "{}.csv".format(model_name)
+    lookups = get_model_field_names(main_list_model)
+    dataset = list(qs.values())
+    fp = io.StringIO()
+    pseudo_buffer = Echo()
+    outcsv = csv.writer(pseudo_buffer)
+    with open(filepath, 'w') as my_file:
+        writer = csv.DictWriter(my_file, fieldnames=lookups)
+        writer.writeheader()
+        for data_item in dataset:
+            writer.writerow(data_item)
+        stream_file = File(fp)
+    response = StreamingHttpResponse(stream_file,
+                                     content_type="text/csv")
+    response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
+    
+    return response
+
+
+def export_csv(request):
+    # dataset = main_list_Resource().export()
+    # print(dataset.csv)
+    qs_to_local_csv()
+    return redirect('add_main_list')
 
 
 def table_view(request):

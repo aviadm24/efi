@@ -1,6 +1,9 @@
 
 $(document).ready(function() {
     $('.Color').hide();
+    $('table#input_table thead tr th:nth-child(35)').hide();
+//    $('table#input_table tbody tr td:nth-child(35)').hide();
+    $('table#input_table tbody tr td:nth-child(35)').hide();
     $('table#mainlist tbody tr').each(function () {
         var color_string = $(this).find(".Color").text();
         //console.log('color_string: '+color_string)

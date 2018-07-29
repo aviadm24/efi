@@ -6,7 +6,7 @@
 <label>תצוגת כתב</label>
 <input type="checkbox" id="color_method">
 <label>dollar mode</label>
-<input type="checkbox" id="dollar_mode">
+<input type="checkbox" id="dollar_mode" checked>
 
 <a type="button" class="btn btn-info" href="{% url 'whole_list' %}">whole list</a>
 
@@ -47,7 +47,7 @@
        <th style="text-align: center; background-color: orange;" colspan="3">שליטה וניהול</th>
        <th style="text-align: center; background-color: blue;" colspan="7">תפעול</th>
        <th style="text-align: center; background-color: navy;" colspan="8">מחירים</th>
-       <th style="text-align: center; background-color: coral;" colspan="1"></th>
+       <!--<th style="text-align: center; background-color: coral;" colspan="1"></th>-->
   </tr>
   <tr>
       {% for field in form %}
@@ -142,7 +142,7 @@
 <h3>main list</h3>
 {% render_table table_upcoming %}
 
-<table class="table table-bordered" id="sum_list">
+<table class="table table-bordered sticky-bottom" id="sum_list" >
   <thead>
     <tr>
         <th>מחיר ללקוח</th>

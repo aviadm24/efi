@@ -1,3 +1,6 @@
+
+
+
 $(document).ready(function() {
     $("#id_Status").on("change", function (e) {
     var status = $('#id_Status option:selected').text();
@@ -7,11 +10,20 @@ $(document).ready(function() {
 
     switch(status) {
         case "Missing Detils":
-//            $('th').css('color', 'rgb(0,0,0)');
-            $('#input_table').find('th:nth-child(4),th:nth-child(5),th:nth-child(6),th:nth-child(7),th:nth-child(8),th:nth-child(9),th:nth-child(10),th:nth-child(11),th:nth-child(12),th:nth-child(13)').css('background-color', 'yellow');
+//            $('#input_table').find('th:nth-child(4),th:nth-child(5),th:nth-child(6),th:nth-child(7),th:nth-child(8),th:nth-child(9),th:nth-child(10),th:nth-child(11),th:nth-child(12),th:nth-child(13)').css('background-color', 'yellow');
+
+            $('#input_table').find('tbody tr td:nth-child(4),td:nth-child(5),td:nth-child(6),td:nth-child(7),td:nth-child(8),td:nth-child(9),td:nth-child(10),td:nth-child(11),td:nth-child(12),td:nth-child(13)').each(function () {
+//                var tag = $(this).val();
+                var tag = $('input', this).val();
+                console.log('tag '+ tag)
+                if (tag == '' || tag == '---------' || tag == undefined){
+                    console.log('tag passed: '+ tag)
+                    $(this).css('background-color', 'yellow');
+                }
+            });
+
             break;
         case "Missing provider":
-//            $('th').css('color', 'rgb(0,0,0)');
             $('#input_table').find('th:nth-child(14)').css('background-color', 'yellow');
             break;
             }

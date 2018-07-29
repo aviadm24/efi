@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import Service_data, Flight_data, Car_data, Provider_data\
                     , Driver_data, Customer_data, main_list_model, Status_data\
                     , From_data, To_data, Yeruka_data, Yeruka2_data
-
+from import_export import resources
 
 admin.site.register(Service_data)
 admin.site.register(Status_data)
@@ -17,3 +17,9 @@ admin.site.register(From_data)
 admin.site.register(To_data)
 admin.site.register(Yeruka_data)
 admin.site.register(Yeruka2_data)
+
+
+class main_list_Resource(resources.ModelResource):
+
+    class Meta:
+        model = main_list_model
