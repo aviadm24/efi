@@ -138,33 +138,33 @@
 
 
 
-<button id="reset">reset</button>
+<button id="reset"><a href="/">reset</a></button>
 <h3>main list</h3>
 {% render_table table_upcoming %}
 
 <table class="table table-bordered sticky-bottom" id="sum_list" >
   <thead>
     <tr>
-        <th>מחיר ללקוח</th>
-        <th>מחיר לספק</th>
-        <th>מחיר טרנספר ללקוח</th>
-        <th>מחיר טרנספר לספק</th>
-        <th>מחיר שעה נוספת ללקוח</th>
-        <th>מחיר שעה נוספת לספק</th>
-        <th>מחיר VIP ללקוח</th>
-        <th>מחיר VIP לספק</th>
+        <th class="min">מחיר ללקוח</th>
+        <th class="min">מחיר לספק</th>
+        <th class="min">מחיר טרנספר ללקוח</th>
+        <th class="min">מחיר טרנספר לספק</th>
+        <th class="min">מחיר שעה נוספת ללקוח</th>
+        <th class="min">מחיר שעה נוספת לספק</th>
+        <th class="min">מחיר VIP ללקוח</th>
+        <th class="min">מחיר VIP לספק</th>
     </tr>
   </thead>
   <tbody>
       <tr>
-        <td id="Cost_per_client"></td>
-        <td id="Cost_per_provider"></td>
-        <td id="Cost_transfer_client"></td>
-        <td id="Cost_transfer_provider"></td>
-        <td id="Cost_extra_hour_client"></td>
-        <td id="Cost_extra_hour_provider"></td>
-        <td id="Cost_VIP_client"></td>
-        <td id="Cost_VIP_provider"></td>
+        <td class="min" id="Cost_per_client"></td>
+        <td class="min" id="Cost_per_provider"></td>
+        <td class="min" id="Cost_transfer_client"></td>
+        <td class="min" id="Cost_transfer_provider"></td>
+        <td class="min" id="Cost_extra_hour_client"></td>
+        <td class="min" id="Cost_extra_hour_provider"></td>
+        <td class="min" id="Cost_VIP_client"></td>
+        <td class="min" id="Cost_VIP_provider"></td>
       </tr>
    </tbody>
 </table>

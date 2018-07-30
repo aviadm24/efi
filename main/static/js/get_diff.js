@@ -14,7 +14,7 @@ function get_diff(){
     var end = $("#id_End_time").val();
     var base_c = $("#id_Based_on_client").val();
     var base_p = $("#id_Based_on_provider").val();
-    //console.log('Based_on: '+base_c);
+    console.log('Based_on: '+base_c);
     var startMinEnd = moment(end).diff(moment(start));
     //console.log('startMinEnd: '+startMinEnd);
     //var difftMinBase = moment(startMinEnd,"HH:mm").diff(moment(base,"HH:mm"));
@@ -66,6 +66,14 @@ $('#End_time').on("change.datetimepicker", function (e) {
       get_diff();
    	  //$('#getDate').text(date);
    });
+
+$('#id_End_time').on("change", function (e) {
+      date = $('#id_End_time').val();
+      console.log('change to: '+date);
+      get_diff();
+   });
+
+
 
 $('#id_Cost_extra_hour_client, #id_Cost_extra_hour_provider').on('input', function() {
     //console.log('extra hour was changed!');

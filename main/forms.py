@@ -1,5 +1,5 @@
 from .models import Service_data, Car_data, Provider_data,\
-    Driver_data, Customer_data, Flight_data, main_list_model, Status_data, Yeruka_data, Yeruka2_data
+    Driver_data, Customer_data, Flight_data, main_list_model, Status_data, Yeruka_data, Yeruka2_data, To_data, From_data
 from django import forms
 from .utils import OptionalChoiceField
 from django.contrib.admin import widgets
@@ -24,6 +24,8 @@ class main_list_form(forms.ModelForm):
     Status = forms.ModelChoiceField(queryset=Status_data.objects.all(), required=False)
     status_cheshbonit_yeruka1 = forms.ModelChoiceField(queryset=Yeruka_data.objects.all(), required=False)
     status_cheshbonit_yeruka2 = forms.ModelChoiceField(queryset=Yeruka2_data.objects.all(), required=False)
+    To = forms.ModelChoiceField(queryset=To_data.objects.all(), required=False)
+    From = forms.ModelChoiceField(queryset=From_data.objects.all(), required=False)
 
     class Meta:
         model = main_list_model

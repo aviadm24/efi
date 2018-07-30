@@ -103,7 +103,7 @@ def CSVDownload(request, path=None, filename=None):
     response = StreamingHttpResponse(stream_file,
                                      content_type="text/csv")
     response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
-    
+
     return response
 
 
@@ -540,8 +540,8 @@ def add_color(request):
 
 class update(UpdateView):
     model = main_list_model
-    # form_class = main_list_form
-    fields = '__all__'
+    form_class = main_list_form
+    # fields = '__all__'
     success_url = reverse_lazy('add_main_list')
     template_name_suffix = '_update_form'
 

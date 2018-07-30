@@ -67,8 +67,8 @@ function project_filter() {
 
     console.log('tables: '+$('#mainlist'))
     // hide unwanted td's
-    $('#mainlist').find('thead tr th:nth-child(18),th:nth-child(19),th:nth-child(20),th:nth-child(21),th:nth-child(22),th:nth-child(27),th:nth-child(29),th:nth-child(31),th:nth-child(33),th:nth-child(35)').hide();
-    $('#mainlist').find('tbody tr td:nth-child(18),td:nth-child(19),td:nth-child(20),td:nth-child(21),td:nth-child(22),td:nth-child(27),td:nth-child(29),td:nth-child(31),td:nth-child(33),td:nth-child(35)').hide();
+//    $('#mainlist').find('thead tr th:nth-child(18),th:nth-child(19),th:nth-child(20),th:nth-child(21),th:nth-child(22),th:nth-child(27),th:nth-child(29),th:nth-child(31),th:nth-child(33),th:nth-child(35)').hide();
+//    $('#mainlist').find('tbody tr td:nth-child(18),td:nth-child(19),td:nth-child(20),td:nth-child(21),td:nth-child(22),td:nth-child(27),td:nth-child(29),td:nth-child(31),td:nth-child(33),td:nth-child(35)').hide();
 
      $("#sum_list td").each(function() {
         var id = $(this).attr("id");
@@ -104,16 +104,12 @@ function customer_filter() {
         var [sum_dollar,sum_shekel] = sum_price(id)
         $("#"+id).text('$'+sum_dollar+'\n'+'₪'+sum_shekel)
     });
-
-
 }
 
 function provider_filter() {
 
     var provider = $('#provider').val()
     console.log('provider:' + provider)
-
-
     $.fn.dataTable.ext.search.push(
        function(settings, data, dataIndex) {
           var dataLabel = table
@@ -129,8 +125,8 @@ function provider_filter() {
     table.draw();
 
     // delete unwanted td's
-    $('#mainlist').find('thead tr th:nth-child(18),th:nth-child(19),th:nth-child(20),th:nth-child(21),th:nth-child(22),th:nth-child(27),th:nth-child(29),th:nth-child(31),th:nth-child(33),th:nth-child(35)').hide();
-    $('#mainlist').find('tbody tr td:nth-child(18),td:nth-child(19),td:nth-child(20),td:nth-child(21),td:nth-child(22),td:nth-child(27),td:nth-child(29),td:nth-child(31),td:nth-child(33),td:nth-child(35)').hide();
+    $('#mainlist').find('thead tr th:nth-child(18),th:nth-child(19),th:nth-child(20),th:nth-child(21),th:nth-child(22),th:nth-child(26),th:nth-child(28),th:nth-child(30),th:nth-child(32),th:nth-child(34),th:nth-child(36)').hide();
+    $('#mainlist').find('tbody tr td:nth-child(18),td:nth-child(19),td:nth-child(20),td:nth-child(21),td:nth-child(22),td:nth-child(26),td:nth-child(28),td:nth-child(30),td:nth-child(32),td:nth-child(34),td:nth-child(36)').hide();
 
      $("#sum_list td").each(function() {
         var id = $(this).attr("id");
@@ -151,13 +147,14 @@ $("#hide").click(function() {
     );
     table.draw();
 });
-$("#reset").click(function() {
-    $.fn.dataTable.ext.search.pop();
-    table.draw();
-    $('#mainlist thead tr th').show();
-    $('#mainlist tbody tr td').show();
-    //console.log($('#p_num').data('default'))
-    $('#p_num').val(0);
-    $('#customer').val(1);
-    $('#provider').val(1);
-});
+
+//$("#reset").click(function() {
+//    $.fn.dataTable.ext.search.pop();
+//    table.draw();
+//    $('#mainlist thead tr th').show();
+//    $('#mainlist tbody tr td').show();
+//    //console.log($('#p_num').data('default'))
+//    $('#p_num').val(0);
+//    $('#customer').val(1);
+//    $('#provider').val(1);
+//});
