@@ -5,32 +5,31 @@ function sum_price(cla){
     //console.log('cla'+cla)
     var sum_dollar = 0;
     var sum_shekel = 0;
+    var sum_euro = 0;
     // iterate through each td based on class and add the values
     $("."+cla).each(function() {
-
         var value = $(this).text();
         if (value.includes('₪')){
             var new_value = parseInt(value.replace('₪',''));
-        }else{
-            if (value.includes('$')){
+        }else if (value.includes('$')){
             var new_value = parseInt(value.replace('$',''));
-            }
+        }else if (value.includes('€')){
+            var new_value = parseInt(value.replace('€',''));
         }
-
 
         //console.log('value num:' + new_value)
         // add only if the value is number
         if(!isNaN(new_value) && new_value.length != 0) {
             if(value.includes("$")){
                 sum_dollar += parseFloat(new_value);
-            }else{
-                if (value.includes('₪')){
+            }else if (value.includes('₪')){
                 sum_shekel += parseFloat(new_value);
-                }
+            }else if (value.includes('€')){
+                sum_euro += parseFloat(new_value);
             }
         }
     });
-    return [sum_dollar,sum_shekel]
+    return [sum_dollar,sum_shekel,sum_euro]
 }
 
 $(document).ready(function() {

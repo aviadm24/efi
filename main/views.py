@@ -321,15 +321,17 @@ def add_main_list(request):
     if request.method == 'POST':
         print('main list - post')
         form = main_list_form(request.POST)
+        print('view - from:',request.POST['From'])
         if form.is_valid():
             for key, value in form.cleaned_data.items():
                 print('key: ', key, 'val: ', value)
+            print('view - from:', request.POST['From'])
             form.save()
             messages.success(request, ('Your order was successfully updated!'))
             return redirect('add_main_list')
         else:
             print('main list - got an error: ', form.errors)
-            messages.error(request, ('Please correct the error below \n {}'.format(request.POST)))
+            messages.error(request, ('Please correct the error below \n {}'.format(request.POST['From'])))
     else:
         form = main_list_form
 

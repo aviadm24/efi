@@ -10,9 +10,9 @@ $(document).ready(function() {
     $('#mainlist').find('tbody tr td:nth-child(5),td:nth-child(6),td:nth-child(7),td:nth-child(8),td:nth-child(9),td:nth-child(10),td:nth-child(11),td:nth-child(12),td:nth-child(13), td:nth-child(14)').each(function () {
         var tag = $(this).html();
 //        var tag = $('input', this).val();
-        console.log('tag '+ tag)
+//        console.log('tag '+ tag)
         if (tag == '—'){
-            console.log('tag passed: '+ tag)
+//            console.log('tag passed: '+ tag)
             $(this).css('background-color', 'yellow');
         }
     });

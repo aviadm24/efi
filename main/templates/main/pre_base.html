@@ -52,10 +52,11 @@
     <script src="{% static 'js/table_colors.js' %}"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-            <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>-->
-    <script defer src="{% static 'js/add_dollar_shekel.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <!--<script defer src="{% static 'js/add_dollar_shekel.js' %}"></script>-->
     <script defer src="{% static 'js/table_filter.js' %}"></script>
     <script defer src="{% static 'js/status_function.js' %}"></script>
+    <script defer src="{% static 'js/dollar_shekel_euro.js' %}"></script>
 
 
    <script type="text/javascript">
@@ -91,6 +92,18 @@
         $(document).ready(function() {
             $('#mainlist').DataTable();
         } );
+
+        $(document).ready(function() {
+            $('#id_From').select2({
+              tags: true
+            });
+        });
+
+        $(document).ready(function() {
+            $('.js-example-basic-single').select2({
+              tags: true
+            });
+        });
 
         //$(".js_tags").select2({
         //  tags: true

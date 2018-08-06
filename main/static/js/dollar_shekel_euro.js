@@ -1,16 +1,6 @@
-//function mouseDown(e){
-//  e = e || window.event;
-//  switch (e.which) {
-//   case 1: alert('left'); break;
-//   case 2: alert('middle'); break;
-//   case 3: alert('right'); break;
-//  }
-//}
-
-// https://stackoverflow.com/questions/18453480/get-the-row-id-of-html-table-after-right-click
 // €
 
-var oddClick = true;
+var counter = 0;
     $('#mainlist').find("tbody tr td:nth-child(26),td:nth-child(27),td:nth-child(28),td:nth-child(29),td:nth-child(30),td:nth-child(31),td:nth-child(32),td:nth-child(33),td:nth-child(34),td:nth-child(35)").bind("contextmenu",function(e) {
     var dollar_mode = $('#dollar_mode').prop('checked')
     if (dollar_mode){
@@ -19,11 +9,27 @@ var oddClick = true;
         var id = $(this).closest('tr').find('.id').text();
         var td_id = $(this).attr('class');
 
-        if (oddClick){
+        counter++;
+        switch(counter){
+            case 1:
+                dollar();
+                break;
+            case 2:
+                shekel();
+                break;
+            case 3:
+                euro();
+                counter=0;
+                break;
+        }
+
+        function dollar(){
             if (text.includes('₪')){
                 var new_text = text.replace('₪','');
-            }else{
+            }else if{
                 var new_text = text.replace('$','');
+            }else{
+                var new_text = text.replace('€','');
             }
             var int_to_save_in_db = parseInt(new_text)+ '33'
             console.log('int_to_save_in db:'+ int_to_save_in_db)
@@ -37,11 +43,15 @@ var oddClick = true;
                 },
                 dataType: 'json',
                 });
-        }else{
+        };
+
+        function shekel(){
             if (text.includes('$')){
                 var new_text = text.replace('$','');
+            }else if{
+                var new_text = text.replace('$','');
             }else{
-                var new_text = text.replace('₪','');
+                var new_text = text.replace('€','');
             }
             var int_to_save_in_db = parseInt(new_text+ '34')
             console.log('int_to_save_in db:'+ int_to_save_in_db)
@@ -55,12 +65,44 @@ var oddClick = true;
                 },
                 dataType: 'json',
                 });
-        }
-        oddClick = !oddClick;
+        };
+
+        function euro(){
+            if (text.includes('$')){
+                var new_text = text.replace('$','');
+            }else if{
+                var new_text = text.replace('$','');
+            }else{
+                var new_text = text.replace('€','');
+            }
+            var int_to_save_in_db = parseInt(new_text+ '35')
+            console.log('int_to_save_in db:'+ int_to_save_in_db)
+            $(this).text('€'+ new_text);
+            $.ajax({
+                url: '/ajax/add_euro/',
+                data: {
+                  'id': id,
+                  'td_id': td_id,
+                  'new_int':int_to_save_in_db
+                },
+                dataType: 'json',
+                });
+        };
 
         $("#sum_list td").each(function() {
         var id = $(this).attr("id");
-        var [sum_dollar,sum_shekel] = sum_price(id)
+//        var [sum_dollar,sum_shekel,sum_euro] = sum_price(id)
+        var sum_array = sum_price(id)
+        var sum_text = ''
+        for(var i = 0; i < sum_array.length; i++) {
+        context = context[sum_array[i]];
+            if (context != 0){
+                if i==0{
+                    sum_text += '$'+sum_dollar+
+                }
+
+            }
+        }
         $("#"+id).text('$'+sum_dollar+'\n'+'₪'+sum_shekel)
         });
 
@@ -76,13 +118,15 @@ $(document).ready(function () {
         var doll_or_shek = from_db % 100;
         var new_var = (from_db/100).toFixed(0)
 
-        if (from_db != '—' && doll_or_shek==33 || doll_or_shek==34){
+        if (from_db != '—' && doll_or_shek==33 || doll_or_shek==34 || doll_or_shek==35){
 //            console.log('from_db '+ from_db)
 //            console.log('new var: '+ new_var)
             if (doll_or_shek == 33){
                 $(this).text('$'+ new_var);
-            }else{
+            }else if (doll_or_shek == 34){
                 $(this).text('₪'+ new_var);
+            }else{
+                $(this).text('€'+ new_var);
             }
         }
 

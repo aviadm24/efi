@@ -25,7 +25,15 @@ class main_list_form(forms.ModelForm):
     status_cheshbonit_yeruka1 = forms.ModelChoiceField(queryset=Yeruka_data.objects.all(), required=False)
     status_cheshbonit_yeruka2 = forms.ModelChoiceField(queryset=Yeruka2_data.objects.all(), required=False)
     To = forms.ModelChoiceField(queryset=To_data.objects.all(), required=False)
-    From = forms.ModelChoiceField(queryset=From_data.objects.all(), required=False)
+
+    # From = forms.ModelChoiceField(queryset=From_data.objects.all(), required=False)
+
+    # From = forms.ChoiceField(choices=[(doc, doc) for doc in From_data.objects.all()], required=False)
+    # https://stackoverflow.com/questions/5281195/forms-modelchoicefield-queryset-extra-choice-fields-django-forms
+
+    From = forms.CharField(widget=forms.Select(choices=[(doc, doc) for doc in From_data.objects.all()]), required=False)
+    # https://stackoverflow.com/questions/19770534/django-forms-choicefield-without-validation-of-selected-value
+
 
     class Meta:
         model = main_list_model
@@ -38,14 +46,17 @@ class main_list_form(forms.ModelForm):
         self.fields['Customer'].widget.attrs.update({'class': 'js_tags'})
         self.fields['Luggage'].label = 'Number of PAX & Luggage'
         # self.fields['Start_time'].label = 'Start_time'
-        self.fields['Cost_per_client'].label = 'מחיר ללקוח'
-        self.fields['Cost_per_provider'].label = 'מחיר לספק'
+        self.fields['Cost_per_client'].label = 'מחיר FD ללקוח'
+        self.fields['Cost_per_provider'].label = 'מחיר FD לספק'
         self.fields['Cost_extra_hour_client'].label = 'מחיר שעה נוספת ללקוח'
         self.fields['Cost_extra_hour_provider'].label = 'מחיר שעה נוספת לספק'
         self.fields['Cost_transfer_client'].label = 'מחיר טרנספר ללקוח'
         self.fields['Cost_transfer_provider'].label = 'מחיר טרנספר לספק'
         self.fields['Cost_VIP_client'].label = 'מחיר VIP ללקוח'
         self.fields['Cost_VIP_provider'].label = 'מחיר VIP לספק'
+
+        self.fields['status_cheshbonit_yeruka1'].label = 'סטטוס חשבונית ירוקה - ספק'
+        self.fields['status_cheshbonit_yeruka2'].label = 'סטטוס חשבונית ירוקה - לקוח'
         # https://stackoverflow.com/questions/1513502/django-how-to-format-a-datefields-date-representation
         self.fields['Project_num'].widget.attrs.update({'style': 'width:100px'})
         self.fields['Date'].widget = forms.DateInput(attrs={'id': 'datepicker1'}, format='%A, %B %d %Y')
@@ -53,8 +64,29 @@ class main_list_form(forms.ModelForm):
         self.fields['Based_on_provider'].widget.attrs.update({'value': '10'})
         self.fields['Cost_extra_hour_client'].widget.attrs.update({'value': '50'})
         self.fields['Cost_extra_hour_provider'].widget.attrs.update({'value': '60'})
+        self.fields['From'].widget.attrs.update({'class': 'form-control'})
+        self.fields['To'].widget.attrs.update({'class': 'js_tags'})
         # self.fields['Color'].widget.attrs.update(attrs={'display': 'none'})
 
+    def clean_From(self):
+        print('clean form method')
+        print(self.data['From'])
+        return self.data['From']
+
+    def clean(self):
+        cleaned_data = super().clean()
+        data = cleaned_data.get('From')
+        print('form data###: ', data)
+        if data == None:
+            raise forms.ValidationError('foo')
+        return cleaned_data
+
+        # if data in QS_CHOICES:
+        #     try:
+        #         data = MyModel.objects.get(id=data)
+        #     except MyModel.DoesNotExist:
+        #         raise forms.ValidationError('foo')
+        # return data
 
 # class project_form(forms.ModelForm):
 #     Driver = forms.ModelChoiceField(queryset=Driver_data.objects.all(), required=False)
