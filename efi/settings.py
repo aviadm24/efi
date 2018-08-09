@@ -45,11 +45,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
     'bootstrapform',
-    'bootstrap_datepicker',
     'django_extensions',
     'django_tables2',
     'import_export',
 ]
+#took out
+#'bootstrap_datepicker',
+
+
 
 MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
