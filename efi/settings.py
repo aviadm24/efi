@@ -136,8 +136,8 @@ USE_L10N = False
 
 USE_TZ = True
 
-DATE_INPUT_FORMATS = ('%d-%m-%Y', '%m/%d/%Y', '%d/%m/%Y', '%Y/%m/%d', '%A, %B %d %Y')
-DATE_FORMATS = '%A, %B %d %Y'
+DATE_INPUT_FORMATS = ('%Y-%m-%d', '%d-%m-%Y', '%m/%d/%Y', '%d/%m/%Y', '%Y/%m/%d', '%A, %B %d %Y')
+DATE_FORMATS = ('%A, %B %d %Y', '%Y-%m-%d')
 # DATETIME_INPUT_FORMATS = ('%m/%d/%Y %H:%M',)
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
@@ -155,3 +155,17 @@ STATICFILES_DIRS = (
 )
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+if not ipaddress.startswith('172'):
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+    EMAIL_USE_TLS = True
+    EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_HOST_USER = 'aviadm32@gmail.com'
+    EMAIL_HOST_PASSWORD = 'aviadpython'
+    EMAIL_PORT = 587
+else:
+    # https://github.com/sklarsa/django-sendgrid-v5
+    EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+    SENDGRID_API_KEY = os.environ["SENDGRID_API_KEY"]
+    SENDGRID_SANDBOX_MODE_IN_DEBUG = False

@@ -69,7 +69,7 @@ $('#End_time').on("change.datetimepicker", function (e) {
 
 $('#id_End_time').on("change", function (e) {
       date = $('#id_End_time').val();
-      console.log('change to: '+date);
+//      console.log('change to: '+date);
       get_diff();
    });
 

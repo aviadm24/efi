@@ -2,32 +2,76 @@
 var table = $('#mainlist').DataTable();
 
 function sum_price(cla){
-    //console.log('cla'+cla)
     var sum_dollar = 0;
     var sum_shekel = 0;
     var sum_euro = 0;
+    var new_value = 0;
     // iterate through each td based on class and add the values
     $("."+cla).each(function() {
-        var value = $(this).text();
-        if (value.includes('₪')){
-            var new_value = parseInt(value.replace('₪',''));
-        }else if (value.includes('$')){
-            var new_value = parseInt(value.replace('$',''));
-        }else if (value.includes('€')){
-            var new_value = parseInt(value.replace('€',''));
-        }
-
-        //console.log('value num:' + new_value)
-        // add only if the value is number
-        if(!isNaN(new_value) && new_value.length != 0) {
-            if(value.includes("$")){
-                sum_dollar += parseFloat(new_value);
-            }else if (value.includes('₪')){
-                sum_shekel += parseFloat(new_value);
+        if (cla == 'Cost_extra_hour_client'){
+            var cost_extra =  parseInt($(this).closest('tr').find('.Extra_hours_client').text())
+            if(cost_extra>0){
+                var value = $(this).text();
+                    if (value.includes('₪')){
+                        new_value = parseInt(value.replace('₪',''));
+                        sum_shekel += new_value*cost_extra;
+                    }else if (value.includes('$')){
+                        new_value = parseInt(value.replace('$',''));
+                        sum_dollar += new_value*cost_extra;
+                    }else if (value.includes('€')){
+                        new_value = parseInt(value.replace('€',''));
+                        sum_euro += new_value*cost_extra;
+                    }else{
+                        new_value = parseInt(value);
+                    }
+            }
+        } else if(cla == 'Cost_extra_hour_provider'){
+//            console.log('Cost_extra_hour_provider:'+ $(this).text())
+//            console.log('Extra_hours_provider:'+ $(this).closest('tr').find('.Extra_hours_provider').text())
+            var cost_extra =  parseInt($(this).closest('tr').find('.Extra_hours_provider').text())
+            if(cost_extra>0){
+                var value = $(this).text();
+                    if (value.includes('₪')){
+                        new_value = parseInt(value.replace('₪',''));
+                        sum_shekel += new_value*cost_extra;
+                    }else if (value.includes('$')){
+                        new_value = parseInt(value.replace('$',''));
+                        sum_dollar += new_value*cost_extra;
+                    }else if (value.includes('€')){
+                        new_value = parseInt(value.replace('€',''));
+                        sum_euro += new_value*cost_extra;
+                    }else{
+                        new_value = parseInt(value);
+                    }
+            }
+        }else{
+            var value = $(this).text();
+            if (value.includes('₪')){
+                new_value = parseInt(value.replace('₪',''));
+                sum_shekel += new_value;
+            }else if (value.includes('$')){
+                new_value = parseInt(value.replace('$',''));
+                sum_dollar += new_value;
             }else if (value.includes('€')){
-                sum_euro += parseFloat(new_value);
+                new_value = parseInt(value.replace('€',''));
+                sum_euro += new_value;
+            }else{
+                new_value = parseInt(value);
             }
         }
+
+
+        // add only if the value is number
+        // added this in the code above
+//        if(!isNaN(new_value) && new_value.length != 0) {
+//            if(value.includes("$")){
+//                sum_dollar += parseFloat(new_value);
+//            }else if (value.includes('₪')){
+//                sum_shekel += parseFloat(new_value);
+//            }else if (value.includes('€')){
+//                sum_euro += parseFloat(new_value);
+//            }
+//        }
     });
     return [sum_dollar,sum_shekel,sum_euro]
 }
@@ -35,8 +79,9 @@ function sum_price(cla){
 $(document).ready(function() {
     $("#sum_list td").each(function() {
         var id = $(this).attr("id");
-        var [sum_dollar,sum_shekel] = sum_price(id);
-        $("#"+id).text('$'+sum_dollar+'\n'+'₪'+sum_shekel)
+        var [sum_dollar,sum_shekel,sum_euro] = sum_price(id);
+        console.log()
+        $("#"+id).html('$'+sum_dollar+'<br/>'+'₪'+sum_shekel+'<br/>'+'€'+sum_euro)
     });
 });
 
@@ -71,8 +116,9 @@ function project_filter() {
 
      $("#sum_list td").each(function() {
         var id = $(this).attr("id");
-        var [sum_dollar, sum_shekel] = sum_price(id)
-        $("#"+id).text('$'+sum_dollar+'\n'+'₪'+sum_shekel)
+        var [sum_dollar,sum_shekel,sum_euro] = sum_price(id)
+        $("#"+id).html('$'+sum_dollar+'<br/>'+'₪'+sum_shekel+'<br/>'+'€'+sum_euro)
+        //$("#"+id).text('$'+sum_dollar+'\n'+'₪'+sum_shekel)
     });
 }
 
@@ -100,9 +146,13 @@ function customer_filter() {
 
     $("#sum_list td").each(function() {
         var id = $(this).attr("id");
-        var [sum_dollar,sum_shekel] = sum_price(id)
-        $("#"+id).text('$'+sum_dollar+'\n'+'₪'+sum_shekel)
+        var [sum_dollar,sum_shekel,sum_euro] = sum_price(id)
+        $("#"+id).html('$'+sum_dollar+'<br/>'+'₪'+sum_shekel+'<br/>'+'€'+sum_euro)
     });
+
+    $('#sum_list').find('thead tr th:nth-child(2),th:nth-child(4),th:nth-child(6),th:nth-child(8)').hide();
+    $('#sum_list').find('tbody tr td:nth-child(2),td:nth-child(4),td:nth-child(6),td:nth-child(8)').hide();
+    sum_sum_list()
 }
 
 function provider_filter() {
@@ -129,13 +179,41 @@ function provider_filter() {
 
      $("#sum_list td").each(function() {
         var id = $(this).attr("id");
-        var [sum_dollar,sum_shekel] = sum_price(id)
-        $("#"+id).text('$'+sum_dollar+'\n'+'₪'+sum_shekel)
+        var [sum_dollar,sum_shekel,sum_euro] = sum_price(id)
+        $("#"+id).html('$'+sum_dollar+'<br/>'+'₪'+sum_shekel+'<br/>'+'€'+sum_euro)
     });
+
+    $('#sum_list').find('thead tr th:nth-child(1),th:nth-child(3),th:nth-child(5),th:nth-child(7)').hide();
+    $('#sum_list').find('tbody tr td:nth-child(1),td:nth-child(3),td:nth-child(5),td:nth-child(7)').hide();
+    sum_sum_list()
+
 }
+//https://stackoverflow.com/questions/38717543/how-do-i-filter-date-range-in-datatables
+function date_filter(){
+    $.fn.dataTable.ext.search.push(
+    function( settings, data, dataIndex ) {
+        var min  = $('#id_start').val();
+        var max  = $('#id_end').val();
+        var createdAt = data[4] || 0; // Our date column in the table
 
-
-
+        if  (
+                ( min == "" || max == "" )
+                ||
+                ( moment(createdAt).isSameOrAfter(min) && moment(createdAt).isSameOrBefore(max) )
+            )
+        {
+            return true;
+        }
+        return false;
+        }
+    );
+    table.draw();
+    sum_sum_list()
+}
+// Re-draw the table when the a date range filter changes
+//$('.date-range-filter').change( function() {
+//    table.draw();
+//} );
 // https://stackoverflow.com/questions/30086341/datatable-hide-and-show-rows-based-on-a-button-click-event
 
 $("#hide").click(function() {

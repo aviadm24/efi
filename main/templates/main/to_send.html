@@ -1,0 +1,238 @@
+{% load staticfiles %}
+
+<h3>main list</h3>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <!--<th>[]</th>-->
+      {% for name in field_names %}
+      <th style="border: 1px solid black;">{{name}}</th>
+      {% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in end_filter %}
+
+          <tr>
+
+            <td style="border: 1px solid black;">{{ forloop.counter }}</td>
+            <td style="border: 1px solid black;">{{ row.Project_num}}</td>
+            <td style="border: 1px solid black;">{{ row.Customer}}</td>
+            <td style="border: 1px solid black;">{{ row.Contact}}</td>
+            <td style="border: 1px solid black;">{{ row.Date }}</td>
+            <td style="border: 1px solid black;">{{ row.Type_of_service}}</td>
+            <td style="border: 1px solid black;">{{ row.Type_of_car }}</td>
+            <td style="border: 1px solid black;">{{ row.Name }}</td>
+            <td style="border: 1px solid black;">{{ row.Luggage }}</td>
+            <td style="border: 1px solid black;">{{ row.Flight_num }}</td>
+            <td style="border: 1px solid black;">{{ row.Start_time }}</td>
+            <td style="border: 1px solid black;">{{ row.End_time }}</td>
+            <td style="border: 1px solid black;">{{ row.From }}</td>
+            <td style="border: 1px solid black;">{{ row.To }}</td>
+            <td style="border: 1px solid black;">{{ row.Provider }}</td>
+            <td style="border: 1px solid black;">{{ row.Driver_name }}</td>
+            <td style="border: 1px solid black;">{{ row.status_cheshbonit_yeruka1}}</td>
+            <td style="border: 1px solid black;">{{ row.Comments }}</td>
+            <td style="border: 1px solid black;">{{ row.Status }}</td>
+            <td style="border: 1px solid black;">{{ row.status_cheshbonit_yeruka2}}</td>
+            {% if customer_bool %}
+            <td style="border: 1px solid black;">{{ row.Extra_hours_client }}</td>
+            {% endif %}
+            {% if customer_bool %}
+            <td style="border: 1px solid black;">{{ row.Based_on_client }}</td>
+            {% endif %}
+            {% if provider_bool %}
+            <td style="border: 1px solid black;">{{ row.Extra_hours_provider }}</td>
+            {% endif %}
+            {% if provider_bool %}
+            <td style="border: 1px solid black;">{{ row.Based_on_provider }}</td>
+            {% endif %}
+
+            <td style="border: 1px solid black;">{{ row.KM }}</td>
+
+            {% if customer_bool %}
+            <td style="border: 1px solid black;">{{ row.Extra_KM_client}}</td>
+            {% endif %}
+            {% if provider_bool %}
+            <td style="border: 1px solid black;">{{ row.Extra_KM_provider}}</td>
+            {% endif %}
+            {% if customer_bool %}
+              {% if row.Cost_per_client|make_list|slice:'-2:'|join:'' == '33' %}
+                <td style="border: 1px solid black;">${{ row.Cost_per_client|make_list|slice:':-2'|join:'' }}</td>
+              {% endif %}
+              {% if row.Cost_per_client|make_list|slice:'-2:'|join:'' == '34' %}
+                <td style="border: 1px solid black;">₪{{ row.Cost_per_client|make_list|slice:':-2'|join:'' }}</td>
+              {% endif %}
+              {% if row.Cost_per_client|make_list|slice:'-2:'|join:'' == '35' %}
+                <td style="border: 1px solid black;">€{{ row.Cost_per_client|make_list|slice:':-2'|join:'' }}</td>
+              {% endif %}
+
+            {% endif %}
+            {% if provider_bool %}
+              {% if row.Cost_per_provider|make_list|slice:'-2:'|join:'' == '33' %}
+                <td style="border: 1px solid black;">${{ row.Cost_per_provider|make_list|slice:':-2'|join:'' }}</td>
+              {% endif %}
+              {% if row.Cost_per_provider|make_list|slice:'-2:'|join:'' == '34' %}
+                <td style="border: 1px solid black;">₪{{ row.Cost_per_provider|make_list|slice:':-2'|join:'' }}</td>
+              {% endif %}
+              {% if row.Cost_per_provider|make_list|slice:'-2:'|join:'' == '35' %}
+                <td style="border: 1px solid black;">€{{ row.Cost_per_provider|make_list|slice:':-2'|join:'' }}</td>
+              {% endif %}
+
+            {% endif %}
+            {% if customer_bool %}
+              {% if row.Cost_transfer_client|make_list|slice:'-2:'|join:'' == '33' %}
+                <td style="border: 1px solid black;">${{ row.Cost_transfer_client|make_list|slice:':-2'|join:'' }}</td>
+              {% endif %}
+              {% if row.Cost_transfer_client|make_list|slice:'-2:'|join:'' == '34' %}
+                <td style="border: 1px solid black;">₪{{ row.Cost_transfer_client|make_list|slice:':-2'|join:'' }}</td>
+              {% endif %}
+              {% if row.Cost_transfer_client|make_list|slice:'-2:'|join:'' == '35' %}
+                <td style="border: 1px solid black;">€{{ row.Cost_transfer_client|make_list|slice:':-2'|join:'' }}</td>
+              {% endif %}
+
+            {% endif %}
+            {% if provider_bool %}
+              {% if row.Cost_transfer_provider|make_list|slice:'-2:'|join:'' == '33' %}
+                <td style="border: 1px solid black;">${{ row.Cost_transfer_provider|make_list|slice:':-2'|join:'' }}</td>
+              {% endif %}
+              {% if row.Cost_transfer_provider|make_list|slice:'-2:'|join:'' == '34' %}
+                <td style="border: 1px solid black;">₪{{ row.Cost_transfer_provider|make_list|slice:':-2'|join:'' }}</td>
+              {% endif %}
+              {% if row.Cost_transfer_provider|make_list|slice:'-2:'|join:'' == '35' %}
+                <td style="border: 1px solid black;">€{{ row.Cost_transfer_provider|make_list|slice:':-2'|join:'' }}</td>
+              {% endif %}
+
+            {% endif %}
+            {% if customer_bool %}
+              {% if row.Cost_extra_hour_client|make_list|slice:'-2:'|join:'' == '33' %}
+                <td style="border: 1px solid black;">${{ row.Cost_extra_hour_client|make_list|slice:':-2'|join:'' }}</td>
+              {% endif %}
+              {% if row.Cost_extra_hour_client|make_list|slice:'-2:'|join:'' == '34' %}
+                <td style="border: 1px solid black;">₪{{ row.Cost_extra_hour_client|make_list|slice:':-2'|join:'' }}</td>
+              {% endif %}
+              {% if row.Cost_extra_hour_client|make_list|slice:'-2:'|join:'' == '35' %}
+                <td style="border: 1px solid black;">€{{ row.Cost_extra_hour_client|make_list|slice:':-2'|join:'' }}</td>
+              {% endif %}
+
+            {% endif %}
+            {% if provider_bool %}
+              {% if row.Cost_extra_hour_provider|make_list|slice:'-2:'|join:'' == '33' %}
+                <td style="border: 1px solid black;">${{ row.Cost_extra_hour_provider|make_list|slice:':-2'|join:'' }}</td>
+              {% endif %}
+              {% if row.Cost_extra_hour_provider|make_list|slice:'-2:'|join:'' == '34' %}
+                <td style="border: 1px solid black;">₪{{ row.Cost_extra_hour_provider|make_list|slice:':-2'|join:'' }}</td>
+              {% endif %}
+              {% if row.Cost_extra_hour_provider|make_list|slice:'-2:'|join:'' == '35' %}
+                <td style="border: 1px solid black;">€{{ row.Cost_extra_hour_provider|make_list|slice:':-2'|join:'' }}</td>
+              {% endif %}
+
+            {% endif %}
+            {% if customer_bool %}
+              {% if row.Cost_VIP_client|make_list|slice:'-2:'|join:'' == '33' %}
+                <td style="border: 1px solid black;">${{ row.Cost_VIP_client|make_list|slice:':-2'|join:'' }}</td>
+              {% endif %}
+              {% if row.Cost_VIP_client|make_list|slice:'-2:'|join:'' == '34' %}
+                <td style="border: 1px solid black;">₪{{ row.Cost_VIP_client|make_list|slice:':-2'|join:'' }}</td>
+              {% endif %}
+              {% if row.Cost_VIP_client|make_list|slice:'-2:'|join:'' == '35' %}
+                <td style="border: 1px solid black;">€{{ row.Cost_VIP_client|make_list|slice:':-2'|join:'' }}</td>
+              {% endif %}
+            {% endif %}
+            {% if provider_bool %}
+              {% if row.Cost_VIP_provider|make_list|slice:'-2:'|join:'' == '33' %}
+                <td style="border: 1px solid black;">${{ row.Cost_VIP_provider|make_list|slice:':-2'|join:'' }}</td>
+              {% endif %}
+              {% if row.Cost_VIP_provider|make_list|slice:'-2:'|join:'' == '34' %}
+                <td style="border: 1px solid black;">₪{{ row.Cost_VIP_provider|make_list|slice:':-2'|join:'' }}</td>
+              {% endif %}
+              {% if row.Cost_VIP_provider|make_list|slice:'-2:'|join:'' == '35' %}
+                <td style="border: 1px solid black;">€{{ row.Cost_VIP_provider|make_list|slice:':-2'|join:'' }}</td>
+              {% endif %}
+
+            {% endif %}
+
+
+
+          </tr>
+
+    {% endfor %}
+  </tbody>
+</table>
+
+{% if customer_bool %}
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <!--<th>[]</th>-->
+      {% for name in sum_table_fields %}
+      <th style="border: 1px solid black;">{{name}}</th>
+      {% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="border: 1px solid black;">${{ sum_dict.Cost_extra_hour_client_d}}</td>
+          <td style="border: 1px solid black;">${{ sum_dict.Cost_per_client_d}}</td>
+          <td style="border: 1px solid black;">${{ sum_dict.Cost_transfer_client_d}}</td>
+          <td style="border: 1px solid black;">${{ sum_dict.Cost_VIP_client_d}}</td>
+          <td style="border: 1px solid black;">${{ sum_dict.sum_d}}</td>
+          <td style="border: 1px solid black;">${{ sum_dict.sum_d_m}}</td>
+      </tr>
+      <tr>
+          <td style="border: 1px solid black;">₪{{ sum_dict.Cost_extra_hour_client_s}}</td>
+          <td style="border: 1px solid black;">₪{{ sum_dict.Cost_per_client_s}}</td>
+          <td style="border: 1px solid black;">₪{{ sum_dict.Cost_transfer_client_s}}</td>
+          <td style="border: 1px solid black;">₪{{ sum_dict.Cost_VIP_client_s}}</td>
+          <td style="border: 1px solid black;">₪{{ sum_dict.sum_s}}</td>
+          <td style="border: 1px solid black;">₪{{ sum_dict.sum_s_m}}</td>
+      </tr>
+      <tr>
+          <td style="border: 1px solid black;">€{{ sum_dict.Cost_extra_hour_client_u}}</td>
+          <td style="border: 1px solid black;">€{{ sum_dict.Cost_per_client_u}}</td>
+          <td style="border: 1px solid black;">€{{ sum_dict.Cost_transfer_client_u}}</td>
+          <td style="border: 1px solid black;">€{{ sum_dict.Cost_VIP_client_u}}</td>
+          <td style="border: 1px solid black;">€{{ sum_dict.sum_u}}</td>
+          <td style="border: 1px solid black;">€{{ sum_dict.sum_u_m}}</td>
+      </tr>
+  </tbody>
+</table>
+{% endif %}
+{% if provider_bool %}
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <!--<th>[]</th>-->
+      {% for name in sum_table_fields %}
+      <th style="border: 1px solid black;">{{name}}</th>
+      {% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="border: 1px solid black;">${{ sum_dict.Cost_extra_hour_provider_d}}</td>
+          <td style="border: 1px solid black;">${{ sum_dict.Cost_per_provider_d}}</td>
+          <td style="border: 1px solid black;">${{ sum_dict.Cost_transfer_provider_d}}</td>
+          <td style="border: 1px solid black;">${{ sum_dict.Cost_VIP_provider_d}}</td>
+          <td style="border: 1px solid black;">${{ sum_dict.sum_d}}</td>
+          <td style="border: 1px solid black;">${{ sum_dict.sum_d_m}}</td>
+      </tr>
+      <tr>
+          <td style="border: 1px solid black;">₪{{ sum_dict.Cost_extra_hour_provider_s}}</td>
+          <td style="border: 1px solid black;">₪{{ sum_dict.Cost_per_provider_s}}</td>
+          <td style="border: 1px solid black;">₪{{ sum_dict.Cost_transfer_provider_s}}</td>
+          <td style="border: 1px solid black;">₪{{ sum_dict.Cost_VIP_provider_s}}</td>
+          <td style="border: 1px solid black;">₪{{ sum_dict.sum_s}}</td>
+          <td style="border: 1px solid black;">₪{{ sum_dict.sum_s_m}}</td>
+      </tr>
+      <tr>
+          <td style="border: 1px solid black;">€{{ sum_dict.Cost_extra_hour_provider_u}}</td>
+          <td style="border: 1px solid black;">€{{ sum_dict.Cost_per_provider_u}}</td>
+          <td style="border: 1px solid black;">€{{ sum_dict.Cost_transfer_provider_u}}</td>
+          <td style="border: 1px solid black;">€{{ sum_dict.Cost_VIP_provider_u}}</td>
+          <td style="border: 1px solid black;">€{{ sum_dict.sum_u}}</td>
+          <td style="border: 1px solid black;">€{{ sum_dict.sum_u_m}}</td>
+      </tr>
+  </tbody>
+</table>
+{% endif %}

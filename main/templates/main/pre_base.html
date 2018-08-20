@@ -50,13 +50,18 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha18/js/tempusdominus-bootstrap-4.min.js"></script>
     <!--<script type="text/javascript" src="{% static 'js/bs4-datetimepicker.min.js' %}"></script>-->
     <script src="{% static 'js/table_colors.js' %}"></script>
+            <!--<script src="{% static 'datatable/jquery.dataTables.min.js' %}"></script>-->
+            <!--<script src="{% static 'datatable/dataTables.bootstrap4.min.js' %}"></script>-->
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
     <!--<script defer src="{% static 'js/add_dollar_shekel.js' %}"></script>-->
+    <script defer src="{% static 'js/dollar_shekel_euro.js' %}"></script>
     <script defer src="{% static 'js/table_filter.js' %}"></script>
     <script defer src="{% static 'js/status_function.js' %}"></script>
-    <script defer src="{% static 'js/dollar_shekel_euro.js' %}"></script>
+    <script defer src="{% static 'js/maam.js' %}"></script>
+    <script defer src="{% static 'js/csv_filter.js' %}"></script>
+
 
 
    <script type="text/javascript">
@@ -85,6 +90,20 @@
             });
         });
 
+        $(function () {
+            $('#start').datetimepicker({
+              format: 'YYYY-MM-DD',
+              useCurrent: false
+            });
+        });
+
+        $(function () {
+            $('#end').datetimepicker({
+              format: 'YYYY-MM-DD',
+              useCurrent: false
+            });
+        });
+
         $("#custom").spectrum({
           preferredFormat: "rgb",
         });
@@ -95,6 +114,9 @@
 
         $(document).ready(function() {
             $('#id_From').select2({
+              tags: true
+            });
+            $('#id_To').select2({
               tags: true
             });
         });

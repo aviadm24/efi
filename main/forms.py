@@ -9,6 +9,11 @@ from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, Div
 # https://stackoverflow.com/questions/18680063/change-input-types-and-attributes-for-a-form-used-in-a-createview-and-updatevi
 
 
+class DateForm(forms.Form):
+    # title = forms.CharField(max_length=50)
+    start = forms.DateField()
+    end = forms.DateField()
+
 class UploadFileForm(forms.Form):
     # title = forms.CharField(max_length=50)
     file = forms.FileField()
@@ -24,8 +29,8 @@ class main_list_form(forms.ModelForm):
     Status = forms.ModelChoiceField(queryset=Status_data.objects.all(), required=False)
     status_cheshbonit_yeruka1 = forms.ModelChoiceField(queryset=Yeruka_data.objects.all(), required=False)
     status_cheshbonit_yeruka2 = forms.ModelChoiceField(queryset=Yeruka2_data.objects.all(), required=False)
-    To = forms.ModelChoiceField(queryset=To_data.objects.all(), required=False)
-
+    # To = forms.ModelChoiceField(queryset=To_data.objects.all(), required=False)
+    To = forms.CharField(widget=forms.Select(choices=[(doc, doc) for doc in To_data.objects.all()]), required=False)
     # From = forms.ModelChoiceField(queryset=From_data.objects.all(), required=False)
 
     # From = forms.ChoiceField(choices=[(doc, doc) for doc in From_data.objects.all()], required=False)
@@ -34,6 +39,7 @@ class main_list_form(forms.ModelForm):
     From = forms.CharField(widget=forms.Select(choices=[(doc, doc) for doc in From_data.objects.all()]), required=False)
     # https://stackoverflow.com/questions/19770534/django-forms-choicefield-without-validation-of-selected-value
 
+    # https://djangosnippets.org/snippets/200/
 
     class Meta:
         model = main_list_model

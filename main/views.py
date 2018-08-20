@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, render_to_response
 from django.contrib import messages
-from .forms import main_list_form, UploadFileForm
+from .forms import main_list_form, UploadFileForm, DateForm
 from django.forms import formset_factory
 from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
@@ -26,101 +26,691 @@ import os
 from django.conf import settings
 from django.core.files import File
 from django.http import HttpResponse, StreamingHttpResponse
+from .resources import main_list_Resource
+from django.template.loader import render_to_string
+from django.core.mail import EmailMessage
+
 BASE_DIR = settings.BASE_DIR
 
 
-class Echo:
-    """An object that implements just the write method of the file-like
-    interface.
-    """
-    def write(self, value):
-        """Write the value by returning it, instead of storing in a buffer."""
-        return value
+def export_csv(request):
+    main_list_resource = main_list_Resource()
+    dataset = main_list_resource.export()
+    response = HttpResponse(dataset.csv, content_type='text/csv')
 
-def get_model_field_names(model, ignore_fields=['Color']):
-    '''
-    ::param model is a Django model class
-    ::param ignore_fields is a list of field names to ignore by default
-    This method gets all model field names (as strings) and returns a list
-    of them ignoring the ones we know don't work (like the 'content_object' field)
-    '''
-    model_fields = model._meta.get_fields()
-    # model_field_names = list(set([f.name for f in model_fields if f.name not in ignore_fields]))
-    model_field_names = list(set([f.name for f in model_fields]))
-    return model_field_names
-
-def qs_to_local_csv(path=None, filename=None):
-    if path is None:
-        path = os.path.join(os.path.dirname(BASE_DIR), 'csvstorage')
-        if not os.path.exists(path):
-            '''
-            CSV storage folder doesn't exist, make it!
-            '''
-            os.mkdir(path)
-    if filename is None:
-        model_name = 'main_list_model'
-        filename = "{}.csv".format(model_name)
-    filepath = os.path.join(path, filename)
-    lookups = get_model_field_names(main_list_model)
-    qs = main_list_model.objects.all()
-    dataset = list(qs.values())
-    rows_done = 0
-    with open(filepath, 'w') as my_file:
-        writer = csv.DictWriter(my_file, fieldnames=lookups)
-        writer.writeheader()
-        for data_item in dataset:
-            writer.writerow(data_item)
-            rows_done += 1
-    print("{} rows completed".format(rows_done))
-
-
-def CSVDownload(request, path=None, filename=None):
-    if path is None:
-        path = os.path.join(os.path.dirname(BASE_DIR), 'csvstorage')
-        if not os.path.exists(path):
-            '''
-            CSV storage folder doesn't exist, make it!
-            '''
-            os.mkdir(path)
-    if filename is None:
-        model_name = 'main_list_model'
-        filename = "{}.csv".format(model_name)
-    filepath = os.path.join(path, filename)
-    qs = main_list_model.objects.all()
-    model_name = 'main_list_model'
-    filename = "{}.csv".format(model_name)
-    lookups = get_model_field_names(main_list_model)
-    dataset = list(qs.values())
-    fp = io.StringIO()
-    pseudo_buffer = Echo()
-    outcsv = csv.writer(pseudo_buffer)
-    with open(filepath, 'w') as my_file:
-        writer = csv.DictWriter(my_file, fieldnames=lookups)
-        writer.writeheader()
-        for data_item in dataset:
-            writer.writerow(data_item)
-        stream_file = File(fp)
-    response = StreamingHttpResponse(stream_file,
-                                     content_type="text/csv")
-    response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
+    response['Content-Disposition'] = 'attachment; filename="persons.csv"'
 
     return response
 
+def export_filter(request):
+    # attach a csv to mail
+    # https://stackoverflow.com/questions/17584550/attach-generated-csv-file-to-email-and-send-with-django
+    project_num = request.GET.get('project_num')
+    customer = request.GET.get('customer')
+    provider = request.GET.get('provider')
+    min = request.GET.get('min')
+    max = request.GET.get('max')
+    mail = request.GET.get('mail')
+    customer_bool = True
+    provider_bool = True
+    if project_num != '---SELECT---':
+        print('proj num:', project_num)
+        project_filter = main_list_model.objects.filter(Project_num=project_num)
+        if customer != '---SELECT---':
+            customer_filter = project_filter.objects.filter(Customer=customer)
 
-def export_csv(request):
-    # dataset = main_list_Resource().export()
-    # print(dataset.csv)
-    qs_to_local_csv()
-    return redirect('add_main_list')
+            provider_bool = False
+            if min != '':
+                min_filter = customer_filter.objects.filter(Date__gte=min)
+                if max != '':
+                    end_filter = min_filter.objects.filter(Date__lte=max)
+                else:
+                    end_filter = min_filter
+            else:
+                end_filter = customer_filter
 
+        elif provider != '---SELECT---':
+            provider_filter = project_filter.objects.filter(Provider=provider)
+            customer_bool = False
+            if min != '':
+                min_filter = provider_filter.objects.filter(Date__gte=min)
+                if max != '':
+                    end_filter = min_filter.objects.filter(Date__lte=max)
+                else:
+                    end_filter = min_filter
+            else:
+                end_filter = provider_filter
+
+        else:
+            print('proj num2:', project_num)
+            if min != '':
+                min_filter = project_filter.objects.filter(Date__gte=min)
+                if max != '':
+                    end_filter = min_filter.objects.filter(Date__lte=max)
+                else:
+                    end_filter = min_filter
+            else:
+                end_filter = project_filter
+                table = main_list_Table(main_list_model.objects.filter(Project_num=project_num))
+                print('proj num3:', end_filter)
+                # return redirect('main/to_send.html', {'end_filter': end_filter})
+    else:
+        if customer != '---SELECT---':
+            provider_bool = False
+            print('proj customer_filter:', customer)
+            customer_filter = main_list_model.objects.filter(Customer=customer)
+            if min != '':
+                min_filter = customer_filter.objects.filter(Date__gte=min)
+                if max != '':
+                    end_filter = min_filter.objects.filter(Date__lte=max)
+                else:
+                    end_filter = min_filter
+            else:
+                end_filter = customer_filter
+        elif provider != '---SELECT---':
+            customer_bool = False
+            provider_filter = main_list_model.objects.filter(Provider=provider)
+            if min != '':
+                min_filter = provider_filter.objects.filter(Date__gte=min)
+                if max != '':
+                    end_filter = min_filter.objects.filter(Date__lte=max)
+                else:
+                    end_filter = min_filter
+            else:
+                end_filter = provider_filter
+    # https://stackoverflow.com/questions/43592783/django-template-context-processors-request-issue-with-django-tables2-and-djang
+    field_names = [f.name for f in main_list_model._meta.get_fields()]
+    field_names.remove('Color')
+    # filterd_field_names = []
+    if provider_bool == False:
+        field_names.remove('Based_on_provider')
+        for name in field_names:
+            if 'provider' in name:
+                field_names.remove(name)
+    if customer_bool == False:
+        field_names.remove('Based_on_client')
+        for name in field_names:
+            if 'client' in name:
+                field_names.remove(name)
+    # print(end_filter)
+    # print('field_names: ,', field_names)
+
+    if provider_bool == False:
+        end_filter = end_filter.values(*field_names)
+        sum_dict = {}
+        Cost_extra_hour_client_d = 0
+        Cost_extra_hour_client_s = 0
+        Cost_extra_hour_client_u = 0
+
+        Cost_per_client_d = 0
+        Cost_per_client_s = 0
+        Cost_per_client_u = 0
+
+        Cost_transfer_client_d = 0
+        Cost_transfer_client_s = 0
+        Cost_transfer_client_u = 0
+
+        Cost_VIP_client_d = 0
+        Cost_VIP_client_s = 0
+        Cost_VIP_client_u = 0
+
+        sum_d = 0
+        sum_s = 0
+        sum_u = 0
+
+
+        for num, data in enumerate(end_filter):
+            # print('data', data['Extra_hours_client'])
+            if data['Extra_hours_client'] > 0:
+                sum = (data['Cost_extra_hour_client'] // 100) * data['Extra_hours_client']
+                if data['Cost_extra_hour_client'] % 100 == 33:
+                    Cost_extra_hour_client_d += sum
+                    sum_d += sum
+                if data['Cost_extra_hour_client'] % 100 == 34:
+                    Cost_extra_hour_client_s += sum
+                    sum_s += sum
+                if data['Cost_extra_hour_client'] % 100 == 35:
+                    Cost_extra_hour_client_u += sum
+                    sum_u += sum
+
+            if data['Cost_per_client'] :
+                sum = (data['Cost_per_client'] // 100)
+                if data['Cost_per_client'] % 100 == 33:
+                    Cost_per_client_d += sum
+                    sum_d += sum
+                if data['Cost_per_client'] % 100 == 34:
+                    Cost_per_client_s += sum
+                    sum_s += sum
+                if data['Cost_per_client'] % 100 == 35:
+                    Cost_per_client_u += sum
+                    sum_u += sum
+
+            if data['Cost_transfer_client']:
+                sum = (data['Cost_transfer_client'] // 100)
+                if data['Cost_transfer_client'] % 100 == 33:
+                    Cost_transfer_client_d += sum
+                    sum_d += sum
+                if data['Cost_transfer_client'] % 100 == 34:
+                    Cost_transfer_client_s += sum
+                    sum_s += sum
+                if data['Cost_transfer_client'] % 100 == 35:
+                    Cost_transfer_client_u += sum
+                    sum_u += sum
+
+            if data['Cost_VIP_client']:
+                sum = (data['Cost_VIP_client'] // 100)
+                if data['Cost_VIP_client'] % 100 == 33:
+                    Cost_VIP_client_d += sum
+                    sum_d += sum
+                if data['Cost_VIP_client'] % 100 == 34:
+                    Cost_VIP_client_s += sum
+                    sum_s += sum
+                if data['Cost_VIP_client'] % 100 == 35:
+                    Cost_VIP_client_u += sum
+                    sum_u += sum
+
+            # for i in l:
+            #     print('i: ',i)
+            #     if data[i] > 0:
+            #         sum = (data[i] // 100)
+            #         if data[i] % 100 == 33:
+            #             b = sum_dict[i+'_d']
+            #             b += sum
+            #             sum_dict[i + '_d'] = b
+            #         if data[i] % 100 == 34:
+            #             b = sum_dict[i + '_s']
+            #             b += sum
+            #             sum_dict[i + '_s'] = b
+            #         if data[i] % 100 == 35:
+            #             b = sum_dict[i + '_u']
+            #             b += sum
+            #             sum_dict[i + '_u'] = b
+
+            sum_dict['Cost_extra_hour_client_d'] = Cost_extra_hour_client_d
+            sum_dict['Cost_extra_hour_client_s'] = Cost_extra_hour_client_s
+            sum_dict['Cost_extra_hour_client_u'] = Cost_extra_hour_client_u
+
+            sum_dict['Cost_per_client_d'] = Cost_per_client_d
+            sum_dict['Cost_per_client_s'] = Cost_per_client_s
+            sum_dict['Cost_per_client_u'] = Cost_per_client_u
+
+            sum_dict['Cost_transfer_client_d'] = Cost_transfer_client_d
+            sum_dict['Cost_transfer_client_s'] = Cost_transfer_client_s
+            sum_dict['Cost_transfer_client_u'] = Cost_transfer_client_u
+
+            sum_dict['Cost_VIP_client_d'] = Cost_VIP_client_d
+            sum_dict['Cost_VIP_client_s'] = Cost_VIP_client_s
+            sum_dict['Cost_VIP_client_u'] = Cost_VIP_client_u
+
+            sum_dict['sum_d'] = sum_d
+            sum_dict['sum_s'] = sum_s
+            sum_dict['sum_u'] = sum_u
+
+            sum_dict['sum_d_m'] = sum_d*1.17
+            sum_dict['sum_s_m'] = sum_s*1.17
+            sum_dict['sum_u_m'] = sum_u*1.17
+        print('sum dict: ', sum_dict)
+        sum_table_fields = ['Cost_per_client', 'Extra_hours_client', 'Cost_transfer_client', 'Cost_VIP_client', 'sum', 'sum+maam']
+
+
+
+        # extra_hours_client = end_filter.objects.values_list('Extra_hours_client', flat=True)
+
+    if customer_bool == False:
+        end_filter = end_filter.values(*field_names)
+        sum_dict = {}
+        Cost_extra_hour_provider_d = 0
+        Cost_extra_hour_provider_s = 0
+        Cost_extra_hour_provider_u = 0
+
+        Cost_per_provider_d = 0
+        Cost_per_provider_s = 0
+        Cost_per_provider_u = 0
+
+        Cost_transfer_provider_d = 0
+        Cost_transfer_provider_s = 0
+        Cost_transfer_provider_u = 0
+
+        Cost_VIP_provider_d = 0
+        Cost_VIP_provider_s = 0
+        Cost_VIP_provider_u = 0
+
+        sum_d = 0
+        sum_s = 0
+        sum_u = 0
+
+        for data in end_filter:
+            if data['Extra_hours_provider'] > 0:
+                sum = (data['Cost_extra_hour_provider'] // 100) * data['Extra_hours_provider']
+                if data['Cost_extra_hour_provider'] % 100 == 33:
+                    Cost_extra_hour_provider_d += sum
+                    sum_d += sum
+                if data['Cost_extra_hour_provider'] % 100 == 34:
+                    Cost_extra_hour_provider_s += sum
+                    sum_s += sum
+                if data['Cost_extra_hour_provider'] % 100 == 35:
+                    Cost_extra_hour_provider_u += sum
+                    sum_u += sum
+
+            if data['Cost_per_provider']:
+                sum = (data['Cost_per_provider'] // 100)
+                if data['Cost_per_provider'] % 100 == 33:
+                    Cost_per_provider_d += sum
+                    sum_d += sum
+                if data['Cost_per_provider'] % 100 == 34:
+                    Cost_per_provider_s += sum
+                    sum_s += sum
+                if data['Cost_per_provider'] % 100 == 35:
+                    Cost_per_provider_u += sum
+                    sum_u += sum
+
+            if data['Cost_transfer_provider']:
+                sum = (data['Cost_transfer_provider'] // 100)
+                if data['Cost_transfer_provider'] % 100 == 33:
+                    Cost_transfer_provider_d += sum
+                    sum_d += sum
+                if data['Cost_transfer_provider'] % 100 == 34:
+                    Cost_transfer_provider_s += sum
+                    sum_s += sum
+                if data['Cost_transfer_provider'] % 100 == 35:
+                    Cost_transfer_provider_u += sum
+                    sum_u += sum
+
+            if data['Cost_VIP_provider']:
+                sum = (data['Cost_VIP_provider'] // 100)
+                if data['Cost_VIP_provider'] % 100 == 33:
+                    Cost_VIP_provider_d += sum
+                    sum_d += sum
+                if data['Cost_VIP_provider'] % 100 == 34:
+                    Cost_VIP_provider_s += sum
+                    sum_s += sum
+                if data['Cost_VIP_provider'] % 100 == 35:
+                    Cost_VIP_provider_u += sum
+                    sum_u += sum
+
+            sum_dict['Cost_extra_hour_provider_d'] = Cost_extra_hour_provider_d
+            sum_dict['Cost_extra_hour_provider_s'] = Cost_extra_hour_provider_s
+            sum_dict['Cost_extra_hour_provider_u'] = Cost_extra_hour_provider_u
+
+            sum_dict['Cost_per_provider_d'] = Cost_per_provider_d
+            sum_dict['Cost_per_provider_s'] = Cost_per_provider_s
+            sum_dict['Cost_per_provider_u'] = Cost_per_provider_u
+
+            sum_dict['Cost_transfer_provider_d'] = Cost_transfer_provider_d
+            sum_dict['Cost_transfer_provider_s'] = Cost_transfer_provider_s
+            sum_dict['Cost_transfer_provider_u'] = Cost_transfer_provider_u
+
+            sum_dict['Cost_VIP_provider_d'] = Cost_VIP_provider_d
+            sum_dict['Cost_VIP_provider_s'] = Cost_VIP_provider_s
+            sum_dict['Cost_VIP_provider_u'] = Cost_VIP_provider_u
+
+            sum_dict['sum_d'] = sum_d
+            sum_dict['sum_s'] = sum_s
+            sum_dict['sum_u'] = sum_u
+
+            sum_dict['sum_d_m'] = sum_d*1.17
+            sum_dict['sum_s_m'] = sum_s*1.17
+            sum_dict['sum_u_m'] = sum_u*1.17
+        print('sum dict: ', sum_dict)
+        sum_table_fields = ['Cost_per_provider', 'Extra_hours_provider', 'Cost_transfer_provider', 'Cost_VIP_provider', 'sum', 'sum+maam']
+
+
+    content = render_to_string('main/to_send.html', {'field_names': field_names, 'end_filter': end_filter,
+                                                     'customer_bool': customer_bool,
+                                                     'provider_bool': provider_bool,
+                                                     'sum_dict': sum_dict,
+                                                     'sum_table_fields': sum_table_fields}, request=request)
+    print('mail to:', mail)
+    msg = EmailMessage("caneti", content, to=[mail])
+    # msg.attach('my_pdf.pdf', pdf, 'application/pdf')
+    msg.content_subtype = "html"
+    msg.send()
+
+    # request.session['field_names'] = field_names
+    # request.session['end_filter'] = end_filter
+    return render(request, 'main/to_send.html', {'field_names': field_names, 'end_filter': end_filter})
+
+    # print(project_num, customer, provider, min, max)
+    # main_list_resource = main_list_Resource()
+    # dataset = main_list_resource.export()
+    # response = HttpResponse(dataset.csv, content_type='text/csv')
+    #
+    # response['Content-Disposition'] = 'attachment; filename="persons.csv"'
+    #
+    # return response
+
+def to_send(request):
+    print('to send view')
+    field_names = request.session.get('field_names', '')
+
+    # end_filter = request.session.get('end_filter', '')
+    return render(request, 'main/to_send.html', {'field_names': field_names}) #, 'end_filter': model.query
 
 def table_view(request):
     table = main_list_Table(main_list_model.objects.all())
     RequestConfig(request).configure(table)
     return render(request, 'main/table_view.html', {'table': table})
 
-def handle_uploaded_file():
-    pass
+
+def add_main_list(request):
+    field_names = [f.name for f in main_list_model._meta.get_fields()]
+    now = timezone.now()
+    #  https://stackoverflow.com/questions/7503241/django-models-selecting-single-field
+    p_num_list = main_list_model.objects.values_list('Project_num', flat=True)
+    p_num_set = set(p_num_list)
+    # p_num_filterd_list = main_list_model.objects.filter(Date__gte=now).values_list('Project_num', flat=True)
+    customer_list = main_list_model.objects.values_list('Customer', flat=True)
+    customer_set = set(customer_list)
+    # for i in customer_list:
+    #     print('customer_list: ', i)
+    provider_list = main_list_model.objects.values_list('Provider', flat=True)
+    provider_set = set(provider_list)
+    last_month = datetime.today() - timedelta(days=30)
+    # all = main_list_model.objects.all().order_by('Date')
+    # passed = transfer.objects.filter(Date__lt=now).order_by('Date')
+
+    # table_upcoming = main_list_model.objects.filter(Date__gte=last_month).order_by('Date')
+    table_upcoming = main_list_Table(main_list_model.objects.filter(Date__gte=last_month).order_by('Date'))
+    table_all = main_list_Table(main_list_model.objects.all())
+    RequestConfig(request).configure(table_upcoming)
+
+    if request.method == 'POST':
+        print('main list - post')
+        form = main_list_form(request.POST)
+        date_form = DateForm(request.POST)
+        # print('view - from:', request.POST['From'])
+        if 'date_filter' in request.POST:
+            if date_form.is_valid():
+                start = date_form.cleaned_data['start']
+                end = date_form.cleaned_data['end']
+                table_upcoming = main_list_Table(main_list_model.objects.filter(Date__range=[start, end]))
+                return render(request, 'main/main_list_model_form.html', {'form': form,
+                                                              'field_names': field_names[1:],
+                                                              'table_upcoming': table_upcoming,
+                                                              'p_num_list': p_num_set,
+                                                              'customer_list': customer_set,
+                                                              'provider_list': provider_set,
+                                                              'date_form': date_form})
+            else:
+                print('date form error: ', date_form.errors)
+        else:
+            if form.is_valid():
+                for key, value in form.cleaned_data.items():
+                    if key == 'From':
+                        if From_data.objects.filter(From=value).exists():
+                            pass
+                        else:
+                            # f = From_data.objects.create(From=value)
+                            db = From_data
+                            db.From = value
+                            db.save()
+                    if key == 'To':
+                        if To_data.objects.filter(To=value).exists():
+                            pass
+                        else:
+                            # f = From_data.objects.create(From=value)
+                            db = To_data
+                            db.To = value
+                            db.save()
+                    print('key: ', key, 'val: ', value)
+                print('view - from:', request.POST['From'])
+                form.save()
+                messages.success(request, ('Your order was successfully updated!'))
+                return redirect('add_main_list')
+            else:
+                print('main list - got an error: ', form.errors)
+                messages.error(request, ('Please correct the error below \n {}'.format(request.POST['From'])))
+
+    else:
+        form = main_list_form
+        date_form = DateForm
+
+    return render(request, 'main/main_list_model_form.html', {'form': form,
+                                                              'field_names': field_names[1:],
+                                                              'table_upcoming': table_upcoming,
+                                                              'p_num_list': p_num_set,
+                                                              'customer_list': customer_set,
+                                                              'provider_list': provider_set,
+                                                              'date_form': date_form})
+
+def whole_list(request):
+
+    table_all = main_list_Table(main_list_model.objects.all())
+    RequestConfig(request).configure(table_all)
+
+    # field_names = [f.name for f in main_list_model._meta.get_fields()]
+    # all = main_list_model.objects.all().order_by('Date')
+    # print('all: ', all)
+    return render(request, 'main/whole_list.html', {'table_all': table_all})
+
+
+def search_list(request):
+    if request.method == 'POST':
+        print('transfer -post')
+        form = main_list_form(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your order was successfully updated!')
+            return redirect('add_main_list')
+        else:
+            messages.error(request, 'Please correct the error below')
+    else:
+        form = main_list_form
+        field_names = [f.name for f in main_list_model._meta.get_fields()]
+        # print(field_names)
+
+        now = timezone.now()
+        upcoming = main_list_model.objects.filter(Date__gte=now).order_by('Date')
+        # passed = transfer.objects.filter(Date__lt=now).order_by('Date')
+        print(upcoming)
+    return render(request, 'main/main_list_model_form.html', {'form': form, 'field_names': field_names[1:],
+                                                              'upcoming': upcoming})
+
+def p_num_list(request):
+    p_num = request.GET.get('p_num_list')
+    project_group = main_list_model.objects.filter(Project_num=p_num)
+    field_names = [f.name for f in main_list_model._meta.get_fields()]
+    # context = {'p_num': p_num}
+    return render(request, 'main/project_group.html', {'field_names': field_names[1:], 'project_group': project_group})
+
+def customer_list(request):
+    customer = request.GET.get('customer_list')
+    customer_group = main_list_model.objects.filter(Customer=customer)
+    print('customer_list', customer_group)
+    field_names = [f.name for f in main_list_model._meta.get_fields()]
+    # context = {'p_num': p_num}
+    return render(request, 'main/customer_group.html', {'field_names': field_names[1:],
+                                                        'customer_group': customer_group})
+
+def add_dollar(request):
+    id = request.GET.get('id')
+    td_id = request.GET.get('td_id')
+    new_int = request.GET.get('new_int')
+    data = main_list_model.objects.filter(pk=id)
+    print('data: ', data.values())
+    td_data = data.values()[0][td_id]
+    print('td_data: ', td_data)
+
+    if td_id == 'Extra_KM_client':
+        main_list_model.objects.filter(pk=id).update(Extra_KM_client=new_int)
+    if td_id == 'Extra_KM_provider':
+        main_list_model.objects.filter(pk=id).update(Extra_KM_provider=new_int)
+    if td_id == 'Cost_per_client':
+        main_list_model.objects.filter(pk=id).update(Cost_per_client=new_int)
+    if td_id == 'Cost_per_provider':
+        main_list_model.objects.filter(pk=id).update(Cost_per_provider=new_int)
+    if td_id == 'Cost_transfer_client':
+        main_list_model.objects.filter(pk=id).update(Cost_transfer_client=new_int)
+
+    if td_id == 'Cost_transfer_provider':
+        main_list_model.objects.filter(pk=id).update(Cost_transfer_provider=new_int)
+    if td_id == 'Cost_extra_hour_client':
+        main_list_model.objects.filter(pk=id).update(Cost_extra_hour_client=new_int)
+    if td_id == 'Cost_extra_hour_provider':
+        main_list_model.objects.filter(pk=id).update(Cost_extra_hour_provider=new_int)
+    if td_id == 'Cost_VIP_client':
+        main_list_model.objects.filter(pk=id).update(Cost_VIP_client=new_int)
+    if td_id == 'Cost_VIP_provider':
+        main_list_model.objects.filter(pk=id).update(Cost_VIP_provider=new_int)
+
+    return JsonResponse({})
+
+def add_shekel(request):
+    id = request.GET.get('id')
+    td_id = request.GET.get('td_id')
+    new_int = request.GET.get('new_int')
+    data = main_list_model.objects.filter(pk=id)
+    print('data: ', data.values())
+    td_data = data.values()[0][td_id]
+    print('td_data: ', td_data)
+
+    if td_id == 'Extra_KM_client':
+        main_list_model.objects.filter(pk=id).update(Extra_KM_client=new_int)
+    if td_id == 'Extra_KM_provider':
+        main_list_model.objects.filter(pk=id).update(Extra_KM_provider=new_int)
+    if td_id == 'Cost_per_client':
+        main_list_model.objects.filter(pk=id).update(Cost_per_client=new_int)
+    if td_id == 'Cost_per_provider':
+        main_list_model.objects.filter(pk=id).update(Cost_per_provider=new_int)
+    if td_id == 'Cost_transfer_client':
+        main_list_model.objects.filter(pk=id).update(Cost_transfer_client=new_int)
+
+    if td_id == 'Cost_transfer_provider':
+        main_list_model.objects.filter(pk=id).update(Cost_transfer_provider=new_int)
+    if td_id == 'Cost_extra_hour_client':
+        main_list_model.objects.filter(pk=id).update(Cost_extra_hour_client=new_int)
+    if td_id == 'Cost_extra_hour_provider':
+        main_list_model.objects.filter(pk=id).update(Cost_extra_hour_provider=new_int)
+    if td_id == 'Cost_VIP_client':
+        main_list_model.objects.filter(pk=id).update(Cost_VIP_client=new_int)
+    if td_id == 'Cost_VIP_provider':
+        main_list_model.objects.filter(pk=id).update(Cost_VIP_provider=new_int)
+
+    return JsonResponse({})
+
+def add_euro(request):
+    id = request.GET.get('id')
+    td_id = request.GET.get('td_id')
+    new_int = request.GET.get('new_int')
+    data = main_list_model.objects.filter(pk=id)
+    print('data: ', data.values())
+    td_data = data.values()[0][td_id]
+    print('td_data: ', td_data)
+
+    if td_id == 'Extra_KM_client':
+        main_list_model.objects.filter(pk=id).update(Extra_KM_client=new_int)
+    if td_id == 'Extra_KM_provider':
+        main_list_model.objects.filter(pk=id).update(Extra_KM_provider=new_int)
+    if td_id == 'Cost_per_client':
+        main_list_model.objects.filter(pk=id).update(Cost_per_client=new_int)
+    if td_id == 'Cost_per_provider':
+        main_list_model.objects.filter(pk=id).update(Cost_per_provider=new_int)
+    if td_id == 'Cost_transfer_client':
+        main_list_model.objects.filter(pk=id).update(Cost_transfer_client=new_int)
+
+    if td_id == 'Cost_transfer_provider':
+        main_list_model.objects.filter(pk=id).update(Cost_transfer_provider=new_int)
+    if td_id == 'Cost_extra_hour_client':
+        main_list_model.objects.filter(pk=id).update(Cost_extra_hour_client=new_int)
+    if td_id == 'Cost_extra_hour_provider':
+        main_list_model.objects.filter(pk=id).update(Cost_extra_hour_provider=new_int)
+    if td_id == 'Cost_VIP_client':
+        main_list_model.objects.filter(pk=id).update(Cost_VIP_client=new_int)
+    if td_id == 'Cost_VIP_provider':
+        main_list_model.objects.filter(pk=id).update(Cost_VIP_provider=new_int)
+
+    return JsonResponse({})
+
+
+def add_color_json(request):
+    color = request.GET.get('color')
+    if color == '':
+        id = request.GET.get('id')
+        td_id = request.GET.get('td_id')
+        text_color = request.GET.get('text_color')
+        print('text_color: ', text_color)
+
+        data = main_list_model.objects.filter(pk=id)
+        color_data = data.values()[0]['Color']
+        try:
+            color_json_load = json.loads(color_data)
+        except TypeError:
+            color_json_load = json.loads('{}')
+        print('color data: ', type(color_json_load))
+        print('color: ', color_json_load)
+
+        if text_color == 'true':
+            color_json_load.pop(td_id + '_text', None)
+            color_json = json.dumps(color_json_load)
+            main_list_model.objects.filter(pk=id).update(Color=color_json)
+            print('new text color: ', type(color_json))
+        else:
+            color_json_load.pop(td_id, None)
+            color_json = json.dumps(color_json_load)
+            main_list_model.objects.filter(pk=id).update(Color=color_json)
+            print('new color: ', type(color_json))
+
+    else:
+        id = request.GET.get('id')
+        td_id = request.GET.get('td_id')
+        text_color = request.GET.get('text_color')
+        print('text_color: ', text_color)
+
+        data = main_list_model.objects.filter(pk=id)
+        color_data = data.values()[0]['Color']
+        try:
+            color_json_load = json.loads(color_data)
+        except TypeError:
+            color_json_load = json.loads('{}')
+        print('color data: ', type(color_json_load))
+        if color_data == None:
+            color_data = {}
+        print('color: ', color_json_load)
+
+        if text_color == 'true':
+            color_json_load[td_id+'_text'] = color
+            color_json = json.dumps(color_json_load)
+            main_list_model.objects.filter(pk=id).update(Color=color_json)
+            print('new text color: ', type(color_json))
+        else:
+            color_json_load[td_id] = color
+            color_json = json.dumps(color_json_load)
+            main_list_model.objects.filter(pk=id).update(Color=color_json)
+            print('new color: ', type(color_json))
+
+    return JsonResponse({'is_taken': 'is_taken'})
+
+def add_color(request):
+    color = request.GET.get('color')
+    if color == '':
+        pass
+    else:
+        id = request.GET.get('id')
+        td_id = request.GET.get('td_id')
+        text_color = request.GET.get('text_color')
+        print('text_color: ', text_color)
+
+        old_color = main_list_model.objects.filter(pk=id)
+        old_color_data = old_color.values()[0]['Color']
+        if old_color_data == None:
+            old_color_data = ''
+        print('old_color: ', old_color_data)
+
+        if text_color == 'true':
+            main_list_model.objects.filter(pk=id).update(Color=old_color_data + td_id + '-' + color + '-' + text_color + '^')
+            print('new text color: ', td_id + '-' + color + '-' + text_color + '^')
+        else:
+            main_list_model.objects.filter(pk=id).update(Color=old_color_data + td_id + '-' + color + '^')
+            print('new color: ', td_id + '-' + color + '-' + '^')
+
+    return JsonResponse({'is_taken': 'is_taken'})
+
+class update(UpdateView):
+    model = main_list_model
+    form_class = main_list_form
+    # fields = '__all__'
+    success_url = reverse_lazy('add_main_list')
+    template_name_suffix = '_update_form'
 
 def upload_file(request):
     if request.method == 'POST':
@@ -295,258 +885,6 @@ def upload_file(request):
     else:
         form = UploadFileForm()
     return render(request, 'main/upload.html', {'form': form})
-
-def add_main_list(request):
-    field_names = [f.name for f in main_list_model._meta.get_fields()]
-    now = timezone.now()
-    #  https://stackoverflow.com/questions/7503241/django-models-selecting-single-field
-    p_num_list = main_list_model.objects.values_list('Project_num', flat=True)
-    p_num_set = set(p_num_list)
-    # p_num_filterd_list = main_list_model.objects.filter(Date__gte=now).values_list('Project_num', flat=True)
-    customer_list = main_list_model.objects.values_list('Customer', flat=True)
-    customer_set = set(customer_list)
-    # for i in customer_list:
-    #     print('customer_list: ', i)
-    provider_list = main_list_model.objects.values_list('Provider', flat=True)
-    provider_set = set(provider_list)
-    last_month = datetime.today() - timedelta(days=30)
-    # all = main_list_model.objects.all().order_by('Date')
-    # passed = transfer.objects.filter(Date__lt=now).order_by('Date')
-
-    # table_upcoming = main_list_model.objects.filter(Date__gte=last_month).order_by('Date')
-    table_upcoming = main_list_Table(main_list_model.objects.filter(Date__gte=last_month).order_by('Date'))
-    table_all = main_list_Table(main_list_model.objects.all())
-    RequestConfig(request).configure(table_upcoming)
-
-    if request.method == 'POST':
-        print('main list - post')
-        form = main_list_form(request.POST)
-        print('view - from:',request.POST['From'])
-        if form.is_valid():
-            for key, value in form.cleaned_data.items():
-                print('key: ', key, 'val: ', value)
-            print('view - from:', request.POST['From'])
-            form.save()
-            messages.success(request, ('Your order was successfully updated!'))
-            return redirect('add_main_list')
-        else:
-            print('main list - got an error: ', form.errors)
-            messages.error(request, ('Please correct the error below \n {}'.format(request.POST['From'])))
-    else:
-        form = main_list_form
-
-    return render(request, 'main/main_list_model_form.html', {'form': form,
-                                                              'field_names': field_names[1:],
-                                                              'table_upcoming': table_upcoming,
-                                                              'p_num_list': p_num_set,
-                                                              'customer_list': customer_set,
-                                                              'provider_list': provider_set})
-
-def whole_list(request):
-
-    table_all = main_list_Table(main_list_model.objects.all())
-    RequestConfig(request).configure(table_all)
-
-    # field_names = [f.name for f in main_list_model._meta.get_fields()]
-    # all = main_list_model.objects.all().order_by('Date')
-    # print('all: ', all)
-    return render(request, 'main/whole_list.html', {'table_all': table_all})
-
-
-def search_list(request):
-    if request.method == 'POST':
-        print('transfer -post')
-        form = main_list_form(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Your order was successfully updated!')
-            return redirect('add_main_list')
-        else:
-            messages.error(request, 'Please correct the error below')
-    else:
-        form = main_list_form
-        field_names = [f.name for f in main_list_model._meta.get_fields()]
-        # print(field_names)
-
-        now = timezone.now()
-        upcoming = main_list_model.objects.filter(Date__gte=now).order_by('Date')
-        # passed = transfer.objects.filter(Date__lt=now).order_by('Date')
-        print(upcoming)
-    return render(request, 'main/main_list_model_form.html', {'form': form, 'field_names': field_names[1:],
-                                                              'upcoming': upcoming})
-
-def p_num_list(request):
-    p_num = request.GET.get('p_num_list')
-    project_group = main_list_model.objects.filter(Project_num=p_num)
-    field_names = [f.name for f in main_list_model._meta.get_fields()]
-    # context = {'p_num': p_num}
-    return render(request, 'main/project_group.html', {'field_names': field_names[1:], 'project_group': project_group})
-
-def customer_list(request):
-    customer = request.GET.get('customer_list')
-    customer_group = main_list_model.objects.filter(Customer=customer)
-    print('customer_list', customer_group)
-    field_names = [f.name for f in main_list_model._meta.get_fields()]
-    # context = {'p_num': p_num}
-    return render(request, 'main/customer_group.html', {'field_names': field_names[1:],
-                                                        'customer_group': customer_group})
-
-def add_dollar(request):
-    id = request.GET.get('id')
-    td_id = request.GET.get('td_id')
-    new_int = request.GET.get('new_int')
-    data = main_list_model.objects.filter(pk=id)
-    print('data: ', data.values())
-    td_data = data.values()[0][td_id]
-    print('td_data: ', td_data)
-
-    if td_id == 'Extra_KM_client':
-        main_list_model.objects.filter(pk=id).update(Extra_KM_client=new_int)
-    if td_id == 'Extra_KM_provider':
-        main_list_model.objects.filter(pk=id).update(Extra_KM_provider=new_int)
-    if td_id == 'Cost_per_client':
-        main_list_model.objects.filter(pk=id).update(Cost_per_client=new_int)
-    if td_id == 'Cost_per_provider':
-        main_list_model.objects.filter(pk=id).update(Cost_per_provider=new_int)
-    if td_id == 'Cost_transfer_client':
-        main_list_model.objects.filter(pk=id).update(Cost_transfer_client=new_int)
-
-    if td_id == 'Cost_transfer_provider':
-        main_list_model.objects.filter(pk=id).update(Cost_transfer_provider=new_int)
-    if td_id == 'Cost_extra_hour_client':
-        main_list_model.objects.filter(pk=id).update(Cost_extra_hour_client=new_int)
-    if td_id == 'Cost_extra_hour_provider':
-        main_list_model.objects.filter(pk=id).update(Cost_extra_hour_provider=new_int)
-    if td_id == 'Cost_VIP_client':
-        main_list_model.objects.filter(pk=id).update(Cost_VIP_client=new_int)
-    if td_id == 'Cost_VIP_provider':
-        main_list_model.objects.filter(pk=id).update(Cost_VIP_provider=new_int)
-
-    return JsonResponse({})
-
-def add_shekel(request):
-    id = request.GET.get('id')
-    td_id = request.GET.get('td_id')
-    new_int = request.GET.get('new_int')
-    data = main_list_model.objects.filter(pk=id)
-    print('data: ', data.values())
-    td_data = data.values()[0][td_id]
-    print('td_data: ', td_data)
-
-    if td_id == 'Extra_KM_client':
-        main_list_model.objects.filter(pk=id).update(Extra_KM_client=new_int)
-    if td_id == 'Extra_KM_provider':
-        main_list_model.objects.filter(pk=id).update(Extra_KM_provider=new_int)
-    if td_id == 'Cost_per_client':
-        main_list_model.objects.filter(pk=id).update(Cost_per_client=new_int)
-    if td_id == 'Cost_per_provider':
-        main_list_model.objects.filter(pk=id).update(Cost_per_provider=new_int)
-    if td_id == 'Cost_transfer_client':
-        main_list_model.objects.filter(pk=id).update(Cost_transfer_client=new_int)
-
-    if td_id == 'Cost_transfer_provider':
-        main_list_model.objects.filter(pk=id).update(Cost_transfer_provider=new_int)
-    if td_id == 'Cost_extra_hour_client':
-        main_list_model.objects.filter(pk=id).update(Cost_extra_hour_client=new_int)
-    if td_id == 'Cost_extra_hour_provider':
-        main_list_model.objects.filter(pk=id).update(Cost_extra_hour_provider=new_int)
-    if td_id == 'Cost_VIP_client':
-        main_list_model.objects.filter(pk=id).update(Cost_VIP_client=new_int)
-    if td_id == 'Cost_VIP_provider':
-        main_list_model.objects.filter(pk=id).update(Cost_VIP_provider=new_int)
-
-    return JsonResponse({})
-
-def add_color_json(request):
-    color = request.GET.get('color')
-    if color == '':
-        id = request.GET.get('id')
-        td_id = request.GET.get('td_id')
-        text_color = request.GET.get('text_color')
-        print('text_color: ', text_color)
-
-        data = main_list_model.objects.filter(pk=id)
-        color_data = data.values()[0]['Color']
-        try:
-            color_json_load = json.loads(color_data)
-        except TypeError:
-            color_json_load = json.loads('{}')
-        print('color data: ', type(color_json_load))
-        print('color: ', color_json_load)
-
-        if text_color == 'true':
-            color_json_load.pop(td_id + '_text', None)
-            color_json = json.dumps(color_json_load)
-            main_list_model.objects.filter(pk=id).update(Color=color_json)
-            print('new text color: ', type(color_json))
-        else:
-            color_json_load.pop(td_id, None)
-            color_json = json.dumps(color_json_load)
-            main_list_model.objects.filter(pk=id).update(Color=color_json)
-            print('new color: ', type(color_json))
-
-    else:
-        id = request.GET.get('id')
-        td_id = request.GET.get('td_id')
-        text_color = request.GET.get('text_color')
-        print('text_color: ', text_color)
-
-        data = main_list_model.objects.filter(pk=id)
-        color_data = data.values()[0]['Color']
-        try:
-            color_json_load = json.loads(color_data)
-        except TypeError:
-            color_json_load = json.loads('{}')
-        print('color data: ', type(color_json_load))
-        if color_data == None:
-            color_data = {}
-        print('color: ', color_json_load)
-
-        if text_color == 'true':
-            color_json_load[td_id+'_text'] = color
-            color_json = json.dumps(color_json_load)
-            main_list_model.objects.filter(pk=id).update(Color=color_json)
-            print('new text color: ', type(color_json))
-        else:
-            color_json_load[td_id] = color
-            color_json = json.dumps(color_json_load)
-            main_list_model.objects.filter(pk=id).update(Color=color_json)
-            print('new color: ', type(color_json))
-
-    return JsonResponse({'is_taken': 'is_taken'})
-
-def add_color(request):
-    color = request.GET.get('color')
-    if color == '':
-        pass
-    else:
-        id = request.GET.get('id')
-        td_id = request.GET.get('td_id')
-        text_color = request.GET.get('text_color')
-        print('text_color: ', text_color)
-
-        old_color = main_list_model.objects.filter(pk=id)
-        old_color_data = old_color.values()[0]['Color']
-        if old_color_data == None:
-            old_color_data = ''
-        print('old_color: ', old_color_data)
-
-        if text_color == 'true':
-            main_list_model.objects.filter(pk=id).update(Color=old_color_data + td_id + '-' + color + '-' + text_color + '^')
-            print('new text color: ', td_id + '-' + color + '-' + text_color + '^')
-        else:
-            main_list_model.objects.filter(pk=id).update(Color=old_color_data + td_id + '-' + color + '^')
-            print('new color: ', td_id + '-' + color + '-' + '^')
-
-    return JsonResponse({'is_taken': 'is_taken'})
-
-class update(UpdateView):
-    model = main_list_model
-    form_class = main_list_form
-    # fields = '__all__'
-    success_url = reverse_lazy('add_main_list')
-    template_name_suffix = '_update_form'
-
 
 # def update_row(request):
 #     if request.method == 'POST':
