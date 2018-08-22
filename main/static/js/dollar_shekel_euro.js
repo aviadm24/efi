@@ -14,7 +14,7 @@ $('#mainlist').find("tbody tr td:nth-child(26),td:nth-child(27),td:nth-child(28)
         counter++;
         if (td_id == 'Cost_extra_hour_client'){
             console.log('Extra_hours_client:'+ $('#Extra_hours_client').val())
-            if($('#Extra_hours_client').val()>0){
+//            if($('#Extra_hours_client').val()>0){
                 switch(counter){
                 case 1:
                     var added_text = dollar();
@@ -31,10 +31,10 @@ $('#mainlist').find("tbody tr td:nth-child(26),td:nth-child(27),td:nth-child(28)
                     counter=0;
                     break;
                 }
-            }
+//            }
 
         }else if (td_id == 'Cost_extra_hour_provider'){
-            if($('#Extra_hours_provider').val()>0){
+//            if($('#Extra_hours_provider').val()>0){
                 switch(counter){
                 case 1:
                     var added_text = dollar();
@@ -51,7 +51,7 @@ $('#mainlist').find("tbody tr td:nth-child(26),td:nth-child(27),td:nth-child(28)
                     counter=0;
                     break;
                 }
-            }
+//            }
         }else{
             switch(counter){
             case 1:

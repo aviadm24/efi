@@ -38,12 +38,15 @@
             {% if customer_bool %}
             <td style="border: 1px solid black;">{{ row.Extra_hours_client }}</td>
             {% endif %}
+
             {% if customer_bool %}
             <td style="border: 1px solid black;">{{ row.Based_on_client }}</td>
             {% endif %}
+
             {% if provider_bool %}
             <td style="border: 1px solid black;">{{ row.Extra_hours_provider }}</td>
             {% endif %}
+
             {% if provider_bool %}
             <td style="border: 1px solid black;">{{ row.Based_on_provider }}</td>
             {% endif %}
@@ -53,9 +56,11 @@
             {% if customer_bool %}
             <td style="border: 1px solid black;">{{ row.Extra_KM_client}}</td>
             {% endif %}
+
             {% if provider_bool %}
             <td style="border: 1px solid black;">{{ row.Extra_KM_provider}}</td>
             {% endif %}
+
             {% if customer_bool %}
               {% if row.Cost_per_client|make_list|slice:'-2:'|join:'' == '33' %}
                 <td style="border: 1px solid black;">${{ row.Cost_per_client|make_list|slice:':-2'|join:'' }}</td>
@@ -65,9 +70,11 @@
               {% endif %}
               {% if row.Cost_per_client|make_list|slice:'-2:'|join:'' == '35' %}
                 <td style="border: 1px solid black;">€{{ row.Cost_per_client|make_list|slice:':-2'|join:'' }}</td>
+              {%else%}
+                <td style="border: 1px solid black;">0</td>
               {% endif %}
-
             {% endif %}
+
             {% if provider_bool %}
               {% if row.Cost_per_provider|make_list|slice:'-2:'|join:'' == '33' %}
                 <td style="border: 1px solid black;">${{ row.Cost_per_provider|make_list|slice:':-2'|join:'' }}</td>
@@ -77,9 +84,11 @@
               {% endif %}
               {% if row.Cost_per_provider|make_list|slice:'-2:'|join:'' == '35' %}
                 <td style="border: 1px solid black;">€{{ row.Cost_per_provider|make_list|slice:':-2'|join:'' }}</td>
+              {%else%}
+                <td style="border: 1px solid black;">0</td>
               {% endif %}
-
             {% endif %}
+
             {% if customer_bool %}
               {% if row.Cost_transfer_client|make_list|slice:'-2:'|join:'' == '33' %}
                 <td style="border: 1px solid black;">${{ row.Cost_transfer_client|make_list|slice:':-2'|join:'' }}</td>
@@ -89,9 +98,11 @@
               {% endif %}
               {% if row.Cost_transfer_client|make_list|slice:'-2:'|join:'' == '35' %}
                 <td style="border: 1px solid black;">€{{ row.Cost_transfer_client|make_list|slice:':-2'|join:'' }}</td>
+              {%else%}
+                <td style="border: 1px solid black;">0</td>
               {% endif %}
-
             {% endif %}
+
             {% if provider_bool %}
               {% if row.Cost_transfer_provider|make_list|slice:'-2:'|join:'' == '33' %}
                 <td style="border: 1px solid black;">${{ row.Cost_transfer_provider|make_list|slice:':-2'|join:'' }}</td>
@@ -101,9 +112,11 @@
               {% endif %}
               {% if row.Cost_transfer_provider|make_list|slice:'-2:'|join:'' == '35' %}
                 <td style="border: 1px solid black;">€{{ row.Cost_transfer_provider|make_list|slice:':-2'|join:'' }}</td>
+              {%else%}
+                <td style="border: 1px solid black;">0</td>
               {% endif %}
-
             {% endif %}
+
             {% if customer_bool %}
               {% if row.Cost_extra_hour_client|make_list|slice:'-2:'|join:'' == '33' %}
                 <td style="border: 1px solid black;">${{ row.Cost_extra_hour_client|make_list|slice:':-2'|join:'' }}</td>
@@ -113,9 +126,11 @@
               {% endif %}
               {% if row.Cost_extra_hour_client|make_list|slice:'-2:'|join:'' == '35' %}
                 <td style="border: 1px solid black;">€{{ row.Cost_extra_hour_client|make_list|slice:':-2'|join:'' }}</td>
+              {%else%}
+                <td style="border: 1px solid black;">0</td>
               {% endif %}
-
             {% endif %}
+
             {% if provider_bool %}
               {% if row.Cost_extra_hour_provider|make_list|slice:'-2:'|join:'' == '33' %}
                 <td style="border: 1px solid black;">${{ row.Cost_extra_hour_provider|make_list|slice:':-2'|join:'' }}</td>
@@ -125,9 +140,11 @@
               {% endif %}
               {% if row.Cost_extra_hour_provider|make_list|slice:'-2:'|join:'' == '35' %}
                 <td style="border: 1px solid black;">€{{ row.Cost_extra_hour_provider|make_list|slice:':-2'|join:'' }}</td>
+              {%else%}
+                <td style="border: 1px solid black;">0</td>
               {% endif %}
-
             {% endif %}
+
             {% if customer_bool %}
               {% if row.Cost_VIP_client|make_list|slice:'-2:'|join:'' == '33' %}
                 <td style="border: 1px solid black;">${{ row.Cost_VIP_client|make_list|slice:':-2'|join:'' }}</td>
@@ -137,8 +154,11 @@
               {% endif %}
               {% if row.Cost_VIP_client|make_list|slice:'-2:'|join:'' == '35' %}
                 <td style="border: 1px solid black;">€{{ row.Cost_VIP_client|make_list|slice:':-2'|join:'' }}</td>
+              {%else%}
+                <td style="border: 1px solid black;">0</td>
               {% endif %}
             {% endif %}
+
             {% if provider_bool %}
               {% if row.Cost_VIP_provider|make_list|slice:'-2:'|join:'' == '33' %}
                 <td style="border: 1px solid black;">${{ row.Cost_VIP_provider|make_list|slice:':-2'|join:'' }}</td>
@@ -148,12 +168,11 @@
               {% endif %}
               {% if row.Cost_VIP_provider|make_list|slice:'-2:'|join:'' == '35' %}
                 <td style="border: 1px solid black;">€{{ row.Cost_VIP_provider|make_list|slice:':-2'|join:'' }}</td>
+              {%else%}
+                <td style="border: 1px solid black;">0</td>
               {% endif %}
-
             {% endif %}
-
-
-
+              
           </tr>
 
     {% endfor %}

@@ -160,20 +160,23 @@ def export_filter(request):
 
 
         for num, data in enumerate(end_filter):
-            # print('data', data['Extra_hours_client'])
+            print('data:', data['Extra_hours_client'])
             if data['Extra_hours_client'] > 0:
-                sum = (data['Cost_extra_hour_client'] // 100) * data['Extra_hours_client']
+
                 if data['Cost_extra_hour_client'] % 100 == 33:
+                    sum = (data['Cost_extra_hour_client'] // 100) * data['Extra_hours_client']
                     Cost_extra_hour_client_d += sum
                     sum_d += sum
                 if data['Cost_extra_hour_client'] % 100 == 34:
+                    sum = (data['Cost_extra_hour_client'] // 100) * data['Extra_hours_client']
                     Cost_extra_hour_client_s += sum
                     sum_s += sum
                 if data['Cost_extra_hour_client'] % 100 == 35:
+                    sum = (data['Cost_extra_hour_client'] // 100) * data['Extra_hours_client']
                     Cost_extra_hour_client_u += sum
                     sum_u += sum
 
-            if data['Cost_per_client'] :
+            if data['Cost_per_client']:
                 sum = (data['Cost_per_client'] // 100)
                 if data['Cost_per_client'] % 100 == 33:
                     Cost_per_client_d += sum
@@ -280,7 +283,7 @@ def export_filter(request):
         sum_u = 0
 
         for data in end_filter:
-            if data['Extra_hours_provider'] > 0:
+            if data['Extra_hours_provider']:  # > 0:
                 sum = (data['Cost_extra_hour_provider'] // 100) * data['Extra_hours_provider']
                 if data['Cost_extra_hour_provider'] % 100 == 33:
                     Cost_extra_hour_provider_d += sum
@@ -440,18 +443,18 @@ def add_main_list(request):
                         if From_data.objects.filter(From=value).exists():
                             pass
                         else:
-                            # f = From_data.objects.create(From=value)
-                            db = From_data
-                            db.From = value
-                            db.save()
+                            f = From_data.objects.create(From=value)
+                            # db = From_data
+                            # db.From = value
+                            # db.save()
                     if key == 'To':
                         if To_data.objects.filter(To=value).exists():
                             pass
                         else:
-                            # f = From_data.objects.create(From=value)
-                            db = To_data
-                            db.To = value
-                            db.save()
+                            f = To_data.objects.create(To=value)
+                            # db = To_data
+                            # db.To = value
+                            # db.save()
                     print('key: ', key, 'val: ', value)
                 print('view - from:', request.POST['From'])
                 form.save()
