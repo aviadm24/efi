@@ -53,6 +53,7 @@ def export_filter(request):
     mail = request.GET.get('mail')
     customer_bool = True
     provider_bool = True
+    end_filter = None
     if project_num != '---SELECT---':
         print('proj num:', project_num)
         project_filter = main_list_model.objects.filter(Project_num=project_num)
@@ -158,11 +159,9 @@ def export_filter(request):
         sum_s = 0
         sum_u = 0
 
-
-        for num, data in enumerate(end_filter):
-            print('data:', data['Extra_hours_client'])
-            if data['Extra_hours_client'] > 0:
-
+        for data in end_filter:
+            print('data:', data)
+            if data['Extra_hours_client']: #  > 0
                 if data['Cost_extra_hour_client'] % 100 == 33:
                     sum = (data['Cost_extra_hour_client'] // 100) * data['Extra_hours_client']
                     Cost_extra_hour_client_d += sum
