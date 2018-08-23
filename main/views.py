@@ -42,6 +42,20 @@ def export_csv(request):
 
     return response
 
+def export_table(request):
+    mainlist = request.GET.get('mainlist')
+    print('main list:', type(mainlist))
+    sum_list = request.GET.get('sum_list')
+    mail = request.GET.get('mail')
+    content = render_to_string('main/send_tables.html', {'mainlist': mainlist, 'sum_list': sum_list}, request=request)
+    msg = EmailMessage("caneti", content, to=[mail])
+    # msg.attach('my_pdf.pdf', pdf, 'application/pdf')
+    msg.content_subtype = "html"
+    msg.send()
+
+    return render(request, 'main/send_tables.html', {'mainlist': mainlist, 'sum_list': sum_list})
+
+
 def export_filter(request):
     # attach a csv to mail
     # https://stackoverflow.com/questions/17584550/attach-generated-csv-file-to-email-and-send-with-django

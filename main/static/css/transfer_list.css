@@ -4,18 +4,28 @@ table#sum_list{
     table-layout:auto;
 }
 
-//#sum_list>thead>tr>th.min{
-//    width:20px;
-//    padding:5px;
-//}
-
 #transfer_list{
     margin:10px;
 }
 
-#main_list>tr>td{
-    border: 1px solid black;
-}
+//#mainlist thead,tbody,tr,td,th{
+//    border: 1px solid black;
+//    border-bottom: 1px solid black;
+//    border-top: 1px solid black;
+//}
+
+//#sum_list thead,tbody,tr,td,th{
+//    border: 1px solid black;
+//    border-bottom: 1px solid black;
+//    border-top: 1px solid black;
+//}
+
+//.table thead th{
+//    border-bottom: 1px solid black;
+//    border-top: 1px solid black;
+//}
+
+
 
 //input.form-control datetimepicker-input{
 //    width:150px;

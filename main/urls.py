@@ -23,6 +23,7 @@ from . import views
 urlpatterns = [
     url(r'^$', views.add_main_list, name='add_main_list'),
     url(r'^export_csv$', views.export_csv, name='export_csv'),
+    url(r'^ajax/export_table/$', views.export_table, name='export_table'),
     url(r'^to_send$', views.to_send, name='to_send'),
     url(r'^ajax/export_filter/$', views.export_filter, name='export_filter'),
     url(r'^upload$', views.upload_file, name='upload'),
