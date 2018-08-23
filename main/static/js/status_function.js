@@ -3,7 +3,7 @@ $(document).ready(function() {
     $(".Provider").each(function(e){
     var status_val = $(this).html();
     if (status_val=='—'){
-        console.log('status_val: '+status_val)
+//        console.log('status_val: '+status_val)
         $(this).css('background-color', 'yellow');
     }
     });
@@ -13,7 +13,7 @@ $(document).ready(function() {
 //        var tag = $('input', this).val();
 //        console.log('tag '+ tag)
         if (tag == '—'){
-            console.log('tag passed: '+ tag)
+//            console.log('tag passed: '+ tag)
             $(this).css('background-color', 'yellow');
         }
     });

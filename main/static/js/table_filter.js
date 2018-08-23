@@ -11,12 +11,13 @@ function sum_sum_list(){
     $("#sum_list td").each(function() {
         if($(this).attr('id')=='hakol' ||$(this).attr('id')=='maam'){}
         else{
-            if ( $(this).is(':visible') ) {
+            if ( $(this).not(':hidden') ) {
                 var price_str = $(this).html();
                 // https://stackoverflow.com/questions/34609571/extract-numbers-from-string-and-store-them-in-array-javascript
                 var dollar = price_str.match(/\d+/g)[0];
                 var shekel = price_str.match(/\d+/g)[1]
                 var euro = price_str.match(/\d+/g)[2]
+                console.log('shekel: '+shekel)
 
                 var dollar_num = parseInt(dollar);
                 sum_dollar += dollar_num;
@@ -58,8 +59,6 @@ function sum_price(cla){
                     }
             }
         } else if(cla == 'Cost_extra_hour_provider'){
-//            console.log('Cost_extra_hour_provider:'+ $(this).text())
-//            console.log('Extra_hours_provider:'+ $(this).closest('tr').find('.Extra_hours_provider').text())
             var cost_extra =  parseInt($(this).closest('tr').find('.Extra_hours_provider').text())
             if(cost_extra>0){
                 var value = $(this).text();
