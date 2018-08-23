@@ -28,6 +28,7 @@ function csv_filter(){
     console.log('sum_list:'+ sum_list)
     $.ajax({
         url: '/ajax/export_table/',
+        type: 'POST',
         data: {
           'mainlist': mainlist,
           'sum_list': sum_list,
@@ -35,5 +36,8 @@ function csv_filter(){
           'mail': mail
         },
         dataType: 'json',
+        success: function(response){
+        },
+        error:function(xhr, ajaxOptions, thrownError){alert(xhr.responseText);}
         });
 }

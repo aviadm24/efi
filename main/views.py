@@ -29,7 +29,7 @@ from django.http import HttpResponse, StreamingHttpResponse
 from .resources import main_list_Resource
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
-
+from django.views.decorators.csrf import csrf_exempt
 BASE_DIR = settings.BASE_DIR
 
 
@@ -42,11 +42,12 @@ def export_csv(request):
 
     return response
 
+@csrf_exempt
 def export_table(request):
-    mainlist = request.GET.get('mainlist')
+    mainlist = request.POST.get('mainlist')
     print('main list:', type(mainlist))
-    sum_list = request.GET.get('sum_list')
-    mail = request.GET.get('mail')
+    sum_list = request.POST.get('sum_list')
+    mail = request.POST.get('mail')
     content = render_to_string('main/send_tables.html', {'mainlist': mainlist, 'sum_list': sum_list}, request=request)
     msg = EmailMessage("caneti", content, to=[mail])
     # msg.attach('my_pdf.pdf', pdf, 'application/pdf')
