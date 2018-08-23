@@ -1,6 +1,38 @@
 
 var table = $('#mainlist').DataTable();
 
+
+function sum_sum_list(){
+    console.log( 'sum sum list called!')
+    var sum_dollar = 0;
+    var sum_shekel = 0;
+    var sum_euro = 0;
+
+    $("#sum_list td").each(function() {
+        if($(this).attr('id')=='hakol' ||$(this).attr('id')=='maam'){}
+        else{
+            if ( $(this).is(':visible') ) {
+                var price_str = $(this).html();
+                // https://stackoverflow.com/questions/34609571/extract-numbers-from-string-and-store-them-in-array-javascript
+                var dollar = price_str.match(/\d+/g)[0];
+                var shekel = price_str.match(/\d+/g)[1]
+                var euro = price_str.match(/\d+/g)[2]
+
+                var dollar_num = parseInt(dollar);
+                sum_dollar += dollar_num;
+                console.log('sum_dollar: '+sum_dollar)
+                var shekel_num = parseInt(shekel);
+                sum_shekel += shekel_num;
+                var euro_num = parseInt(euro);
+                sum_euro += euro_num;
+//                console.log($(this).attr('id'))
+             }
+        }
+
+    });
+    $("#hakol").html('$'+sum_dollar+'<br/>'+'₪'+sum_shekel+'<br/>'+'€'+sum_euro)
+}
+
 function sum_price(cla){
     var sum_dollar = 0;
     var sum_shekel = 0;
@@ -109,7 +141,7 @@ function project_filter() {
 //    );
     table.draw();
 
-    console.log('tables: '+$('#mainlist'))
+//    console.log('tables: '+$('#mainlist'))
     // hide unwanted td's
 //    $('#mainlist').find('thead tr th:nth-child(18),th:nth-child(19),th:nth-child(20),th:nth-child(21),th:nth-child(22),th:nth-child(27),th:nth-child(29),th:nth-child(31),th:nth-child(33),th:nth-child(35)').hide();
 //    $('#mainlist').find('tbody tr td:nth-child(18),td:nth-child(19),td:nth-child(20),td:nth-child(21),td:nth-child(22),td:nth-child(27),td:nth-child(29),td:nth-child(31),td:nth-child(33),td:nth-child(35)').hide();
@@ -120,6 +152,7 @@ function project_filter() {
         $("#"+id).html('$'+sum_dollar+'<br/>'+'₪'+sum_shekel+'<br/>'+'€'+sum_euro)
         //$("#"+id).text('$'+sum_dollar+'\n'+'₪'+sum_shekel)
     });
+    sum_sum_list()
 }
 
 function customer_filter() {

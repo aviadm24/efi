@@ -20,6 +20,7 @@ function sum_sum_list(){
 
                 var dollar_num = parseInt(dollar);
                 sum_dollar += dollar_num;
+                console.log('sum_dollar: '+sum_dollar)
                 var shekel_num = parseInt(shekel);
                 sum_shekel += shekel_num;
                 var euro_num = parseInt(euro);
