@@ -208,6 +208,11 @@ function date_filter(){
         }
     );
     table.draw();
+    $("#sum_list td").each(function() {
+        var id = $(this).attr("id");
+        var [sum_dollar,sum_shekel,sum_euro] = sum_price(id)
+        $("#"+id).html('$'+sum_dollar+'<br/>'+'₪'+sum_shekel+'<br/>'+'€'+sum_euro)
+    });
     sum_sum_list()
 }
 // Re-draw the table when the a date range filter changes

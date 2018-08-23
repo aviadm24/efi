@@ -3,6 +3,7 @@
 //});
 
 function sum_sum_list(){
+    console.log( 'sum sum list called!')
     var sum_dollar = 0;
     var sum_shekel = 0;
     var sum_euro = 0;

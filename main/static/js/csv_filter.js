@@ -25,7 +25,7 @@ function csv_filter(){
     var sum_list = $('#sum_list').html();
     var mail  = $('#mail_to_send').val();
 
-    console.log('sum_list:'+ sum_list)
+//    console.log('sum_list:'+ sum_list)
     $.ajax({
         url: '/ajax/export_table/',
         type: 'POST',
@@ -36,8 +36,7 @@ function csv_filter(){
           'mail': mail
         },
         dataType: 'json',
-        success: function(response){
-        },
-        error:function(xhr, ajaxOptions, thrownError){alert(xhr.responseText);}
+        success: function(response){alert('mail was not sent');},
+        error:function(){alert('mail was sent');}
         });
 }
