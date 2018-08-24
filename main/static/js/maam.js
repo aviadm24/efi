@@ -7,7 +7,7 @@ function sum_sum_list(){
     var sum_dollar = 0;
     var sum_shekel = 0;
     var sum_euro = 0;
-
+    // https://stackoverflow.com/questions/5767334/jquery-get-elements-without-display-none
     $('#sum_list td:not([style*="display: none"])').each(function() {
         if($(this).attr('id')=='hakol' ||$(this).attr('id')=='maam'){}
         else{

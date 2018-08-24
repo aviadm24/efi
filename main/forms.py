@@ -30,13 +30,18 @@ class main_list_form(forms.ModelForm):
     status_cheshbonit_yeruka1 = forms.ModelChoiceField(queryset=Yeruka_data.objects.all(), required=False)
     status_cheshbonit_yeruka2 = forms.ModelChoiceField(queryset=Yeruka2_data.objects.all(), required=False)
     # To = forms.ModelChoiceField(queryset=To_data.objects.all(), required=False)
-    To = forms.CharField(widget=forms.Select(choices=[(doc, doc) for doc in To_data.objects.all()]), required=False)
+    # To = forms.CharField(widget=forms.Select(choices=[(doc, doc) for doc in To_data.objects.all()]), required=False)
+
+    To = forms.CharField(widget=forms.Select(), required=False)
+
     # From = forms.ModelChoiceField(queryset=From_data.objects.all(), required=False)
 
     # From = forms.ChoiceField(choices=[(doc, doc) for doc in From_data.objects.all()], required=False)
     # https://stackoverflow.com/questions/5281195/forms-modelchoicefield-queryset-extra-choice-fields-django-forms
 
-    From = forms.CharField(widget=forms.Select(choices=[(doc, doc) for doc in From_data.objects.all()]), required=False)
+    From = forms.CharField(widget=forms.Select(), required=False)
+
+    # From = forms.CharField(widget=forms.Select(choices=[(doc, doc) for doc in From_data.objects.all()]), required=False)
     # https://stackoverflow.com/questions/19770534/django-forms-choicefield-without-validation-of-selected-value
 
     # https://djangosnippets.org/snippets/200/
@@ -73,6 +78,9 @@ class main_list_form(forms.ModelForm):
         self.fields['From'].widget.attrs.update({'class': 'form-control'})
         self.fields['To'].widget.attrs.update({'class': 'js_tags'})
         # self.fields['Color'].widget.attrs.update(attrs={'display': 'none'})
+        self.fields['From'].widget.choices = [(doc, doc) for doc in From_data.objects.all()]
+        self.fields['To'].widget.choices = [(doc, doc) for doc in To_data.objects.all()]
+        print('choices= ', [(doc, doc) for doc in To_data.objects.all()])
 
     def clean_From(self):
         print('clean form method')
