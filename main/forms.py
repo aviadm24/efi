@@ -80,7 +80,7 @@ class main_list_form(forms.ModelForm):
         # self.fields['Color'].widget.attrs.update(attrs={'display': 'none'})
         self.fields['From'].widget.choices = [(doc, doc) for doc in From_data.objects.all()]
         self.fields['To'].widget.choices = [(doc, doc) for doc in To_data.objects.all()]
-        print('choices= ', [(doc, doc) for doc in To_data.objects.all()])
+        # print('choices= ', [(doc, doc) for doc in To_data.objects.all()])
 
     def clean_From(self):
         print('clean form method')

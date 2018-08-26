@@ -7,7 +7,7 @@ from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy, reverse
 from django.utils import timezone
 from .models import main_list_model, Provider_data, Customer_data, From_data, To_data, Yeruka2_data, Yeruka_data,\
-    Status_data, Service_data, Car_data
+    Status_data, Service_data, Car_data, Driver_data, Flight_data
 from django.http import JsonResponse
 from itertools import chain
 import json
@@ -728,6 +728,61 @@ class update(UpdateView):
     # fields = '__all__'
     success_url = reverse_lazy('add_main_list')
     template_name_suffix = '_update_form'
+
+    def check_for_null(self, field, model, query_dicy=None):
+        if field:
+            return model.objects.get(**query_dicy).pk
+        else:
+            return '-'
+
+    def get_initial(self):
+        if self.get_object().Customer != None:
+            customer = Customer_data.objects.get(Customer_name=self.get_object().Customer).pk
+        else:
+            customer = '-'
+
+        driver_field = self.get_object().Driver_name
+        driver = self.check_for_null(driver_field, Driver_data, {'Driver': driver_field})
+
+        provider_field = self.get_object().Provider
+        provider = self.check_for_null(provider_field, Provider_data, {'Provider_name': provider_field})
+
+        service_data_field = self.get_object().Type_of_service
+        service_data = self.check_for_null(service_data_field, Service_data, {'Service': service_data_field})
+
+        status_data_field = self.get_object().Status
+        status_data = self.check_for_null(status_data_field, Status_data, {'Status': status_data_field})
+
+        yeruka_data_field = self.get_object().status_cheshbonit_yeruka1
+        yeruka_data = self.check_for_null(yeruka_data_field, Yeruka_data, {'Yeruka': yeruka_data_field})
+
+        yeruka2_data_field = self.get_object().status_cheshbonit_yeruka2
+        yeruka2_data = self.check_for_null(yeruka2_data_field, Yeruka2_data, {'Yeruka2': yeruka2_data_field})
+
+        to_data_field = self.get_object().To
+        to_data = self.check_for_null(to_data_field, To_data, {'To': to_data_field})
+
+        from_data_field = self.get_object().From
+        from_data = self.check_for_null(from_data_field, From_data, {'From': from_data_field})
+
+        car_data_field = self.get_object().Type_of_car
+        car_data = self.check_for_null(car_data_field, Car_data, {'Car': car_data_field})
+
+        flight_data_field = self.get_object().Flight_num
+        flight_data = self.check_for_null(flight_data_field, Flight_data, {'Flight': flight_data_field})
+        return {
+            'Customer': customer,
+            'Driver_name': driver,
+            'Provider': provider,
+            'Type_of_service': service_data,
+            'Status': status_data,
+            'status_cheshbonit_yeruka1': yeruka_data,
+            'status_cheshbonit_yeruka2': yeruka2_data,
+            'To': to_data,
+            'From': from_data,
+            'Type_of_car': car_data,
+            'Flight_num': flight_data
+        }
 
 def upload_file(request):
     if request.method == 'POST':
