@@ -1,5 +1,23 @@
 
-var table = $('#mainlist').DataTable();
+var table = $('#mainlist').DataTable({
+              "pageLength": 500,
+              "order": [[ 4, "desc" ]],
+              "createdRow": function ( row, data, index ) {
+//                    var today = new Date()
+                    var today = moment().format('MM/DD/YYYY');
+                    console.log('today: '+ today)
+                    console.log('data: '+ data[4])
+//                    if ( data[5].replace(/[\$,]/g, '') * 1 > 150000 ) {
+//                        $('td', row).eq(5).addClass('highlight');
+//                    }
+                    if ( data[4]==today) {
+                        console.log('data: '+ data[4])
+                        $('td', row).addClass('highlight');
+                    }
+                },
+              "iDisplayLength": 500,
+              "aLengthMenu": [[10, 25, 50, 100,500,1000,-1], [10, 25, 50,100,500,1000, "All"]],
+              });
 
 
 function sum_sum_list(){

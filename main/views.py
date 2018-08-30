@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, render_to_response
 from django.contrib import messages
-from .forms import main_list_form, UploadFileForm, DateForm
+from .forms import main_list_form, UploadFileForm, DateForm, main_list_form_update
 from django.forms import formset_factory
 from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
@@ -458,19 +458,17 @@ def add_main_list(request):
                             pass
                         else:
                             f = From_data.objects.create(From=value)
-                            # db = From_data
-                            # db.From = value
-                            # db.save()
                     if key == 'To':
                         if To_data.objects.filter(To=value).exists():
                             pass
                         else:
                             f = To_data.objects.create(To=value)
-                            # db = To_data
-                            # db.To = value
-                            # db.save()
-                    print('key: ', key, 'val: ', value)
-                print('view - from:', request.POST['From'])
+                # from_changeToDollarSign = form.save(commit=False)
+                # from_changeToDollarSign.Cost_per_client = str(form.cleaned_data['Cost_per_client'])+'33'
+                # print('Cost_per_client: ', from_changeToDollarSign.Cost_per_client)
+                # from_changeToDollarSign.save()
+                # change to dollar sign in form clean functions
+
                 form.save()
                 messages.success(request, ('Your order was successfully updated!'))
                 return redirect('add_main_list')
@@ -724,10 +722,26 @@ def add_color(request):
 
 class update(UpdateView):
     model = main_list_model
-    form_class = main_list_form
+    form_class = main_list_form_update
     # fields = '__all__'
     success_url = reverse_lazy('add_main_list')
     template_name_suffix = '_update_form'
+
+    # def convert_currnecy_sign(self, signed_num):
+    #     if signed_num.startswith('$'):
+    #         print('returning: ', signed_num.replace("$", "")+'33')
+    #         return signed_num.replace("$", "")+'33'
+    #
+    # def get_form_kwargs(self):
+    #     kwargs = super(update, self).get_form_kwargs()
+    #     print('kwargs: ', kwargs)
+    #     if 'data' in kwargs.keys():
+    #         for key in kwargs['data'].keys():
+    #             print('key: ', key)
+    #             if kwargs['data'][key].startswith('$'):
+    #                 print(kwargs['data'][key])
+    #                 kwargs['instance'].key = self.convert_currnecy_sign(kwargs['data'][key])
+    #     return kwargs
 
     def check_for_null(self, field, model, query_dicy=None):
         if field:

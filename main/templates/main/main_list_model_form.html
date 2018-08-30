@@ -50,7 +50,7 @@
        <th style="text-align: center; background-color: red;" colspan="3">ספקים</th>
        <th style="text-align: center; background-color: orange;" colspan="3">שליטה וניהול</th>
        <th style="text-align: center; background-color: blue;" colspan="7">תפעול</th>
-       <th style="text-align: center; background-color: navy;" colspan="8">מחירים</th>
+       <th style="text-align: center; background-color: navy;" colspan="10">מחירים</th>
        <!--<th style="text-align: center; background-color: coral;" colspan="1"></th>-->
   </tr>
   <tr>
@@ -171,7 +171,7 @@
 <br>
 <br>
 <input type="text" name="mail" id="mail_to_send" maxlength="100">
-<button onclick="csv_filter()">csv filter</button>
+<button onclick="csv_filter()">send mail</button>
 <br>
 <br>
 <br>
@@ -192,6 +192,10 @@
         <th class="min">מחיר EXTRA HOUR לספק</th>
         <th class="min">מחיר FT VIP SERVICE ללקוח</th>
         <th class="min">מחיר FT VIP SERVICE לספק</th>
+
+        <th class="min">מחיר שונות ללקוח</th>
+        <th class="min">מחיר שונות לספק</th>
+
         <th class="min">סה"כ</th>
         <th class="min">
             <button onclick="maam()">
@@ -213,6 +217,10 @@
         <td class="min" id="Cost_extra_hour_provider"  style="border: 1px solid black;"></td>
         <td class="min" id="Cost_VIP_client"  style="border: 1px solid black;"></td>
         <td class="min" id="Cost_VIP_provider"  style="border: 1px solid black;"></td>
+
+        <td class="min" id="shonot_client"  style="border: 1px solid black;"></td>
+        <td class="min" id="shonot_provider"  style="border: 1px solid black;"></td>
+
         <td class="min" id="hakol" style="border: 1px solid black;"></td>
         <td class="min" id="maam" style="border: 1px solid black;"></td>
       </tr>

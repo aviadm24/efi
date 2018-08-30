@@ -3,7 +3,7 @@
 //});
 
 function sum_sum_list(){
-    console.log( 'sum sum list called!')
+//    console.log( 'sum sum list called!')
     var sum_dollar = 0;
     var sum_shekel = 0;
     var sum_euro = 0;
@@ -17,11 +17,11 @@ function sum_sum_list(){
                 var dollar = price_str.match(/\d+/g)[0];
                 var shekel = price_str.match(/\d+/g)[1]
                 var euro = price_str.match(/\d+/g)[2]
-                console.log('shekel: '+shekel+ ':' +$(this).attr('id'))
+//                console.log('shekel: '+shekel+ ':' +$(this).attr('id'))
 
                 var dollar_num = parseInt(dollar);
                 sum_dollar += dollar_num;
-                console.log('sum_dollar: '+sum_dollar)
+//                console.log('sum_dollar: '+sum_dollar)
                 var shekel_num = parseInt(shekel);
                 sum_shekel += shekel_num;
                 var euro_num = parseInt(euro);
@@ -55,11 +55,11 @@ function maam(){
                     sum_shekel_maam += shekel_num_maam;
                     var euro_num_maam = parseInt(euro)*1.17;
                     sum_euro_maam += euro_num_maam;
-                    console.log($(this).attr('id'))
+//                    console.log($(this).attr('id'))
                 }
         }
     });
-    $("#maam").html('$'+sum_dollar_maam+'<br/>'+'₪'+sum_shekel_maam+'<br/>'+'€'+sum_euro_maam)
+    $("#maam").html('$'+sum_dollar_maam.toFixed(2)+'<br/>'+'₪'+sum_shekel_maam.toFixed(2)+'<br/>'+'€'+sum_euro_maam.toFixed(2));
 }
 
 $(document).ready(function() {

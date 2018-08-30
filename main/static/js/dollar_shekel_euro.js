@@ -161,11 +161,12 @@ $('#mainlist').find("tbody tr td:nth-child(26),td:nth-child(27),td:nth-child(28)
 
 //        alert($(this).text());
     }
+    sum_sum_list()
 });
 
 $(document).ready(function () {
 
-    $('table#mainlist tbody tr td:nth-child(26),td:nth-child(27),td:nth-child(28),td:nth-child(29),td:nth-child(30),td:nth-child(31),td:nth-child(32),td:nth-child(33),td:nth-child(34),td:nth-child(35)').each(function () {
+    $('table#mainlist tbody tr td:nth-child(26),td:nth-child(27),td:nth-child(28),td:nth-child(29),td:nth-child(30),td:nth-child(31),td:nth-child(32),td:nth-child(33),td:nth-child(34),td:nth-child(35),td:nth-child(36),td:nth-child(37)').each(function () {
         var from_db = $(this).text();
 
         var doll_or_shek = from_db % 100;
@@ -185,4 +186,54 @@ $(document).ready(function () {
 
     });
 });
+// for update view!
+$(document).ready(function () {
 
+    $('.currency_sign').each(function () {
+        var from_db = $(this).val();
+//        console.log('from_db '+ from_db)
+        var doll_or_shek = from_db % 100;
+        var new_var = (from_db/100).toFixed(0)
+
+        if (from_db != '—' && doll_or_shek==33 || doll_or_shek==34 || doll_or_shek==35){
+            console.log('doll_or_shek '+ doll_or_shek)
+
+            if (doll_or_shek == 33){
+                $(this).val('$'+ new_var.toString());
+            }else if (doll_or_shek == 34){
+                console.log('new var: '+ '₪'+ new_var.toString())
+                $(this).val('₪'+ new_var.toString());
+            }else{
+                $(this).val('€'+ new_var.toString());
+            }
+        }
+
+    });
+});
+
+//var myform = $('#update_form');
+//myform.onsubmit = function(){
+//    $('.currency_sign').each(function () {
+//    console.log('update_form submit')
+//    var from_db = $(this).val();
+//    console.log('from_db '+ from_db)
+//});
+//};
+
+function DoSubmit(){
+    console.log('update_form submit')
+    $('.currency_sign').each(function () {
+        var from = $(this).val();
+        console.log('from_db '+ from)
+        if (from.includes('₪')){
+                $(this).val(from.replace('₪','')+'34');
+            }else if (from.includes('$')){
+                $(this).val(from.replace('$','')+'33');
+            }else if (from.includes('$')){
+                $(this).val(from.replace('€','')+'35');
+            }
+
+
+    });
+    return true;
+}

@@ -66,21 +66,76 @@ class main_list_form(forms.ModelForm):
         self.fields['Cost_VIP_client'].label = 'מחיר VIP ללקוח'
         self.fields['Cost_VIP_provider'].label = 'מחיר VIP לספק'
 
+        self.fields['shonot_client'].label = 'מחיר שונות ללקוח'
+        self.fields['shonot_provider'].label = 'מחיר שונות לספק'
+
         self.fields['status_cheshbonit_yeruka1'].label = 'סטטוס חשבונית ירוקה - ספק'
         self.fields['status_cheshbonit_yeruka2'].label = 'סטטוס חשבונית ירוקה - לקוח'
         # https://stackoverflow.com/questions/1513502/django-how-to-format-a-datefields-date-representation
         self.fields['Project_num'].widget.attrs.update({'style': 'width:100px'})
         self.fields['Date'].widget = forms.DateInput(attrs={'id': 'datepicker1'}, format='%A, %B %d %Y')
+
         self.fields['Based_on_client'].widget.attrs.update({'value': '9'})
         self.fields['Based_on_provider'].widget.attrs.update({'value': '10'})
-        self.fields['Cost_extra_hour_client'].widget.attrs.update({'value': '50'})
-        self.fields['Cost_extra_hour_provider'].widget.attrs.update({'value': '60'})
+
+        self.fields['Cost_per_client'].widget.attrs.update({'class': 'currency_sign'})
+        self.fields['Cost_per_provider'].widget.attrs.update({'class': 'currency_sign'})
+        self.fields['Cost_extra_hour_client'].widget.attrs.update({'value': '50', 'class': 'currency_sign'})
+        self.fields['Cost_extra_hour_provider'].widget.attrs.update({'value': '60', 'class': 'currency_sign'})
+        self.fields['Cost_transfer_client'].widget.attrs.update({'class': 'currency_sign'})
+        self.fields['Cost_transfer_provider'].widget.attrs.update({'class': 'currency_sign'})
+        self.fields['Cost_VIP_client'].widget.attrs.update({'class': 'currency_sign'})
+        self.fields['Cost_VIP_provider'].widget.attrs.update({'class': 'currency_sign'})
+
+        self.fields['shonot_client'].widget.attrs.update({'class': 'currency_sign'})
+        self.fields['shonot_provider'].widget.attrs.update({'class': 'currency_sign'})
+
         self.fields['From'].widget.attrs.update({'class': 'form-control'})
         self.fields['To'].widget.attrs.update({'class': 'js_tags'})
         # self.fields['Color'].widget.attrs.update(attrs={'display': 'none'})
         self.fields['From'].widget.choices = [(doc, doc) for doc in From_data.objects.all()]
         self.fields['To'].widget.choices = [(doc, doc) for doc in To_data.objects.all()]
         # print('choices= ', [(doc, doc) for doc in To_data.objects.all()])
+
+    def clean_Cost_per_client(self):
+        if self.data['Cost_per_client']:
+            return str(self.data['Cost_per_client'])+'33'
+
+    def clean_Cost_per_provider(self):
+        if self.data['Cost_per_provider']:
+            return str(self.data['Cost_per_provider'])+'33'
+
+    def clean_Cost_transfer_client(self):
+        if self.data['Cost_transfer_client']:
+            return str(self.data['Cost_transfer_client'])+'33'
+
+    def clean_Cost_transfer_provider(self):
+        if self.data['Cost_transfer_provider']:
+            return str(self.data['Cost_transfer_provider'])+'33'
+
+    def clean_Cost_extra_hour_client(self):
+        if self.data['Cost_extra_hour_client']:
+            return str(self.data['Cost_extra_hour_client'])+'33'
+
+    def clean_Cost_extra_hour_provider(self):
+        if self.data['Cost_extra_hour_provider']:
+            return str(self.data['Cost_extra_hour_provider'])+'33'
+
+    def clean_Cost_VIP_client(self):
+        if self.data['Cost_VIP_client']:
+            return str(self.data['Cost_VIP_client'])+'33'
+
+    def clean_Cost_VIP_provider(self):
+        if self.data['Cost_VIP_provider']:
+            return str(self.data['Cost_VIP_provider'])+'33'
+
+    def clean_shonot_client(self):
+        if self.data['shonot_client']:
+            return str(self.data['shonot_client'])+'33'
+
+    def clean_shonot_provider(self):
+        if self.data['shonot_provider']:
+            return str(self.data['shonot_provider'])+'33'
 
     def clean_From(self):
         print('clean form method')
@@ -95,61 +150,81 @@ class main_list_form(forms.ModelForm):
             raise forms.ValidationError('foo')
         return cleaned_data
 
-        # if data in QS_CHOICES:
-        #     try:
-        #         data = MyModel.objects.get(id=data)
-        #     except MyModel.DoesNotExist:
-        #         raise forms.ValidationError('foo')
-        # return data
+class main_list_form_update(forms.ModelForm):
+    Customer = forms.ModelChoiceField(queryset=Customer_data.objects.all(), required=False)
+    Type_of_service = forms.ModelChoiceField(queryset=Service_data.objects.all(), required=False)
+    Type_of_car = forms.ModelChoiceField(queryset=Car_data.objects.all(), required=False)
+    Driver_name = forms.ModelChoiceField(queryset=Driver_data.objects.all(), required=False)
+    Flight_num = forms.ModelChoiceField(queryset=Flight_data.objects.all(), required=False)
+    Provider = forms.ModelChoiceField(queryset=Provider_data.objects.all(), required=False)
+    Status = forms.ModelChoiceField(queryset=Status_data.objects.all(), required=False)
+    status_cheshbonit_yeruka1 = forms.ModelChoiceField(queryset=Yeruka_data.objects.all(), required=False)
+    status_cheshbonit_yeruka2 = forms.ModelChoiceField(queryset=Yeruka2_data.objects.all(), required=False)
+    # To = forms.ModelChoiceField(queryset=To_data.objects.all(), required=False)
+    # To = forms.CharField(widget=forms.Select(choices=[(doc, doc) for doc in To_data.objects.all()]), required=False)
 
-# class project_form(forms.ModelForm):
-#     Driver = forms.ModelChoiceField(queryset=Driver_data.objects.all(), required=False)
-#     Type_of_car = forms.ModelChoiceField(queryset=Car_data.objects.all(), required=False)
-#     Provider = forms.ModelChoiceField(queryset=Provider_data.objects.all(), required=False)
-#
-#     class Meta:
-#         model = project
-#         fields = ['Date', 'Name', 'Type_of_car', 'Type_of_service', 'Driver', 'Provider', 'Flight',
-#                   'Based_on', 'Start_time', 'End_time', 'Extra_hours', 'KM', 'Extra_KM']
+    To = forms.CharField(widget=forms.Select(), required=False)
 
-    # def __init__(self, *args, **kwargs):
-    #     super(project_form, self).__init__(*args, **kwargs)
-    #
-    #     # class ="form-control datetimepicker-input" data-target="#datetimepicker1"
-    #     self.fields['Date'].widget = forms.DateInput(attrs={'id': 'datepicker1'})
-    #     self.fields['Based_on'].widget = forms.TimeInput(attrs={'id': 'timepicker1'})
-    #     # self.fields['End_time'].widget = forms.TimeInput(attrs={'id': 'timepicker1'})
-    #     self.fields['KM'].widget = forms.NumberInput(
-    #         attrs={'type': "number", 'min': 10, 'max': 500, 'step': "1", 'placeholder': "50"})
+    # From = forms.ModelChoiceField(queryset=From_data.objects.all(), required=False)
 
+    # From = forms.ChoiceField(choices=[(doc, doc) for doc in From_data.objects.all()], required=False)
+    # https://stackoverflow.com/questions/5281195/forms-modelchoicefield-queryset-extra-choice-fields-django-forms
 
-# https://stackoverflow.com/questions/17492374/how-to-render-formset-in-template-django-and-create-vertical-table
-# class transfer_form(forms.ModelForm):
-#     # print('customer data: ', Customer_data.objects.all().values())
-#     # OptionalChoiceField(choices=(("", "-----"), ("1", "1"), ("2", "2")))
-#     # https://stackoverflow.com/questions/24783275/django-form-with-choices-but-also-with-freetext-option
-#
-#
-#     Driver = forms.ModelChoiceField(queryset=Driver_data.objects.all(), required=False)
-#     Car = forms.ModelChoiceField(queryset=Car_data.objects.all(), required=False)
-#     Provider = forms.ModelChoiceField(queryset=Provider_data.objects.all(), required=False)
-#     # Model = forms.ModelChoiceField(queryset=Model_data.objects.all(), required=False)
-#     # Clients_Name = forms.CharField(queryset=Customer_data.objects.all(), required=True)
-#
-#     class Meta:
-#         model = transfer
-#         fields = ['Customer_ref', 'Date', 'Clients_Name', 'Driver', 'Provider', 'Car', 'Model',
-#                   'From', 'To', 'DepOrArr', 'Flight', 'Time_of_flight', 'Time_of_PU', 'Contact']
-#
-#     def __init__(self, *args, **kwargs):
-#         super(transfer_form, self).__init__(*args, **kwargs)
-#         CHOICES1 = (
-#             ('yes', 'כן'),
-#             ('no', 'לא'),
-#         )
-#
-#         # https://stackoverflow.com/questions/1513502/django-how-to-format-a-datefields-date-representation
-#         self.fields['Date'].widget = forms.DateInput(attrs={'id': 'datepicker1'})
-#         # self.fields['Flight'].widget = forms.Select(choices=CHOICES1)
+    From = forms.CharField(widget=forms.Select(), required=False)
 
+    # From = forms.CharField(widget=forms.Select(choices=[(doc, doc) for doc in From_data.objects.all()]), required=False)
+    # https://stackoverflow.com/questions/19770534/django-forms-choicefield-without-validation-of-selected-value
+
+    # https://djangosnippets.org/snippets/200/
+
+    class Meta:
+        model = main_list_model
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super(main_list_form_update, self).__init__(*args, **kwargs)
+        # self.fields['Project_num'].label = 'Project Number'
+        self.fields['Customer'].label = 'Refernce custumer'
+        self.fields['Customer'].widget.attrs.update({'class': 'js_tags'})
+        self.fields['Luggage'].label = 'Number of PAX & Luggage'
+        # self.fields['Start_time'].label = 'Start_time'
+        self.fields['Cost_per_client'].label = 'מחיר FD ללקוח'
+        self.fields['Cost_per_provider'].label = 'מחיר FD לספק'
+        self.fields['Cost_extra_hour_client'].label = 'מחיר שעה נוספת ללקוח'
+        self.fields['Cost_extra_hour_provider'].label = 'מחיר שעה נוספת לספק'
+        self.fields['Cost_transfer_client'].label = 'מחיר טרנספר ללקוח'
+        self.fields['Cost_transfer_provider'].label = 'מחיר טרנספר לספק'
+        self.fields['Cost_VIP_client'].label = 'מחיר VIP ללקוח'
+        self.fields['Cost_VIP_provider'].label = 'מחיר VIP לספק'
+
+        self.fields['shonot_client'].label = 'מחיר שונות ללקוח'
+        self.fields['shonot_provider'].label = 'מחיר שונות לספק'
+
+        self.fields['status_cheshbonit_yeruka1'].label = 'סטטוס חשבונית ירוקה - ספק'
+        self.fields['status_cheshbonit_yeruka2'].label = 'סטטוס חשבונית ירוקה - לקוח'
+        # https://stackoverflow.com/questions/1513502/django-how-to-format-a-datefields-date-representation
+        self.fields['Project_num'].widget.attrs.update({'style': 'width:100px'})
+        self.fields['Date'].widget = forms.DateInput(attrs={'id': 'datepicker1'}, format='%A, %B %d %Y')
+
+        self.fields['Based_on_client'].widget.attrs.update({'value': '9'})
+        self.fields['Based_on_provider'].widget.attrs.update({'value': '10'})
+
+        self.fields['Cost_per_client'].widget = forms.TextInput(attrs={'class': 'currency_sign'})
+        # self.fields['Cost_per_client'].widget.attrs.update({'class': 'currency_sign'})
+        self.fields['Cost_per_provider'].widget = forms.TextInput(attrs={'class': 'currency_sign'})
+        self.fields['Cost_extra_hour_client'].widget = forms.TextInput(attrs={'class': 'currency_sign'})
+        self.fields['Cost_extra_hour_provider'].widget = forms.TextInput(attrs={'class': 'currency_sign'})
+        self.fields['Cost_transfer_client'].widget = forms.TextInput(attrs={'class': 'currency_sign'})
+        self.fields['Cost_transfer_provider'].widget = forms.TextInput(attrs={'class': 'currency_sign'})
+        self.fields['Cost_VIP_client'].widget = forms.TextInput(attrs={'class': 'currency_sign'})
+        self.fields['Cost_VIP_provider'].widget = forms.TextInput(attrs={'class': 'currency_sign'})
+        self.fields['shonot_client'].widget = forms.TextInput(attrs={'class': 'currency_sign'})
+        self.fields['shonot_provider'].widget = forms.TextInput(attrs={'class': 'currency_sign'})
+
+        self.fields['From'].widget.attrs.update({'class': 'form-control'})
+        self.fields['To'].widget.attrs.update({'class': 'js_tags'})
+        # self.fields['Color'].widget.attrs.update(attrs={'display': 'none'})
+        self.fields['From'].widget.choices = [(doc, doc) for doc in From_data.objects.all()]
+        self.fields['To'].widget.choices = [(doc, doc) for doc in To_data.objects.all()]
+        # print('choices= ', [(doc, doc) for doc in To_data.objects.all()])
 

@@ -46,6 +46,9 @@ class main_list_model(models.Model):
     Cost_VIP_client = models.IntegerField(blank=True, null=True)
     Cost_VIP_provider = models.IntegerField(blank=True, null=True)
 
+    shonot_client = models.IntegerField(blank=True, null=True)
+    shonot_provider = models.IntegerField(blank=True, null=True)
+
     Color = models.CharField(max_length=3000, blank=True, null=True)
 
     def __str__(self):

@@ -141,6 +141,20 @@ table#sum_list{
     width:60px;
 }
 
+#id_shonot_client{
+    width:60px;
+}
+
+#id_shonot_provider{
+    width:60px;
+}
+
+td.highlight {
+        font-weight: bold;
+        //color: blue;
+        background-color: rgb(25,150,25);
+    }
+
 .border{
     border-style: solid;
     border-width: 2px;
