@@ -5,13 +5,11 @@ var table = $('#mainlist').DataTable({
               "createdRow": function ( row, data, index ) {
 //                    var today = new Date()
                     var today = moment().format('MM/DD/YYYY');
-                    console.log('today: '+ today)
-                    console.log('data: '+ data[4])
 //                    if ( data[5].replace(/[\$,]/g, '') * 1 > 150000 ) {
 //                        $('td', row).eq(5).addClass('highlight');
 //                    }
                     if ( data[4]==today) {
-                        console.log('data: '+ data[4])
+//                        console.log('data: '+ data[4])
                         $('td', row).addClass('highlight');
                     }
                 },

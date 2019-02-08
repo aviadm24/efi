@@ -30,17 +30,35 @@ from .resources import main_list_Resource
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from django.views.decorators.csrf import csrf_exempt
+
 BASE_DIR = settings.BASE_DIR
 
 
 def export_csv(request):
     main_list_resource = main_list_Resource()
     dataset = main_list_resource.export()
-    response = HttpResponse(dataset.csv, content_type='text/csv')
 
-    response['Content-Disposition'] = 'attachment; filename="persons.csv"'
+    msg = EmailMessage("caneti", 'test csv attachment', to=['aviadm24@gmail.com'])
+    msg.attach('test.csv', dataset.csv, 'text/csv')
+    msg.content_subtype = "html"
+    msg.send()
+    # response = HttpResponse(dataset.csv, content_type='text/csv')
 
-    return response
+    # response['Content-Disposition'] = 'attachment; filename="persons.csv"'
+
+    # return response
+    return redirect('/')
+
+def send_backup():
+    main_list_resource = main_list_Resource()
+    dataset = main_list_resource.export()
+
+    msg = EmailMessage("test backup", 'test backup', to=['aviadm24@gmail.com'])
+    msg.attach('test.csv', dataset.csv, 'text/csv')
+    msg.content_subtype = "html"
+    msg.send()
+
+
 
 @csrf_exempt
 def export_table(request):
@@ -409,7 +427,28 @@ def table_view(request):
     return render(request, 'main/table_view.html', {'table': table})
 
 
-def add_main_list(request):
+def intro(request):
+    pass
+
+
+def main_list(request):
+    try:
+        now = datetime.now()
+        date = now.date()
+        backup_date = request.session['back_up_date']
+        print('try backup_date: ', datetime.strptime(backup_date, '%Y-%m-%d').date())
+        delta = date - datetime.strptime(backup_date, '%Y-%m-%d').date()
+        if delta.days > 1:
+            print('1 days pased')
+            send_backup()
+            request.session['back_up_date'] = datetime.strftime(date, '%Y-%m-%d')
+    except:
+        now = datetime.now()
+        date = now.date()
+        request.session['back_up_date'] = datetime.strftime(date, '%Y-%m-%d')
+        backup_date = request.session['back_up_date']
+        print('except backup_date: ', backup_date)
+
     field_names = [f.name for f in main_list_model._meta.get_fields()]
     now = timezone.now()
     #  https://stackoverflow.com/questions/7503241/django-models-selecting-single-field
@@ -471,7 +510,7 @@ def add_main_list(request):
 
                 form.save()
                 messages.success(request, ('Your order was successfully updated!'))
-                return redirect('add_main_list')
+                return redirect('main_list')
             else:
                 print('main list - got an error: ', form.errors)
                 messages.error(request, ('Please correct the error below \n {}'.format(request.POST['From'])))
@@ -724,7 +763,7 @@ class update(UpdateView):
     model = main_list_model
     form_class = main_list_form_update
     # fields = '__all__'
-    success_url = reverse_lazy('add_main_list')
+    success_url = reverse_lazy('main_list')
     template_name_suffix = '_update_form'
 
     # def convert_currnecy_sign(self, signed_num):

@@ -17,16 +17,20 @@ from django.conf.urls import url, include
 from django.urls import path
 from django.contrib import admin
 from django.views.generic import TemplateView
+from django.contrib.auth import views as auth_views
 from . import views
 
 
 urlpatterns = [
-    url(r'^$', views.add_main_list, name='add_main_list'),
+    # url(r'^$', auth_views.login, name='login'),
+    url(r'^$', views.main_list, name='main_list'),
+    url(r'^main_list$', views.main_list, name='main_list'),
+    url(r'^logout/$', auth_views.logout, name='logout'),
     url(r'^export_csv$', views.export_csv, name='export_csv'),
     url(r'^ajax/export_table/$', views.export_table, name='export_table'),
     url(r'^to_send$', views.to_send, name='to_send'),
     url(r'^ajax/export_filter/$', views.export_filter, name='export_filter'),
-    url(r'^upload$', views.upload_file, name='upload'),
+    url(r'^upload/$', views.upload_file, name='upload'),
     url(r'^search_list$', views.search_list, name='search_list'),
     url(r'^p_num_list$', views.p_num_list, name='p_num_list'),
     url(r'^customer_list$', views.customer_list, name='customer_list'),

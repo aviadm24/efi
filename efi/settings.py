@@ -169,3 +169,5 @@ else:
     EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
     SENDGRID_API_KEY = os.environ["SENDGRID_API_KEY"]
     SENDGRID_SANDBOX_MODE_IN_DEBUG = False
+
+LOGIN_REDIRECT_URL = 'main_list'

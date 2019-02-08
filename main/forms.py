@@ -137,18 +137,18 @@ class main_list_form(forms.ModelForm):
         if self.data['shonot_provider']:
             return str(self.data['shonot_provider'])+'33'
 
-    def clean_From(self):
-        print('clean form method')
-        print(self.data['From'])
-        return self.data['From']
+    # def clean_From(self):
+    #     print('clean form method')
+    #     print(self.data['From'])
+    #     return self.data['From']
 
-    def clean(self):
-        cleaned_data = super().clean()
-        data = cleaned_data.get('From')
-        print('form data###: ', data)
-        if data == None:
-            raise forms.ValidationError('foo')
-        return cleaned_data
+    # def clean(self):
+    #     cleaned_data = super().clean()
+    #     data = cleaned_data.get('From')
+    #     print('form data###: ', data)
+    #     if data == None:
+    #         raise forms.ValidationError('foo')
+    #     return cleaned_data
 
 class main_list_form_update(forms.ModelForm):
     Customer = forms.ModelChoiceField(queryset=Customer_data.objects.all(), required=False)
