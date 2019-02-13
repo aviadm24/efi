@@ -51,8 +51,7 @@ INSTALLED_APPS = [
 ]
 #took out
 #'bootstrap_datepicker',
-
-
+# 'django_select2',
 
 MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',

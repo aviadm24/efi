@@ -1,4 +1,5 @@
 {% load staticfiles %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -119,13 +120,17 @@
             $('#id_To').select2({
               tags: true
             });
-        });
-
-        $(document).ready(function() {
-            $('.js-example-basic-single').select2({
+            $('#id_Flight_num').select2({
               tags: true
             });
+
         });
+
+        //$(document).ready(function() {
+        //   $('.js-example-basic-single').select2({
+        //      tags: true
+        //    });
+        //});
 
         //$(".js_tags").select2({
         //  tags: true

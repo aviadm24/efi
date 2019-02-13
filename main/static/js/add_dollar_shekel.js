@@ -10,6 +10,8 @@
 // https://stackoverflow.com/questions/18453480/get-the-row-id-of-html-table-after-right-click
 // €
 
+
+
 var oddClick = true;
     $('#mainlist').find("tbody tr td:nth-child(26),td:nth-child(27),td:nth-child(28),td:nth-child(29),td:nth-child(30),td:nth-child(31),td:nth-child(32),td:nth-child(33),td:nth-child(34),td:nth-child(35)").bind("contextmenu",function(e) {
     var dollar_mode = $('#dollar_mode').prop('checked')

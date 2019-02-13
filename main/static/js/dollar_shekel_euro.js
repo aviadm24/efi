@@ -1,5 +1,15 @@
 // €
 
+$("#mainlist").find("td.Status").each(function() { //get all rows in table
+
+    var status = $(this).text();
+    console.log(status)
+    if (status == 'Cancled'){
+        $(this).closest('tr').css('background-color', 'red');
+    }
+
+});
+
 var counter = 0;
 $('#mainlist').find("tbody tr td:nth-child(26),td:nth-child(27),td:nth-child(28),td:nth-child(29),td:nth-child(30),td:nth-child(31),td:nth-child(32),td:nth-child(33),td:nth-child(34),td:nth-child(35)").bind("contextmenu",function(e) {
     var dollar_mode = $('#dollar_mode').prop('checked')

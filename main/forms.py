@@ -1,6 +1,7 @@
 from .models import Service_data, Car_data, Provider_data,\
     Driver_data, Customer_data, Flight_data, main_list_model, Status_data, Yeruka_data, Yeruka2_data, To_data, From_data
 from django import forms
+# from django_select2.forms import ModelSelect2Widget, Select2MultipleWidget, Select2Widget
 from .utils import OptionalChoiceField
 from django.contrib.admin import widgets
 from crispy_forms.helper import FormHelper
@@ -10,12 +11,10 @@ from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, Div
 
 
 class DateForm(forms.Form):
-    # title = forms.CharField(max_length=50)
     start = forms.DateField()
     end = forms.DateField()
 
 class UploadFileForm(forms.Form):
-    # title = forms.CharField(max_length=50)
     file = forms.FileField()
 
 
@@ -24,7 +23,7 @@ class main_list_form(forms.ModelForm):
     Type_of_service = forms.ModelChoiceField(queryset=Service_data.objects.all(), required=False)
     Type_of_car = forms.ModelChoiceField(queryset=Car_data.objects.all(), required=False)
     Driver_name = forms.ModelChoiceField(queryset=Driver_data.objects.all(), required=False)
-    Flight_num = forms.ModelChoiceField(queryset=Flight_data.objects.all(), required=False)
+    Flight_num = forms.CharField(widget=forms.Select(), required=False)
     Provider = forms.ModelChoiceField(queryset=Provider_data.objects.all(), required=False)
     Status = forms.ModelChoiceField(queryset=Status_data.objects.all(), required=False)
     status_cheshbonit_yeruka1 = forms.ModelChoiceField(queryset=Yeruka_data.objects.all(), required=False)
@@ -90,9 +89,11 @@ class main_list_form(forms.ModelForm):
         self.fields['shonot_client'].widget.attrs.update({'class': 'currency_sign'})
         self.fields['shonot_provider'].widget.attrs.update({'class': 'currency_sign'})
 
+
         self.fields['From'].widget.attrs.update({'class': 'form-control'})
         self.fields['To'].widget.attrs.update({'class': 'js_tags'})
-        # self.fields['Color'].widget.attrs.update(attrs={'display': 'none'})
+        self.fields['Flight_num'].widget.attrs.update({'class': 'form-control'})
+        self.fields['Flight_num'].widget.choices = [(doc, doc) for doc in Flight_data.objects.all()]
         self.fields['From'].widget.choices = [(doc, doc) for doc in From_data.objects.all()]
         self.fields['To'].widget.choices = [(doc, doc) for doc in To_data.objects.all()]
         # print('choices= ', [(doc, doc) for doc in To_data.objects.all()])
@@ -137,10 +138,7 @@ class main_list_form(forms.ModelForm):
         if self.data['shonot_provider']:
             return str(self.data['shonot_provider'])+'33'
 
-    # def clean_From(self):
-    #     print('clean form method')
-    #     print(self.data['From'])
-    #     return self.data['From']
+
 
     # def clean(self):
     #     cleaned_data = super().clean()
@@ -165,7 +163,7 @@ class main_list_form_update(forms.ModelForm):
 
     To = forms.CharField(widget=forms.Select(), required=False)
 
-    # From = forms.ModelChoiceField(queryset=From_data.objects.all(), required=False)
+    # From = forms.ModelMultipleChoiceField(queryset=From_data.objects.all(), required=False, widget=Select2MultipleWidget(queryset=From_data.objects.all()))
 
     # From = forms.ChoiceField(choices=[(doc, doc) for doc in From_data.objects.all()], required=False)
     # https://stackoverflow.com/questions/5281195/forms-modelchoicefield-queryset-extra-choice-fields-django-forms
@@ -176,6 +174,16 @@ class main_list_form_update(forms.ModelForm):
     # https://stackoverflow.com/questions/19770534/django-forms-choicefield-without-validation-of-selected-value
 
     # https://djangosnippets.org/snippets/200/
+
+    def clean_Flight_num(self):
+        print('clean Flight_num method')
+        print(self.data['Flight_num'])
+        if Flight_data.objects.filter(Flight=self.data['Flight_num']).exists():
+            pass
+        else:
+            print(self.data['Flight_num'])
+            f = Flight_data.objects.create(Flight=self.data['Flight_num'])
+        return self.data['Flight_num']
 
     class Meta:
         model = main_list_model
@@ -222,9 +230,8 @@ class main_list_form_update(forms.ModelForm):
         self.fields['shonot_provider'].widget = forms.TextInput(attrs={'class': 'currency_sign'})
 
         self.fields['From'].widget.attrs.update({'class': 'form-control'})
-        self.fields['To'].widget.attrs.update({'class': 'js_tags'})
+        self.fields['To'].widget.attrs.update({'class': 'form-control'})
         # self.fields['Color'].widget.attrs.update(attrs={'display': 'none'})
         self.fields['From'].widget.choices = [(doc, doc) for doc in From_data.objects.all()]
         self.fields['To'].widget.choices = [(doc, doc) for doc in To_data.objects.all()]
         # print('choices= ', [(doc, doc) for doc in To_data.objects.all()])
-

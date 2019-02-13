@@ -438,8 +438,8 @@ def main_list(request):
         backup_date = request.session['back_up_date']
         print('try backup_date: ', datetime.strptime(backup_date, '%Y-%m-%d').date())
         delta = date - datetime.strptime(backup_date, '%Y-%m-%d').date()
-        if delta.days > 1:
-            print('1 days pased')
+        if delta.days > 30:
+            print('30 days pased')
             send_backup()
             request.session['back_up_date'] = datetime.strftime(date, '%Y-%m-%d')
     except:
@@ -492,6 +492,13 @@ def main_list(request):
         else:
             if form.is_valid():
                 for key, value in form.cleaned_data.items():
+                    print(key)
+                    if key == 'Flight_num':
+                        if Flight_data.objects.filter(Flight=value).exists():
+                            pass
+                        else:
+                            print(value)
+                            f = Flight_data.objects.create(Flight=value)
                     if key == 'From':
                         if From_data.objects.filter(From=value).exists():
                             pass
@@ -766,25 +773,33 @@ class update(UpdateView):
     success_url = reverse_lazy('main_list')
     template_name_suffix = '_update_form'
 
-    # def convert_currnecy_sign(self, signed_num):
-    #     if signed_num.startswith('$'):
-    #         print('returning: ', signed_num.replace("$", "")+'33')
-    #         return signed_num.replace("$", "")+'33'
-    #
-    # def get_form_kwargs(self):
-    #     kwargs = super(update, self).get_form_kwargs()
-    #     print('kwargs: ', kwargs)
-    #     if 'data' in kwargs.keys():
-    #         for key in kwargs['data'].keys():
-    #             print('key: ', key)
-    #             if kwargs['data'][key].startswith('$'):
-    #                 print(kwargs['data'][key])
-    #                 kwargs['instance'].key = self.convert_currnecy_sign(kwargs['data'][key])
-    #     return kwargs
+    # def form_valid(self, form):
+    #   pass
+
+
+
+    def get_form_kwargs(self):
+        kwargs = super(update, self).get_form_kwargs()
+        # print('kwargs: ', kwargs['data'].keys())
+        if 'data' in kwargs.keys():
+            for key in kwargs['data'].keys():
+                if key == 'Flight_num':
+                    if Flight_data.objects.filter(Flight=kwargs['data'][key]).exists():
+                        pass
+                    else:
+                        # print(kwargs['data'][key])
+                        f = Flight_data.objects.create(Flight=kwargs['data'][key])
+        return kwargs
 
     def check_for_null(self, field, model, query_dicy=None):
         if field:
             return model.objects.get(**query_dicy).pk
+        else:
+            return '-'
+
+    def check_for_null_returns_string(self, field, model, query_dicy=None):
+        if field:
+            return model.objects.get(**query_dicy)
         else:
             return '-'
 
@@ -813,10 +828,10 @@ class update(UpdateView):
         yeruka2_data = self.check_for_null(yeruka2_data_field, Yeruka2_data, {'Yeruka2': yeruka2_data_field})
 
         to_data_field = self.get_object().To
-        to_data = self.check_for_null(to_data_field, To_data, {'To': to_data_field})
+        to_data = self.check_for_null_returns_string(to_data_field, To_data, {'To': to_data_field})
 
         from_data_field = self.get_object().From
-        from_data = self.check_for_null(from_data_field, From_data, {'From': from_data_field})
+        from_data = self.check_for_null_returns_string(from_data_field, From_data, {'From': from_data_field})
 
         car_data_field = self.get_object().Type_of_car
         car_data = self.check_for_null(car_data_field, Car_data, {'Car': car_data_field})
@@ -1023,185 +1038,3 @@ def upload_file(request):
 #         else:
 #             messages.error(request, ('Please correct the error below.'))
 #     return render(request, 'main/main_list_model_form.html')
-'''
-class add_to_main_list(CreateView):
-    model = main_list_model
-    fields = '__all__'
-    success_url = reverse_lazy('add_to_main_list')
-
-    def get_queryset(self):
-        now = timezone.now()
-        upcoming = main_list_model.objects.filter(Date__gte=now).order_by('Date')
-        # passed = transfer.objects.filter(Date__lt=now).order_by('Date')
-        print(upcoming)
-        try:
-            return upcoming
-        except TypeError as e:
-            self.context_object_name = 'error'
-            return ['there is an error', e]
-
-class main_list(ListView):
-    template_name = 'main/main_list.html'
-    model = main_list_model
-    # https://stackoverflow.com/questions/5358800/django-listing-model-field-names-and-values-in-template
-
-    def get_queryset(self):
-        now = timezone.now()
-        # upcoming = transfer.objects.filter(Date__gte=now).order_by('Date')
-        passed = transfer.objects.filter(Date__lt=now).order_by('Date')
-        # print(passed)
-        try:
-            trans_proj_list = get_transfer_and_project()
-            return trans_proj_list
-        except TypeError as e:
-            self.context_object_name = 'error'
-            return ['there is an error', e]
-
-
-
-def get_transfer_and_project():
-    # https://howchoo.com/g/yzzkodmzzmj/combine-two-querysets-with-different-models
-    # https://stackoverflow.com/questions/431628/how-to-combine-2-or-more-querysets-in-a-django-view
-    transfers = transfer.objects.filter()
-    projects = Proj.objects.filter()
-
-    trans_and_proj = sorted(chain(transfers, projects), key=lambda row: row.Date, reverse=True)
-
-    return trans_and_proj
-
-class ProjCreate(CreateView):
-    model = Proj
-    fields = '__all__'
-    success_url = reverse_lazy('project_detail_add')
-
-class ProjUpdate(UpdateView):
-    model = Proj
-    fields = '__all__'
-
-class ProjDelete(DeleteView):
-    model = Proj
-    template_name_suffix = '_confirm_delete'
-    success_url = reverse_lazy('transfer_list')
-
-class project_detailCreate(CreateView):
-    template_name = 'main/project_form.html'
-    # model = project
-    form_class = project_form
-    # fields = '__all__'
-    success_url = reverse_lazy('Proj_list')
-    # got an error when used this reverse circuler import ?
-    # https://stackoverflow.com/questions/30460461/django-reverse-causes-circular-import/30460531
-
-class project_detailUpdate(UpdateView):
-    model = project
-    fields = '__all__'
-    success_url = reverse_lazy('transfer_list')
-    # got an error when used this reverse circuler import ?
-
-class project_detailDelete(DeleteView):
-    model = project
-    success_url = reverse_lazy('transfer_list')
-
-
-class ProjListView(ListView):
-    template_name = 'main/Proj_list.html'
-    model = Proj
-
-
-class TransferListView(ListView):
-    template_name = 'main/transfer_list.html'
-    model = transfer
-    # https://stackoverflow.com/questions/5358800/django-listing-model-field-names-and-values-in-template
-
-    def get_queryset(self):
-        now = timezone.now()
-        # upcoming = transfer.objects.filter(Date__gte=now).order_by('Date')
-        passed = transfer.objects.filter(Date__lt=now).order_by('Date')
-        # print(passed)
-        try:
-            trans_proj_list = get_transfer_and_project()
-            return trans_proj_list
-        except TypeError as e:
-            self.context_object_name = 'error'
-            return ['there is an error', e]
-
-
-
-
-    # def get_context_data(self, **kwargs):
-    #     context = super(TransferListView, self).get_context_data(**kwargs)
-    #     context.update({
-    #         'project_list': project.objects.order_by('Date'),
-    #
-    #     })
-    #     return context
-
-class ProjectListView(ListView):
-    # print('project list view')
-    template_name = 'main/project_list.html'
-    model = project
-    # https://stackoverflow.com/questions/5358800/django-listing-model-field-names-and-values-in-template
-
-    def get_queryset(self):
-        now = timezone.now()
-        pk = self.kwargs['pk']
-        print('project pk: ', pk)
-        # https://stackoverflow.com/questions/8164675/chaining-multiple-filter-in-django-is-this-a-bug
-        # upcoming = transfer.objects.filter(Date__lte=now).order_by('Date')
-        passed = project.objects.filter(Date__gte=now, Proj_ref=pk).order_by('Date')
-        return list(passed)
-
-def homepage(request):
-    if request.method == 'POST':
-        print('transfer -post')
-        form = transfer_form(request.POST)
-
-        if form.is_valid():
-            for key, value in form.cleaned_data.items():
-                print('key: ', key, 'val: ', value)
-
-            form.save()
-
-            # proj = False
-            # for key, value in form.cleaned_data.items():
-            #     if key == 'Project' and value == 'yes':
-            #         proj = True
-            # if proj:
-            #     # messages.success(request, ('A Project was detected'))
-            #     return redirect('project')
-            # else:
-            #     messages.success(request, ('Your order was successfully updated!'))
-            #     return redirect('thankyou')
-            messages.success(request, ('Your order was successfully updated!'))
-            return redirect('homepage')
-        else:
-            messages.error(request,('Please correct the error below.'))
-    else:
-        form = transfer_form
-    return render(request, 'main/index.html', {'form': form})
-
-
-# def project_view(request):
-#     if request.method == 'POST':
-#         form = project_form(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             messages.success(request, ('Your profile was successfully updated!'))
-#             return redirect('homepage')
-#         else:
-#             messages.error(request,('Please correct the error below.'))
-#     else:
-#         form = project_form
-#     return render(request, 'main/project.html', {'form': form})
-
-class transfer_update(UpdateView):
-    model = transfer
-    fields = '__all__'
-    template_name_suffix = '_update_form'
-    success_url = reverse_lazy('transfer_list')
-
-class transfer_delete(DeleteView):
-    model = transfer
-    template_name_suffix = '_confirm_delete'
-    success_url = reverse_lazy('transfer_list')
-'''
