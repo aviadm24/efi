@@ -19,11 +19,12 @@ class UploadFileForm(forms.Form):
 
 
 class main_list_form(forms.ModelForm):
+    Project_num = forms.IntegerField(required=True)
     Customer = forms.ModelChoiceField(queryset=Customer_data.objects.all(), required=False)
     Type_of_service = forms.ModelChoiceField(queryset=Service_data.objects.all(), required=False)
     Type_of_car = forms.ModelChoiceField(queryset=Car_data.objects.all(), required=False)
     Driver_name = forms.ModelChoiceField(queryset=Driver_data.objects.all(), required=False)
-    Flight_num = forms.CharField(widget=forms.Select(), required=False)
+    Flight_num = forms.CharField(widget=forms.Select(), required=False, initial='')
     Provider = forms.ModelChoiceField(queryset=Provider_data.objects.all(), required=False)
     Status = forms.ModelChoiceField(queryset=Status_data.objects.all(), required=False)
     status_cheshbonit_yeruka1 = forms.ModelChoiceField(queryset=Yeruka_data.objects.all(), required=False)
@@ -153,7 +154,8 @@ class main_list_form_update(forms.ModelForm):
     Type_of_service = forms.ModelChoiceField(queryset=Service_data.objects.all(), required=False)
     Type_of_car = forms.ModelChoiceField(queryset=Car_data.objects.all(), required=False)
     Driver_name = forms.ModelChoiceField(queryset=Driver_data.objects.all(), required=False)
-    Flight_num = forms.ModelChoiceField(queryset=Flight_data.objects.all(), required=False)
+    # Flight_num = forms.ModelChoiceField(queryset=Flight_data.objects.all(), required=False)
+    Flight_num = forms.CharField(widget=forms.Select(), required=False)
     Provider = forms.ModelChoiceField(queryset=Provider_data.objects.all(), required=False)
     Status = forms.ModelChoiceField(queryset=Status_data.objects.all(), required=False)
     status_cheshbonit_yeruka1 = forms.ModelChoiceField(queryset=Yeruka_data.objects.all(), required=False)
@@ -177,11 +179,11 @@ class main_list_form_update(forms.ModelForm):
 
     def clean_Flight_num(self):
         print('clean Flight_num method')
-        print(self.data['Flight_num'])
+        print('clean function: ', self.data['Flight_num'])
         if Flight_data.objects.filter(Flight=self.data['Flight_num']).exists():
             pass
         else:
-            print(self.data['Flight_num'])
+            print('creating: ', self.data['Flight_num'])
             f = Flight_data.objects.create(Flight=self.data['Flight_num'])
         return self.data['Flight_num']
 
@@ -232,6 +234,7 @@ class main_list_form_update(forms.ModelForm):
         self.fields['From'].widget.attrs.update({'class': 'form-control'})
         self.fields['To'].widget.attrs.update({'class': 'form-control'})
         # self.fields['Color'].widget.attrs.update(attrs={'display': 'none'})
+        self.fields['Flight_num'].widget.choices = [(doc, doc) for doc in Flight_data.objects.all()]
         self.fields['From'].widget.choices = [(doc, doc) for doc in From_data.objects.all()]
         self.fields['To'].widget.choices = [(doc, doc) for doc in To_data.objects.all()]
         # print('choices= ', [(doc, doc) for doc in To_data.objects.all()])

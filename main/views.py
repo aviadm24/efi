@@ -780,14 +780,15 @@ class update(UpdateView):
 
     def get_form_kwargs(self):
         kwargs = super(update, self).get_form_kwargs()
-        # print('kwargs: ', kwargs['data'].keys())
+
         if 'data' in kwargs.keys():
+            print('kwargs: ', kwargs['data'].keys())
             for key in kwargs['data'].keys():
                 if key == 'Flight_num':
                     if Flight_data.objects.filter(Flight=kwargs['data'][key]).exists():
                         pass
                     else:
-                        # print(kwargs['data'][key])
+                        print('creat in kwargs: ',kwargs['data'][key])
                         f = Flight_data.objects.create(Flight=kwargs['data'][key])
         return kwargs
 
@@ -837,7 +838,8 @@ class update(UpdateView):
         car_data = self.check_for_null(car_data_field, Car_data, {'Car': car_data_field})
 
         flight_data_field = self.get_object().Flight_num
-        flight_data = self.check_for_null(flight_data_field, Flight_data, {'Flight': flight_data_field})
+        flight_data = self.check_for_null_returns_string(flight_data_field, Flight_data, {'Flight': flight_data_field})
+        print('initail flight data: ', flight_data)
         return {
             'Customer': customer,
             'Driver_name': driver,

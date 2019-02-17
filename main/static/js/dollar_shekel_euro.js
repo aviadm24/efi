@@ -5,7 +5,7 @@ $("#mainlist").find("td.Status").each(function() { //get all rows in table
     var status = $(this).text();
     console.log(status)
     if (status == 'Cancled'){
-        $(this).closest('tr').css('background-color', 'red');
+        $(this).closest('tr').css('color', 'red');
     }
 
 });
