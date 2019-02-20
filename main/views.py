@@ -467,8 +467,8 @@ def main_list(request):
 
     # table_upcoming = main_list_model.objects.filter(Date__gte=last_month).order_by('Date')
     table_upcoming = main_list_Table(main_list_model.objects.filter(Date__gte=last_month).order_by('Date'))
-    table_all = main_list_Table(main_list_model.objects.all())
-    RequestConfig(request).configure(table_upcoming)
+    # table_all = main_list_Table(main_list_model.objects.all())
+    RequestConfig(request, paginate=False).configure(table_upcoming)
 
     if request.method == 'POST':
         print('main list - post')
@@ -537,7 +537,7 @@ def main_list(request):
 def whole_list(request):
 
     table_all = main_list_Table(main_list_model.objects.all())
-    RequestConfig(request).configure(table_all)
+    RequestConfig(request, paginate=False).configure(table_all)
 
     # field_names = [f.name for f in main_list_model._meta.get_fields()]
     # all = main_list_model.objects.all().order_by('Date')

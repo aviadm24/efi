@@ -1,6 +1,7 @@
 
 var table = $('#mainlist').DataTable({
-              "pageLength": 500,
+              paging: false,
+//              "pageLength": 500,
               "order": [[ 4, "desc" ]],
               "createdRow": function ( row, data, index ) {
 //                    var today = new Date()
@@ -9,14 +10,17 @@ var table = $('#mainlist').DataTable({
 //                        $('td', row).eq(5).addClass('highlight');
 //                    }
                     if ( data[4]==today) {
-//                        console.log('data: '+ data[4])
                         $('td', row).addClass('highlight');
                     }
                 },
-              "iDisplayLength": 500,
-              "aLengthMenu": [[10, 25, 50, 100,500,1000,-1], [10, 25, 50,100,500,1000, "All"]],
+//              "iDisplayLength": -1,
+//              "aLengthMenu": [[ 25, 50, 100,500,1000,-1], [25, 50,100,500,1000, "All"]],
               });
-
+// https://datatables.net/reference/option/pageLength
+// https://stackoverflow.com/questions/9443773/how-to-show-all-rows-by-default-in-jquery-datatable
+//$('#example').dataTable({
+//    paging: false
+//});
 
 function sum_sum_list(){
     console.log( 'sum sum list called!')
