@@ -11,31 +11,6 @@
 <a type="button" class="btn btn-info" href="{% url 'whole_list' %}">whole list</a>
 
 
-
-
-<!--<form id="searchform" action="{% url 'p_num_list' %}" method="get" accept-charset="utf-8">-->
-  <!--<button class="searchbutton" type="submit">-->
-    <!--<i class="fa fa-search"></i>-->
-  <!--</button>-->
-  <!--<input class="searchfield" id="searchbox" name="q" type="text" placeholder="Search">-->
-<!--</form>-->
-
-
-<!--<form action="{% url 'p_num_list' %}" method="get" accept-charset="utf-8">-->
-    <!--<select id="p_num" name="p_num_list" onChange="">-->
-      <!--<option  value="" selected="selected">-&#45;&#45;SELECT-&#45;&#45;</option>-->
-      <!--{% for p_num in p_num_list %}-->
-       <!--<option value="{{p_num}}">{{p_num|capfirst}}</option>-->
-      <!--{% endfor %}-->
-    <!--</select>-->
-    <!--<input type="submit" value="Select by project number">-->
-<!--</form>-->
-
-<!--<select class="js-example-basic-single" name="state">-->
-  <!--<option value="AL">Alabama</option>-->
-  <!--<option value="WY">Wyoming</option>-->
-<!--</select>-->
-
 <h3>add to list</h3>
 <form method="post" action="/" style="">{% csrf_token %}
     {% for error in from.errors %}
@@ -178,6 +153,10 @@
 <button id="reset"><a href="/">reset</a></button>
 <br>
 <br>
+<input type="text" name="row_id" id="row_id" maxlength="100">
+<input type="text" name="cell_id" id="cell_id" maxlength="100">
+<input type="text" name="new_value" id="new_value" maxlength="100">
+<button onclick="update_row()">update</button>
 <h3>main list</h3>
 {% render_table table_upcoming %}
 

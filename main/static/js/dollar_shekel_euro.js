@@ -3,7 +3,7 @@
 $("#mainlist").find("td.Status").each(function() { //get all rows in table
 
     var status = $(this).text();
-    console.log(status)
+    //console.log(status)
     if (status == 'Cancled'){
         $(this).closest('tr').css('color', 'red');
     }
@@ -14,12 +14,12 @@ var counter = 0;
 $('#mainlist').find("tbody tr td:nth-child(26),td:nth-child(27),td:nth-child(28),td:nth-child(29),td:nth-child(30),td:nth-child(31),td:nth-child(32),td:nth-child(33),td:nth-child(34),td:nth-child(35)").bind("contextmenu",function(e) {
     var dollar_mode = $('#dollar_mode').prop('checked')
     if (dollar_mode){
-        console.log('counter: '+counter)
+        //console.log('counter: '+counter)
         e.preventDefault();
         var text = $(this).text();
         var id = $(this).closest('tr').find('.id').text();
         var td_id = $(this).attr('class');
-        console.log('td_id: '+td_id)
+        //console.log('td_id: '+td_id)
 
         counter++;
         if (td_id == 'Cost_extra_hour_client'){
@@ -113,7 +113,7 @@ $('#mainlist').find("tbody tr td:nth-child(26),td:nth-child(27),td:nth-child(28)
                 var new_text = text.replace('€','');
             }
             var int_to_save_in_db = parseInt(new_text+ '34')
-            console.log('int_to_save_in db:'+ int_to_save_in_db)
+            //console.log('int_to_save_in db:'+ int_to_save_in_db)
             $(this).text('₪'+ new_text);
             $.ajax({
                 url: '/ajax/add_shekel/',
@@ -136,7 +136,7 @@ $('#mainlist').find("tbody tr td:nth-child(26),td:nth-child(27),td:nth-child(28)
                 var new_text = text.replace('€','');
             }
             var int_to_save_in_db = parseInt(new_text+ '35')
-            console.log('int_to_save_in db:'+ int_to_save_in_db)
+            //console.log('int_to_save_in db:'+ int_to_save_in_db)
             $(this).text('€'+ new_text);
             console.log('new_text:'+ $(this).text())
             $.ajax({

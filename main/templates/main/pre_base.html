@@ -62,6 +62,7 @@
     <script defer src="{% static 'js/status_function.js' %}"></script>
     <script defer src="{% static 'js/maam.js' %}"></script>
     <script defer src="{% static 'js/csv_filter.js' %}"></script>
+    <script defer src="{% static 'js/update_row.js' %}"></script>
 
 
 
@@ -115,7 +116,8 @@
 
         $(document).ready(function() {
             $('#id_From').select2({
-              tags: true
+              tags: true,
+              placeholder: "Select",
             });
             $('#id_To').select2({
               tags: true
@@ -125,6 +127,9 @@
             });
 
         });
+
+        $("#id_Flight_num").val('---')
+
 
         //$(document).ready(function() {
         //   $('.js-example-basic-single').select2({
