@@ -17,7 +17,7 @@ $(document).ready(function () {
     $('table tr').each(function () {
         var color_id = $(this).find(".color_id").html();
 //        var color_id = $('td.color_id').text();
-        console.log('color id:' + color_id)
+//        console.log('color id:' + color_id)
         $(this).css('background', color_id);
     });
 
@@ -25,7 +25,7 @@ $(document).ready(function () {
 });
 
 $('#id_Type_of_service').on("change", function (e) {
-    console.log('id_Type_of_service change')
+//    console.log('id_Type_of_service change')
     hide_for_transfer();
 });
 
@@ -34,7 +34,7 @@ $('#id_Type_of_service').on("change", function (e) {
 function hide_for_transfer() {
     var transfer = $('#id_Type_of_service option:selected').text();
     // https://stackoverflow.com/questions/10613873/get-the-jquery-index-of-td-element
-    console.log('Type_of_service:' + transfer)
+//    console.log('Type_of_service:' + transfer)
     if(transfer == "Transfer") {
         $('td:nth-child(9),th:nth-child(9)').hide();
         //$('#id_Type_of_service').hide();

@@ -63,6 +63,7 @@
     <script defer src="{% static 'js/maam.js' %}"></script>
     <script defer src="{% static 'js/csv_filter.js' %}"></script>
     <script defer src="{% static 'js/update_row.js' %}"></script>
+    <script defer src="{% static 'js/cancle_turn_red.js' %}"></script>
 
 
 
@@ -77,6 +78,13 @@
         //https://stackoverflow.com/questions/41716125/set-min-date-in-bootstrap-datetimepicker-2
         //https://stackoverflow.com/questions/30891880/set-date-in-bootstrap-datetimepicker-input
         //https://momentjs.com/docs/
+
+        $(function () {
+            $('#Flight_shcedule').datetimepicker({
+              format: 'HH:mm',
+              useCurrent: false
+            });
+        });
 
         $(function () {
             $('#Start_time').datetimepicker({
@@ -105,6 +113,20 @@
               useCurrent: false
             });
         });
+
+        $(function () {
+            $('#new_date_time').datetimepicker({
+              format: 'YYYY-MM-DD HH:mm',
+              useCurrent: false
+            });
+        });
+
+        $(function () {
+            $('#new_date').datetimepicker({
+              format: "YYYY-MM-DD"
+            });
+        });
+
 
         $("#custom").spectrum({
           preferredFormat: "rgb",

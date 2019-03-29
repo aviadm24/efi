@@ -374,6 +374,26 @@ def update_cell_json(request):
         print('td_id val', td_id)
         data = main_list_model.objects.filter(pk=id)
         td_id_data = data.values()[0][td_id]
+
+        if td_id == 'Project_num':
+            main_list_model.objects.filter(pk=id).update(Project_num=new_value)
+        if td_id == 'Customer':
+            main_list_model.objects.filter(pk=id).update(Customer=new_value)
+        if td_id == 'Contact':
+            main_list_model.objects.filter(pk=id).update(Contact=new_value)
+
+
+        if td_id == 'Date':
+            main_list_model.objects.filter(pk=id).update(Date=new_value)
+        if td_id == 'Type_of_service':
+            main_list_model.objects.filter(pk=id).update(Type_of_service=new_value)
+        if td_id == 'Type_of_car':
+            main_list_model.objects.filter(pk=id).update(Type_of_car=new_value)
+        if td_id == 'Name':
+            main_list_model.objects.filter(pk=id).update(Name=new_value)
+        if td_id == 'Luggage':
+            main_list_model.objects.filter(pk=id).update(Luggage=new_value)
+
         if td_id == 'Flight_num':
             main_list_model.objects.filter(pk=id).update(Flight_num=new_value)
         if td_id == 'Start_time':
@@ -392,9 +412,48 @@ def update_cell_json(request):
             main_list_model.objects.filter(pk=id).update(status_cheshbonit_yeruka1=new_value)
         if td_id == 'Comments':
             main_list_model.objects.filter(pk=id).update(Comments=new_value)
+        if td_id == 'Status':
+            main_list_model.objects.filter(pk=id).update(Status=new_value)
         if td_id == 'status_cheshbonit_yeruka2':
             main_list_model.objects.filter(pk=id).update(status_cheshbonit_yeruka2=new_value)
 
+        if td_id == 'Extra_hours_client':
+            main_list_model.objects.filter(pk=id).update(Extra_hours_client=new_value)
+        if td_id == 'Based_on_client':
+            main_list_model.objects.filter(pk=id).update(Based_on_client=new_value)
+        if td_id == 'Extra_hours_provider':
+            main_list_model.objects.filter(pk=id).update(Extra_hours_provider=new_value)
+        if td_id == 'Based_on_provider':
+            main_list_model.objects.filter(pk=id).update(Based_on_provider=new_value)
+
+        if td_id == 'KM':
+            main_list_model.objects.filter(pk=id).update(KM=new_value)
+        if td_id == 'Extra_KM_client':
+            main_list_model.objects.filter(pk=id).update(Extra_KM_client=new_value)
+        if td_id == 'Extra_KM_provider':
+            main_list_model.objects.filter(pk=id).update(Extra_KM_provider=new_value)
+        if td_id == 'Cost_per_client':
+            main_list_model.objects.filter(pk=id).update(Cost_per_client=new_value)
+
+        if td_id == 'Cost_per_provider':
+            main_list_model.objects.filter(pk=id).update(Cost_per_provider=new_value)
+        if td_id == 'Cost_transfer_client':
+            main_list_model.objects.filter(pk=id).update(Cost_transfer_client=new_value)
+        if td_id == 'Cost_transfer_provider':
+            main_list_model.objects.filter(pk=id).update(Cost_transfer_provider=new_value)
+        if td_id == 'Cost_extra_hour_client':
+            main_list_model.objects.filter(pk=id).update(Cost_extra_hour_client=new_value)
+
+        if td_id == 'Cost_extra_hour_provider':
+            main_list_model.objects.filter(pk=id).update(Cost_extra_hour_provider=new_value)
+        if td_id == 'Cost_VIP_client':
+            main_list_model.objects.filter(pk=id).update(Cost_VIP_client=new_value)
+        if td_id == 'Cost_VIP_provider':
+            main_list_model.objects.filter(pk=id).update(Cost_VIP_provider=new_value)
+        if td_id == 'shonot_client':
+            main_list_model.objects.filter(pk=id).update(shonot_client=new_value)
+        if td_id == 'shonot_provider':
+            main_list_model.objects.filter(pk=id).update(shonot_provider=new_value)
 
 
     # else:

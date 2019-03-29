@@ -21,7 +21,7 @@
   <thead>
    <tr>
        <th style="text-align: center; background-color: coral;" colspan="3">כללי לקוחות</th>
-       <th style="text-align: center; background-color: green;" colspan="10">נתוני משימה</th>
+       <th style="text-align: center; background-color: green;" colspan="11">נתוני משימה</th>
        <th style="text-align: center; background-color: red;" colspan="3">ספקים</th>
        <th style="text-align: center; background-color: orange;" colspan="3">שליטה וניהול</th>
        <th style="text-align: center; background-color: blue;" colspan="7">תפעול</th>
@@ -30,14 +30,14 @@
   </tr>
   <tr>
       {% for field in form %}
-        <th style="text-align: center;">{{field.label}}</th>
+        <th style="text-align: center;" class="{{field.name}}">{{field.label}}</th>
       {% endfor %}
   </tr>
   </thead>
   <tr>
       {% for field in form %}
         {% if field.name == 'Date'%}
-            <td>
+            <td class="{{field.name}}">
               <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
                   <input name="{{field.name}}" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>
                   <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
@@ -46,8 +46,8 @@
               </div>
             </td>
         {%else%}
-              {% if field.name == 'Start_time' or field.name == 'End_time' %}
-                    <td>
+              {% if field.name == 'Flight_shcedule' or field.name == 'Start_time' or field.name == 'End_time' %}
+                    <td class="{{field.name}}">
                       <div class="input-group date" id="{{field.name}}" data-target-input="nearest">
                           <input name="{{field.name}}" id="id_{{field.name}}" type="text" class="form-control datetimepicker-input" data-target="#{{field.name}}"/>
                           <div class="input-group-append" data-target="#{{field.name}}" data-toggle="datetimepicker">
@@ -57,7 +57,7 @@
                     </td>
                     {%else%}
 
-                         <td>{{field}}</td>
+                         <td class="{{field.name}}">{{field}}</td>
 
               {% endif %}
 
@@ -156,6 +156,18 @@
 <input type="text" name="row_id" id="row_id" maxlength="100">
 <input type="text" name="cell_id" id="cell_id" maxlength="100">
 <input type="text" name="new_value" id="new_value" maxlength="100">
+<div class="input-group date" id="new_date_time" data-target-input="nearest" style="display: none;">
+  <input name="new_date_time" id="id_new_date_time" type="text" class="form-control datetimepicker-input" data-target="#new_date_time"/>
+  <div class="input-group-append" data-target="#new_date_time" data-toggle="datetimepicker">
+      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+  </div>
+</div>
+<div class="input-group date" id="new_date" data-target-input="nearest" style="display: none;">
+  <input name="new_date" id="id_new_date" type="text" class="form-control datetimepicker-input" data-target="#new_date"/>
+  <div class="input-group-append" data-target="#new_date" data-toggle="datetimepicker">
+      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+  </div>
+</div>
 <button onclick="update_row()">update</button>
 <h3>main list</h3>
 {% render_table table_upcoming %}

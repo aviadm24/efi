@@ -17,6 +17,7 @@ class main_list_model(models.Model):
     Luggage = models.CharField(max_length=10, blank=True, null=True, verbose_name='Number of PAX & Luggage')  # changed to char field
 
     Flight_num = models.CharField(max_length=100, blank=True, null=True)
+    Flight_shcedule = models.TimeField(blank=True, null=True)
     Start_time = models.DateTimeField(blank=True, null=True)
     End_time = models.DateTimeField(blank=True, null=True)
     From = models.CharField(max_length=100, blank=True, null=True)

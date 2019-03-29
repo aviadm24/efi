@@ -128,16 +128,23 @@ LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
-USE_I18N = True
+USE_I18N = False
 
-# importent to be able to use dae format!
+# importent to be able to use date format!
 USE_L10N = False
 
 USE_TZ = True
 
+# https://docs.djangoproject.com/en/2.1/ref/templates/builtins/#std:templatefilter-date
+# https://stackoverflow.com/questions/1513502/django-how-to-format-a-datefields-date-representation
 DATE_INPUT_FORMATS = ('%Y-%m-%d', '%d-%m-%Y', '%m/%d/%Y', '%d/%m/%Y', '%Y/%m/%d', '%A, %B %d %Y')
 DATE_FORMATS = ('%A, %B %d %Y', '%Y-%m-%d')
 # DATETIME_INPUT_FORMATS = ('%m/%d/%Y %H:%M',)
+DATETIME_FORMAT = 'n/j/Y G:i'
+# https://stackoverflow.com/questions/28049010/modifying-display-format-of-datetimes-in-django-tables2
+SHORT_DATETIME_FORMAT = 'n/j/Y G:i'
+TIME_FORMAT = 'G:i'
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
