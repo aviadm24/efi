@@ -174,11 +174,11 @@ def main_list(request):
                 # change to dollar sign in form clean functions
 
                 form.save()
-                messages.success(request, ('Your order was successfully updated!'))
+                messages.success(request, 'Your order was successfully updated!')
                 return redirect('main_list')
             else:
                 print('main list - got an error: ', form.errors)
-                messages.error(request, ('Please correct the error below \n {}'.format(request.POST['From'])))
+                messages.error(request, 'Please correct the error below')
 
     else:
         form = main_list_form()
@@ -396,6 +396,8 @@ def update_cell_json(request):
 
         if td_id == 'Flight_num':
             main_list_model.objects.filter(pk=id).update(Flight_num=new_value)
+        if td_id == 'Flight_shcedule':
+            main_list_model.objects.filter(pk=id).update(Flight_shcedule=new_value)
         if td_id == 'Start_time':
             main_list_model.objects.filter(pk=id).update(Start_time=new_value)
         if td_id == 'End_time':

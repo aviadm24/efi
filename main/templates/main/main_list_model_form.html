@@ -2,16 +2,6 @@
 {% block transfer_list %}
 {% load render_table from django_tables2 %}
 
-<input type='text' id="custom" />
-<label>תצוגת כתב</label>
-<input type="checkbox" id="color_method">
-<label>dollar mode</label>
-<input type="checkbox" id="dollar_mode" checked>
-
-<a type="button" class="btn btn-info" href="{% url 'whole_list' %}">whole list</a>
-
-
-<h3>add to list</h3>
 <form method="post" action="/" style="">{% csrf_token %}
     {% for error in from.errors %}
         <p style="color: red">{{ error }}</p>
@@ -65,15 +55,33 @@
       {% endfor %}
   </tr>
 </table>
-<input type="submit" value="שמור" />
+<button class="btn btn-primary btn-lg" type="submit">שמור</button>
+<!--<input class="btn-primary" type="submit" value="שמור" />-->
 </form>
 
 {% if messages %}
+  <div class="alert alert-success">
     {% for message in messages %}
-    <p style="font-size:26px"><b>{{ message }}</b></p>
+      <h3>{{ message }}</h3>
     {% endfor %}
+  </div>
 {% endif %}
 
+{% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>{{field.name}} - {{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+{% endif %}
+<br>
 <table class="table table-bordered" id="select_list">
   <thead>
     <tr>
@@ -141,35 +149,45 @@
     <!--<input type="submit" name="date_filter" value="שלח" />-->
 </form>
 <br>
-<br>
 <button onclick="date_filter()">date filter</button>
 <br>
 <br>
-<input type="text" name="mail" id="mail_to_send" maxlength="100">
-<button onclick="csv_filter()">send mail</button>
+<button id="reset"><a href="/">reset filters</a></button>
 <br>
 <br>
-<br>
-<button id="reset"><a href="/">reset</a></button>
-<br>
-<br>
-<input type="text" name="row_id" id="row_id" maxlength="100">
-<input type="text" name="cell_id" id="cell_id" maxlength="100">
-<input type="text" name="new_value" id="new_value" maxlength="100">
-<div class="input-group date" id="new_date_time" data-target-input="nearest" style="display: none;">
-  <input name="new_date_time" id="id_new_date_time" type="text" class="form-control datetimepicker-input" data-target="#new_date_time"/>
-  <div class="input-group-append" data-target="#new_date_time" data-toggle="datetimepicker">
-      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-  </div>
+
+<input type="button" value="update" id="update_button" onkeypress="update_row();" onclick="update_row();" style="display: none; position: absolute; left:90%; top:75%;">
+<div id="clone_input" style="position: absolute; left:90%;"></div>
+
+<div id="update_values" style="display: none;">
+    <input type="text" name="row_id" id="row_id" maxlength="100">
+    <input type="text" name="cell_id" id="cell_id" maxlength="100">
+    <!--<input type="text" name="new_value" id="new_value" maxlength="100">-->
 </div>
-<div class="input-group date" id="new_date" data-target-input="nearest" style="display: none;">
-  <input name="new_date" id="id_new_date" type="text" class="form-control datetimepicker-input" data-target="#new_date"/>
-  <div class="input-group-append" data-target="#new_date" data-toggle="datetimepicker">
-      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-  </div>
+<div id="special_clone_input" style="position: absolute; left:90%;">
+    <div class="input-group date" id="new_date_time" data-target-input="nearest" style="display: none;">
+      <input name="new_date_time" id="id_new_date_time" type="text" class="form-control datetimepicker-input" data-target="#new_date_time"/>
+      <div class="input-group-append" data-target="#new_date_time" data-toggle="datetimepicker">
+          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+      </div>
+    </div>
+
+    <div class="input-group date" id="new_date" data-target-input="nearest" style="display: none;">
+      <input name="new_date" id="id_new_date" type="text" class="form-control datetimepicker-input" data-target="#new_date"/>
+      <div class="input-group-append" data-target="#new_date" data-toggle="datetimepicker">
+          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+      </div>
+    </div>
+
+    <div class="input-group date" id="flight_shcedule_update" data-target-input="nearest" style="display: none;">
+      <input name="flight_shcedule_update" id="id_flight_shcedule_update" type="text" class="form-control datetimepicker-input" data-target="#flight_shcedule_update"/>
+      <div class="input-group-append" data-target="#flight_shcedule_update" data-toggle="datetimepicker">
+          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+      </div>
+    </div>
 </div>
-<button onclick="update_row()">update</button>
-<h3>main list</h3>
+
+
 {% render_table table_upcoming %}
 
 <table class="table" id="sum_list" border="1" >

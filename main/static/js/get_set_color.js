@@ -24,21 +24,4 @@ $(document).ready(function () {
 
 });
 
-$('#id_Type_of_service').on("change", function (e) {
-//    console.log('id_Type_of_service change')
-    hide_for_transfer();
-});
-
-
-// if type of service is transfer then black out some td's
-function hide_for_transfer() {
-    var transfer = $('#id_Type_of_service option:selected').text();
-    // https://stackoverflow.com/questions/10613873/get-the-jquery-index-of-td-element
-//    console.log('Type_of_service:' + transfer)
-    if(transfer == "Transfer") {
-        $('td:nth-child(9),th:nth-child(9)').hide();
-        //$('#id_Type_of_service').hide();
-    }
-}
-
 //https://stackoverflow.com/questions/14460421/get-the-contents-of-a-table-row-with-a-button-click?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa

@@ -6,12 +6,39 @@
       <div class="container">
         <a class="navbar-brand" href="/admin">Admin</a>
         <a class="" href="/">Main Page</a>
-        <!--<a class="" href="/Proj_list">project_list</a>-->
+        <a class="" href="/whole_list">whole_list</a>
         <a class="" href="/upload">Upload_file</a>
         <a class="" href="/export_csv">export_csv</a>
         <a class="" href="/export_filter">export_filter</a>
+        <div class="dropdown">
+          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">settings
+          <span class="caret"></span></button>
+          <ul class="dropdown-menu">
+            <li>
+                <input type="checkbox" id="color_method">
+                <label>הוספת צבע לכתב </label>
+            </li>
+            <li>
+                <input type='text' id="custom" />
+                <label> בחר צבע</label>
+            </li>
+            <li>
+                <input type="checkbox" id="dollar_mode" checked>
+                <label> תצוגת דולר</label>
+            </li>
+          </ul>
+        </div>
 
-        <!--<a class="btn btn-primary" href="#">Sign In</a>-->
+        <div class="dropdown">
+          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">email
+          <span class="caret"></span></button>
+          <ul class="dropdown-menu">
+            <li>
+                <input type="text" name="mail" id="mail_to_send" maxlength="100">
+                <button onclick="csv_filter()">send mail</button>
+            </li>
+          </ul>
+        </div>
       </div>
     </nav>
     {% block pro_base %}

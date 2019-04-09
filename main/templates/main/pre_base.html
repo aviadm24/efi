@@ -59,7 +59,7 @@
     <!--<script defer src="{% static 'js/add_dollar_shekel.js' %}"></script>-->
     <script defer src="{% static 'js/dollar_shekel_euro.js' %}"></script>
     <script defer src="{% static 'js/table_filter.js' %}"></script>
-    <script defer src="{% static 'js/status_function.js' %}"></script>
+    <script defer src="{% static 'js/status_and_km_function.js' %}"></script>
     <script defer src="{% static 'js/maam.js' %}"></script>
     <script defer src="{% static 'js/csv_filter.js' %}"></script>
     <script defer src="{% static 'js/update_row.js' %}"></script>
@@ -68,6 +68,13 @@
 
 
    <script type="text/javascript">
+        function display() {
+            $('#settings').show()
+        }
+
+        function un_display() {
+            $('#settings').hide()
+        }
 
         $(function () {
             $('#datetimepicker1').datetimepicker({
@@ -124,6 +131,13 @@
         $(function () {
             $('#new_date').datetimepicker({
               format: "YYYY-MM-DD"
+            });
+        });
+
+        $(function () {
+            $('#flight_shcedule_update').datetimepicker({
+              format: 'HH:mm',
+              useCurrent: false
             });
         });
 

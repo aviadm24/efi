@@ -3,7 +3,7 @@ $('#datetimepicker1').on("change.datetimepicker", function (e) {
     var date = $('#datetimepicker1').datetimepicker('viewDate');
 //    console.log('date: '+moment(date).format("dddd, MMMM DD YYYY"));
     $('#Start_time').datetimepicker('date', e.date);
-    $('#End_time').datetimepicker('date', e.date);
+//    $('#End_time').datetimepicker('date', e.date);
     // https://tempusdominus.github.io/bootstrap-4/Usage/
     // linked datetime pickers!!!
 });
