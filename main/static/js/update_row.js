@@ -1,4 +1,5 @@
 $(document).on("dblclick", "#mainlist tbody tr td", function(e) {
+    e.preventDefault();
     $('#clone_input').empty();
     $('#update_button').show();
     $('#update_values').hide();

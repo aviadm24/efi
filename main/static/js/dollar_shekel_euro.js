@@ -146,7 +146,7 @@ $('#mainlist').find('.Cost_per_client, .Cost_per_provider, .Cost_transfer_client
                 return '€'+ new_text
             };
 
-            $("#sum_list td").each(function() {
+            $("#sum_list_client td, #sum_list_provider td").each(function() {
             var id = $(this).attr("id");
             var [sum_dollar,sum_shekel,sum_euro] = sum_price(id)
 

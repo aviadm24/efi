@@ -190,21 +190,60 @@
 
 {% render_table table_upcoming %}
 
-<table class="table" id="sum_list" border="1" >
+<!--<table class="table" id="sum_list" border="1" >-->
+  <!--<thead>-->
+    <!--<tr>-->
+        <!--<th class="min">מחיר FD ללקוח</th>-->
+        <!--<th class="min">מחיר FD לספק</th>-->
+        <!--<th class="min">מחיר TRN ללקוח</th>-->
+        <!--<th class="min">מחיר TRN לספק</th>-->
+        <!--<th class="min">מחיר EXTRA HOUR ללקוח</th>-->
+        <!--<th class="min">מחיר EXTRA HOUR לספק</th>-->
+        <!--<th class="min">מחיר FT VIP SERVICE ללקוח</th>-->
+        <!--<th class="min">מחיר FT VIP SERVICE לספק</th>-->
+
+        <!--<th class="min">מחיר שונות ללקוח</th>-->
+        <!--<th class="min">מחיר שונות לספק</th>-->
+
+        <!--<th class="min">סה"כ</th>-->
+        <!--<th class="min">-->
+            <!--<button onclick="maam()">-->
+<!--סה&quot;כ-->
+<!--מחירים-->
+<!--כולל-->
+<!--מע&quot;מ-->
+            <!--</button>-->
+        <!--</th>-->
+    <!--</tr>-->
+  <!--</thead>-->
+  <!--<tbody>-->
+      <!--<tr>-->
+        <!--<td class="min" id="Cost_per_client"  style="border: 1px solid black;"></td>-->
+        <!--<td class="min" id="Cost_per_provider"  style="border: 1px solid black;"></td>-->
+        <!--<td class="min" id="Cost_transfer_client"  style="border: 1px solid black;"></td>-->
+        <!--<td class="min" id="Cost_transfer_provider"  style="border: 1px solid black;"></td>-->
+        <!--<td class="min" id="Cost_extra_hour_client"  style="border: 1px solid black;"></td>-->
+        <!--<td class="min" id="Cost_extra_hour_provider"  style="border: 1px solid black;"></td>-->
+        <!--<td class="min" id="Cost_VIP_client"  style="border: 1px solid black;"></td>-->
+        <!--<td class="min" id="Cost_VIP_provider"  style="border: 1px solid black;"></td>-->
+
+        <!--<td class="min" id="shonot_client"  style="border: 1px solid black;"></td>-->
+        <!--<td class="min" id="shonot_provider"  style="border: 1px solid black;"></td>-->
+
+        <!--<td class="min" id="hakol" style="border: 1px solid black;"></td>-->
+        <!--<td class="min" id="maam" style="border: 1px solid black;"></td>-->
+      <!--</tr>-->
+   <!--</tbody>-->
+<!--</table>-->
+
+<table class="table" id="sum_list_client" border="1" >
   <thead>
     <tr>
         <th class="min">מחיר FD ללקוח</th>
-        <th class="min">מחיר FD לספק</th>
         <th class="min">מחיר TRN ללקוח</th>
-        <th class="min">מחיר TRN לספק</th>
         <th class="min">מחיר EXTRA HOUR ללקוח</th>
-        <th class="min">מחיר EXTRA HOUR לספק</th>
         <th class="min">מחיר FT VIP SERVICE ללקוח</th>
-        <th class="min">מחיר FT VIP SERVICE לספק</th>
-
         <th class="min">מחיר שונות ללקוח</th>
-        <th class="min">מחיר שונות לספק</th>
-
         <th class="min">סה"כ</th>
         <th class="min">
             <button onclick="maam()">
@@ -219,19 +258,45 @@
   <tbody>
       <tr>
         <td class="min" id="Cost_per_client"  style="border: 1px solid black;"></td>
-        <td class="min" id="Cost_per_provider"  style="border: 1px solid black;"></td>
         <td class="min" id="Cost_transfer_client"  style="border: 1px solid black;"></td>
-        <td class="min" id="Cost_transfer_provider"  style="border: 1px solid black;"></td>
         <td class="min" id="Cost_extra_hour_client"  style="border: 1px solid black;"></td>
-        <td class="min" id="Cost_extra_hour_provider"  style="border: 1px solid black;"></td>
         <td class="min" id="Cost_VIP_client"  style="border: 1px solid black;"></td>
-        <td class="min" id="Cost_VIP_provider"  style="border: 1px solid black;"></td>
-
         <td class="min" id="shonot_client"  style="border: 1px solid black;"></td>
-        <td class="min" id="shonot_provider"  style="border: 1px solid black;"></td>
+        <td class="min" id="hakol_client" style="border: 1px solid black;"></td>
+        <td class="min" id="maam_client" style="border: 1px solid black;"></td>
+      </tr>
+   </tbody>
+</table>
 
-        <td class="min" id="hakol" style="border: 1px solid black;"></td>
-        <td class="min" id="maam" style="border: 1px solid black;"></td>
+
+<table class="table" id="sum_list_provider" border="1" >
+  <thead>
+    <tr>
+        <th class="min">מחיר FD לספק</th>
+        <th class="min">מחיר TRN לספק</th>
+        <th class="min">מחיר EXTRA HOUR לספק</th>
+        <th class="min">מחיר FT VIP SERVICE לספק</th>
+        <th class="min">מחיר שונות לספק</th>
+        <th class="min">סה"כ</th>
+        <th class="min">
+            <button onclick="maam()">
+סה&quot;כ
+מחירים
+כולל
+מע&quot;מ
+            </button>
+        </th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td class="min" id="Cost_per_provider"  style="border: 1px solid black;"></td>
+        <td class="min" id="Cost_transfer_provider"  style="border: 1px solid black;"></td>
+        <td class="min" id="Cost_extra_hour_provider"  style="border: 1px solid black;"></td>
+        <td class="min" id="Cost_VIP_provider"  style="border: 1px solid black;"></td>
+        <td class="min" id="shonot_provider"  style="border: 1px solid black;"></td>
+        <td class="min" id="hakol_provider" style="border: 1px solid black;"></td>
+        <td class="min" id="maam_provider" style="border: 1px solid black;"></td>
       </tr>
    </tbody>
 </table>
