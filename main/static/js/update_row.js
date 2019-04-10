@@ -1,11 +1,11 @@
-//document.addEventListener('click', function(event) {  
-//    alert("Double-click disabled!");  
-//    event.preventDefault();  
-//    event.stopPropagation(); 
-//  },  true //capturing phase!!
-//);
+document.addEventListener('click', function(event) {  
+    alert("בדיקה לגבי קליק יחיד!");  
+    event.preventDefault();  
+    event.stopPropagation(); 
+  },  true //capturing phase!!
+);
 
-$(document).on("click", "#mainlist tbody tr td", function(e) {
+$(document).on("dblclick", "#mainlist tbody tr td", function(e) {
     e.preventDefault();
     $('#clone_input').empty();
     $('#update_button').show();
