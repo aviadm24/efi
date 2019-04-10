@@ -62,15 +62,19 @@ function sum_price(cla){
     // iterate through each td based on class and add the values
     $("."+cla).each(function() {
         if (cla == 'Cost_extra_hour_client'){
-            var cost_extra =  parseInt($(this).closest('tr').find('.Extra_hours_client').text())
+            var cost_extra =  parseInt($(this).closest('tr').find('.Extra_hours_client').text());
+//            console.log('cost_extra: '+ cost_extra)
             if(cost_extra>0){
+                console.log('cost_extra: '+ cost_extra)
                 var value = $(this).text();
                     if (value.includes('₪')){
                         new_value = parseInt(value.replace('₪',''));
                         sum_shekel += new_value*cost_extra;
                     }else if (value.includes('$')){
                         new_value = parseInt(value.replace('$',''));
+
                         sum_dollar += new_value*cost_extra;
+                        console.log('sum_dollar: '+ sum_dollar)
                     }else if (value.includes('€')){
                         new_value = parseInt(value.replace('€',''));
                         sum_euro += new_value*cost_extra;
@@ -78,8 +82,8 @@ function sum_price(cla){
                         new_value = parseInt(value);
                     }
             }
-        } else if(cla == 'Cost_extra_hour_provider'){
-            var cost_extra =  parseInt($(this).closest('tr').find('.Extra_hours_provider').text())
+        }else if(cla == 'Cost_extra_hour_provider'){
+            var cost_extra =  parseInt($(this).closest('tr').find('.Extra_hours_provider').text());
             if(cost_extra>0){
                 var value = $(this).text();
                     if (value.includes('₪')){
@@ -127,13 +131,24 @@ function sum_price(cla){
     return [sum_dollar,sum_shekel,sum_euro]
 }
 
-$(document).ready(function() {
+function update_sum_table(){
     $("#sum_list td").each(function() {
         var id = $(this).attr("id");
         var [sum_dollar,sum_shekel,sum_euro] = sum_price(id);
-        console.log()
+        console.log('check: '+[sum_dollar,sum_shekel,sum_euro])
         $("#"+id).html('$'+sum_dollar+'<br/>'+'₪'+sum_shekel+'<br/>'+'€'+sum_euro)
     });
+}
+
+
+$(document).ready(function() {
+    update_sum_table()
+//    $("#sum_list td").each(function() {
+//        var id = $(this).attr("id");
+//        var [sum_dollar,sum_shekel,sum_euro] = sum_price(id);
+//        console.log()
+//        $("#"+id).html('$'+sum_dollar+'<br/>'+'₪'+sum_shekel+'<br/>'+'€'+sum_euro)
+//    });
 });
 
 function project_filter() {

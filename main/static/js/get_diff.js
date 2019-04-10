@@ -12,7 +12,7 @@ $('#datetimepicker1').on("change.datetimepicker", function (e) {
 function get_diff(start_time, end_time, base_c, base_p){
     // https://devhints.io/moment
     var startMinEnd = moment(end_time).diff(moment(start_time));
-    console.log('startMinEnd: '+startMinEnd);
+//    console.log('startMinEnd: '+startMinEnd);
     //var difftMinBase = moment(startMinEnd,"HH:mm").diff(moment(base,"HH:mm"));
     var diff_c = startMinEnd - (3600000*base_c);
     var diff_p = startMinEnd - (3600000*base_p);
@@ -26,7 +26,7 @@ function get_diff(start_time, end_time, base_c, base_p){
     if (extra_p < 0){
         extra_p = 0;
     }
-    console.log('diff: '+extra_c);
+//    console.log('diff: '+extra_c);
     return [extra_c.toFixed(2), extra_p.toFixed(2)]
 }
 
@@ -40,7 +40,7 @@ function start_min_end_func(){
         extras = get_diff(start_time, end_time, base_c, base_p);
         extra_c = extras[0]
         extra_p = extras[1]
-        console.log('extra c: '+ extra_c)
+//        console.log('extra c: '+ extra_c)
         $(this).find(".Extra_hours_client").text(extra_c);
         $(this).find(".Extra_hours_provider").text(extra_p);
     });

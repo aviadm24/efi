@@ -41,6 +41,7 @@ $(document).on("dblclick", "#mainlist tbody tr td", function(e) {
 function update_row(){
     var id = $('#row_id').val();
     var td_id = $('#cell_id').val();
+    td_id = td_id.split(' ')[0]; // get rid of highlight word in td id
     if (td_id.includes('time')){
         var new_value = $('#id_new_date_time').val()
     }else if(td_id.includes('Date')){
@@ -130,8 +131,13 @@ function update_row(){
     $("#special_clone_input").children().hide();
     $('#update_button').hide();
     if (td_id=='Status'){
-        console.log('on cancle fired')
         on_cancle()
-    }
-    start_min_end_func()
+    };
+
+    start_min_end_func();
+    if (td_id=='Start_time' || td_id=='End_time'){
+        console.log('update_sum_table fired')
+        update_sum_table()
+    };
+    sum_sum_list();
 }

@@ -3,15 +3,15 @@
 
 var counter = 0;
 $('#mainlist').find('.Cost_per_client, .Cost_per_provider, .Cost_transfer_client, .Cost_transfer_provider, .Cost_extra_hour_client, .Cost_extra_hour_provider, .Cost_VIP_client, .Cost_VIP_provider, .shonot_client, .shonot_provider').bind("contextmenu",function(e) {
-    console.log('left click !')
+//    console.log('left click !')
     var dollar_mode = $('#dollar_mode').prop('checked')
     if (dollar_mode){
-        console.log('counter: '+counter)
+//        console.log('counter: '+counter)
         e.preventDefault();
         var text = $(this).text();
         var id = $(this).closest('tr').find('.id').text();
         var td_id = $(this).attr('class');
-        //console.log('td_id: '+td_id)
+        td_id = td_id.split(' ')[0]; // get rid of highlight word in td id
 
         counter++;
         if (text == '—'){
