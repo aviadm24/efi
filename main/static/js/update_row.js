@@ -1,8 +1,12 @@
-document.addEventListener('click', function(event) {  
+document.addEventListener('click', function(event) {
+    var dollar_mode = $('#dollar_mode').prop('checked')
+    if (!dollar_mode){
     alert("בדיקה לגבי קליק יחיד!");  
     event.preventDefault();  
-    event.stopPropagation(); 
+    event.stopPropagation();
+  }   
   },  true //capturing phase!!
+
 );
 
 $(document).on("dblclick", "#mainlist tbody tr td", function(e) {
@@ -32,7 +36,7 @@ $(document).on("dblclick", "#mainlist tbody tr td", function(e) {
         clo.attr("id", "clo_"+td_id);
         clo.attr("name", "clo");
         $('#clone_input').append(clo)
-        $('#waper_for_update').css({"border-style": "inset", cursor:"default"});
+        $('#clone_input').css({"border-style": "inset", cursor:"default"});
 //        $('#update_values').show();
     }
 
