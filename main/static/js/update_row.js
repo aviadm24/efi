@@ -1,3 +1,10 @@
+document.addEventListener( 'dblclick', function(event) {  
+    alert("Double-click disabled!");  
+    event.preventDefault();  
+    event.stopPropagation(); 
+  },  true //capturing phase!!
+);
+
 $(document).on("dblclick", "#mainlist tbody tr td", function(e) {
     e.preventDefault();
     $('#clone_input').empty();
@@ -25,6 +32,7 @@ $(document).on("dblclick", "#mainlist tbody tr td", function(e) {
         clo.attr("id", "clo_"+td_id);
         clo.attr("name", "clo");
         $('#clone_input').append(clo)
+        $('#waper_for_update').css({"border-style": "inset", cursor:"default"});
 //        $('#update_values').show();
     }
 
