@@ -30,6 +30,23 @@ table#sum_list{
 //input.form-control datetimepicker-input{
 //    width:150px;
 //}
+#select_list {
+    border: 3px solid green;
+    border-collapse: collapse;
+    width:100%;
+}
+
+
+#select_list th{
+    width: 1px;
+    white-space: nowrap;
+}
+
+#select_list td{
+    width: 1px;
+    white-space: nowrap;
+}
+
 
 #id_Name{
     width:70px;

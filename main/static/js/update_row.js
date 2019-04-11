@@ -1,13 +1,13 @@
-document.addEventListener('click', function(event) {
-    var dollar_mode = $('#dollar_mode').prop('checked')
-    if (!dollar_mode){
-    alert("בדיקה לגבי קליק יחיד!");  
-    event.preventDefault();  
-    event.stopPropagation();
-  }   
-  },  true //capturing phase!!
-
-);
+//document.addEventListener('click', function(event) {
+//    var dollar_mode = $('#dollar_mode').prop('checked')
+//    if (!dollar_mode){
+//    alert("בדיקה לגבי קליק יחיד!");  
+//    event.preventDefault();  
+//    event.stopPropagation();
+//  }   
+//  },  true //capturing phase!!
+//
+//);
 
 $(document).on("dblclick", "#mainlist tbody tr td", function(e) {
     e.preventDefault();
@@ -148,7 +148,7 @@ function update_row(){
     };
 
     start_min_end_func();
-    if (td_id=='Start_time' || td_id=='End_time'){
+    if (td_id=='Start_time' || td_id=='End_time' || td_id =='Based_on_client' || td_id =='Based_on_provider'){
         console.log('update_sum_table fired')
         update_sum_table()
     };
