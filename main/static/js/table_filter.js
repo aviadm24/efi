@@ -89,73 +89,64 @@ function sum_price(cla){
     var sum_euro = 0;
     var new_value = 0;
     // iterate through each td based on class and add the values
-    $("."+cla).each(function() {
-        if (cla == 'Cost_extra_hour_client'){
-            var cost_extra =  parseInt($(this).closest('tr').find('.Extra_hours_client').text());
-//            console.log('cost_extra: '+ cost_extra)
-            if(cost_extra>0){
-                console.log('cost_extra: '+ cost_extra)
-                var value = $(this).text();
-                    if (value.includes('₪')){
-                        new_value = parseInt(value.replace('₪',''));
-                        sum_shekel += new_value*cost_extra;
-                    }else if (value.includes('$')){
-                        new_value = parseInt(value.replace('$',''));
+    $("#mainlist td."+cla).each(function() {
+        var row_status = $(this).closest('tr').find('.Status').text();
+        console.log('row status: ' + row_status)
+        if (row_status == 'cancled' || row_status == 'Cancled'){}else{
 
-                        sum_dollar += new_value*cost_extra;
-                        console.log('sum_dollar: '+ sum_dollar)
-                    }else if (value.includes('€')){
-                        new_value = parseInt(value.replace('€',''));
-                        sum_euro += new_value*cost_extra;
-                    }else{
-                        new_value = parseInt(value);
-                    }
-            }
-        }else if(cla == 'Cost_extra_hour_provider'){
-            var cost_extra =  parseInt($(this).closest('tr').find('.Extra_hours_provider').text());
-            if(cost_extra>0){
-                var value = $(this).text();
-                    if (value.includes('₪')){
-                        new_value = parseInt(value.replace('₪',''));
-                        sum_shekel += new_value*cost_extra;
-                    }else if (value.includes('$')){
-                        new_value = parseInt(value.replace('$',''));
-                        sum_dollar += new_value*cost_extra;
-                    }else if (value.includes('€')){
-                        new_value = parseInt(value.replace('€',''));
-                        sum_euro += new_value*cost_extra;
-                    }else{
-                        new_value = parseInt(value);
-                    }
-            }
-        }else{
-            var value = $(this).text();
-            if (value.includes('₪')){
-                new_value = parseInt(value.replace('₪',''));
-                sum_shekel += new_value;
-            }else if (value.includes('$')){
-                new_value = parseInt(value.replace('$',''));
-                sum_dollar += new_value;
-            }else if (value.includes('€')){
-                new_value = parseInt(value.replace('€',''));
-                sum_euro += new_value;
+            if (cla == 'Cost_extra_hour_client'){
+                var cost_extra =  parseFloat($(this).closest('tr').find('.Extra_hours_client').text());
+    //            console.log('cost_extra: '+ cost_extra)
+                if(cost_extra>0){
+                    console.log('cost_extra: '+ cost_extra)
+                    var value = $(this).text();
+                        if (value.includes('₪')){
+                            new_value = parseInt(value.replace('₪',''));
+                            sum_shekel += new_value*cost_extra;
+                        }else if (value.includes('$')){
+                            new_value = parseInt(value.replace('$',''));
+                            sum_dollar += new_value*cost_extra;
+                            console.log('sum_dollar: '+ sum_dollar)
+                        }else if (value.includes('€')){
+                            new_value = parseInt(value.replace('€',''));
+                            sum_euro += new_value*cost_extra;
+                        }else{
+                            new_value = parseInt(value);
+                        }
+                }
+            }else if(cla == 'Cost_extra_hour_provider'){
+                var cost_extra =  parseFloat($(this).closest('tr').find('.Extra_hours_provider').text());
+                if(cost_extra>0){
+                    var value = $(this).text();
+                        if (value.includes('₪')){
+                            new_value = parseInt(value.replace('₪',''));
+                            sum_shekel += new_value*cost_extra;
+                        }else if (value.includes('$')){
+                            new_value = parseInt(value.replace('$',''));
+                            sum_dollar += new_value*cost_extra;
+                        }else if (value.includes('€')){
+                            new_value = parseInt(value.replace('€',''));
+                            sum_euro += new_value*cost_extra;
+                        }else{
+                            new_value = parseInt(value);
+                        }
+                }
             }else{
-                new_value = parseInt(value);
+                var value = $(this).text();
+                if (value.includes('₪')){
+                    new_value = parseInt(value.replace('₪',''));
+                    sum_shekel += new_value;
+                }else if (value.includes('$')){
+                    new_value = parseInt(value.replace('$',''));
+                    sum_dollar += new_value;
+                }else if (value.includes('€')){
+                    new_value = parseInt(value.replace('€',''));
+                    sum_euro += new_value;
+                }else{
+                    new_value = parseInt(value);
+                }
             }
         }
-
-
-        // add only if the value is number
-        // added this in the code above
-//        if(!isNaN(new_value) && new_value.length != 0) {
-//            if(value.includes("$")){
-//                sum_dollar += parseFloat(new_value);
-//            }else if (value.includes('₪')){
-//                sum_shekel += parseFloat(new_value);
-//            }else if (value.includes('€')){
-//                sum_euro += parseFloat(new_value);
-//            }
-//        }
     });
     return [sum_dollar,sum_shekel,sum_euro]
 }
@@ -204,17 +195,14 @@ function project_filter() {
 //    );
     table.draw();
 
-//    console.log('tables: '+$('#mainlist'))
-    // hide unwanted td's
-//    $('#mainlist').find('thead tr th:nth-child(18),th:nth-child(19),th:nth-child(20),th:nth-child(21),th:nth-child(22),th:nth-child(27),th:nth-child(29),th:nth-child(31),th:nth-child(33),th:nth-child(35)').hide();
-//    $('#mainlist').find('tbody tr td:nth-child(18),td:nth-child(19),td:nth-child(20),td:nth-child(21),td:nth-child(22),td:nth-child(27),td:nth-child(29),td:nth-child(31),td:nth-child(33),td:nth-child(35)').hide();
 
-     $("#sum_list td").each(function() {
-        var id = $(this).attr("id");
-        var [sum_dollar,sum_shekel,sum_euro] = sum_price(id)
-        $("#"+id).html('$'+sum_dollar+'<br/>'+'₪'+sum_shekel+'<br/>'+'€'+sum_euro)
-        //$("#"+id).text('$'+sum_dollar+'\n'+'₪'+sum_shekel)
-    });
+//     $("#sum_list_client td, #sum_list_provider td").each(function() {
+//        var id = $(this).attr("id");
+//        var [sum_dollar,sum_shekel,sum_euro] = sum_price(id)
+//        $("#"+id).html('$'+sum_dollar+'<br/>'+'₪'+sum_shekel+'<br/>'+'€'+sum_euro)
+//        //$("#"+id).text('$'+sum_dollar+'\n'+'₪'+sum_shekel)
+//    });
+    update_sum_table()
     sum_sum_list()
 }
 
@@ -237,17 +225,12 @@ function customer_filter() {
     table.draw();
 
     // delete unwanted td's
-    $('#mainlist').find('thead tr th:nth-child(15),th:nth-child(16),th:nth-child(17),th:nth-child(18),th:nth-child(19),th:nth-child(20),th:nth-child(23),th:nth-child(24),th:nth-child(27),th:nth-child(29),th:nth-child(31),th:nth-child(33),th:nth-child(35)').hide();
-    $('#mainlist').find('tbody tr td:nth-child(15),td:nth-child(16),td:nth-child(17),td:nth-child(18),td:nth-child(19),td:nth-child(20),td:nth-child(23),td:nth-child(24),td:nth-child(27),td:nth-child(29),td:nth-child(31),td:nth-child(33),td:nth-child(35)').hide();
+    $('#mainlist').find('.Extra_hours_provider, .Based_on_provider, .Extra_KM_provider, .Cost_per_provider, .Cost_transfer_provider, .Cost_extra_hour_provider, .Cost_VIP_provider, .shonot_provider').hide();
+    $('#sum_list_provider').hide()
+//    $('#mainlist').find('thead tr th:nth-child(15),th:nth-child(16),th:nth-child(17),th:nth-child(18),th:nth-child(19),th:nth-child(20),th:nth-child(23),th:nth-child(24),th:nth-child(27),th:nth-child(29),th:nth-child(31),th:nth-child(33),th:nth-child(35)').hide();
+//    $('#mainlist').find('tbody tr td:nth-child(15),td:nth-child(16),td:nth-child(17),td:nth-child(18),td:nth-child(19),td:nth-child(20),td:nth-child(23),td:nth-child(24),td:nth-child(27),td:nth-child(29),td:nth-child(31),td:nth-child(33),td:nth-child(35)').hide();
 
-    $("#sum_list td").each(function() {
-        var id = $(this).attr("id");
-        var [sum_dollar,sum_shekel,sum_euro] = sum_price(id)
-        $("#"+id).html('$'+sum_dollar+'<br/>'+'₪'+sum_shekel+'<br/>'+'€'+sum_euro)
-    });
-
-    $('#sum_list').find('thead tr th:nth-child(2),th:nth-child(4),th:nth-child(6),th:nth-child(8)').hide();
-    $('#sum_list').find('tbody tr td:nth-child(2),td:nth-child(4),td:nth-child(6),td:nth-child(8)').hide();
+    update_sum_table()
     sum_sum_list()
 }
 
@@ -270,17 +253,10 @@ function provider_filter() {
     table.draw();
 
     // delete unwanted td's
-    $('#mainlist').find('thead tr th:nth-child(18),th:nth-child(19),th:nth-child(20),th:nth-child(21),th:nth-child(22),th:nth-child(26),th:nth-child(28),th:nth-child(30),th:nth-child(32),th:nth-child(34),th:nth-child(36)').hide();
-    $('#mainlist').find('tbody tr td:nth-child(18),td:nth-child(19),td:nth-child(20),td:nth-child(21),td:nth-child(22),td:nth-child(26),td:nth-child(28),td:nth-child(30),td:nth-child(32),td:nth-child(34),td:nth-child(36)').hide();
 
-     $("#sum_list td").each(function() {
-        var id = $(this).attr("id");
-        var [sum_dollar,sum_shekel,sum_euro] = sum_price(id)
-        $("#"+id).html('$'+sum_dollar+'<br/>'+'₪'+sum_shekel+'<br/>'+'€'+sum_euro)
-    });
-
-    $('#sum_list').find('thead tr th:nth-child(1),th:nth-child(3),th:nth-child(5),th:nth-child(7)').hide();
-    $('#sum_list').find('tbody tr td:nth-child(1),td:nth-child(3),td:nth-child(5),td:nth-child(7)').hide();
+    $('#mainlist').find('.Extra_hours_client, .Based_on_client, .Extra_KM_client, .Cost_per_client, .Cost_transfer_client, .Cost_extra_hour_client, .Cost_VIP_client, .shonot_client').hide();
+    $('#sum_list_client').hide()
+    update_sum_table()
     sum_sum_list()
 
 }
@@ -304,11 +280,7 @@ function date_filter(){
         }
     );
     table.draw();
-    $("#sum_list td").each(function() {
-        var id = $(this).attr("id");
-        var [sum_dollar,sum_shekel,sum_euro] = sum_price(id)
-        $("#"+id).html('$'+sum_dollar+'<br/>'+'₪'+sum_shekel+'<br/>'+'€'+sum_euro)
-    });
+    update_sum_table()
     sum_sum_list()
 }
 // Re-draw the table when the a date range filter changes

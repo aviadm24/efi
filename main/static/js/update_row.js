@@ -35,11 +35,12 @@ $(document).on("dblclick", "#mainlist tbody tr td", function(e) {
         //Set the ID and Name
         clo.attr("id", "clo_"+td_id);
         clo.attr("name", "clo");
-        $('#clone_input').append(clo)
-        $('#clone_input').css({"border-style": "inset", cursor:"default"});
-//        $('#update_values').show();
+        var clone_button = $('#update_button').clone();
+        $(this).append(clo)
+        $(this).append(clone_button)
+//        $('#clone_input').append(clo)
+//        $('#clone_input').css({"border-style": "inset", cursor:"default"});
     }
-
 });
 
 
