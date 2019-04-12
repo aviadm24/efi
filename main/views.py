@@ -234,6 +234,10 @@ def add_dollar(request):
         main_list_model.objects.filter(pk=id).update(Cost_VIP_client=new_int)
     if td_id == 'Cost_VIP_provider':
         main_list_model.objects.filter(pk=id).update(Cost_VIP_provider=new_int)
+    if td_id == 'shonot_client':
+        main_list_model.objects.filter(pk=id).update(shonot_client=new_int)
+    if td_id == 'shonot_provider':
+        main_list_model.objects.filter(pk=id).update(shonot_provider=new_int)
 
     return JsonResponse({})
 
@@ -267,6 +271,10 @@ def add_shekel(request):
         main_list_model.objects.filter(pk=id).update(Cost_VIP_client=new_int)
     if td_id == 'Cost_VIP_provider':
         main_list_model.objects.filter(pk=id).update(Cost_VIP_provider=new_int)
+    if td_id == 'shonot_client':
+        main_list_model.objects.filter(pk=id).update(shonot_client=new_int)
+    if td_id == 'shonot_provider':
+        main_list_model.objects.filter(pk=id).update(shonot_provider=new_int)
 
     return JsonResponse({})
 
@@ -300,6 +308,10 @@ def add_euro(request):
         main_list_model.objects.filter(pk=id).update(Cost_VIP_client=new_int)
     if td_id == 'Cost_VIP_provider':
         main_list_model.objects.filter(pk=id).update(Cost_VIP_provider=new_int)
+    if td_id == 'shonot_client':
+        main_list_model.objects.filter(pk=id).update(shonot_client=new_int)
+    if td_id == 'shonot_provider':
+        main_list_model.objects.filter(pk=id).update(shonot_provider=new_int)
 
     return JsonResponse({})
 

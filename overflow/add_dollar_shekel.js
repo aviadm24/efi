@@ -91,3 +91,63 @@ $(document).ready(function () {
     });
 });
 
+function sum_sum_list(){
+    console.log( 'sum sum list called!')
+    var sum_dollar = 0;
+    var sum_shekel = 0;
+    var sum_euro = 0;
+    console.log('sum sum list called!')
+    $("#sum_list_client td").each(function() {
+        if($(this).attr('id')=='hakol_client' ||$(this).attr('id')=='maam_client'){}
+        else{
+            if ( $(this).not(':hidden') ) {
+                var price_str = $(this).html();
+                // https://stackoverflow.com/questions/34609571/extract-numbers-from-string-and-store-them-in-array-javascript
+                var dollar = price_str.match(/\d+/g)[0];
+                var shekel = price_str.match(/\d+/g)[1]
+                var euro = price_str.match(/\d+/g)[2]
+                console.log('shekel: '+shekel)
+
+                var dollar_num = parseInt(dollar);
+                sum_dollar += dollar_num;
+//                console.log('sum_dollar: '+sum_dollar)
+                var shekel_num = parseInt(shekel);
+                sum_shekel += shekel_num;
+                var euro_num = parseInt(euro);
+                sum_euro += euro_num;
+//                console.log($(this).attr('id'))
+             }
+        }
+
+    });
+    $("#hakol_client").html('$'+sum_dollar+'<br/>'+'₪'+sum_shekel+'<br/>'+'€'+sum_euro)
+
+    var sum_dollar = 0;
+    var sum_shekel = 0;
+    var sum_euro = 0;
+    $("#sum_list_provider td").each(function() {
+        if($(this).attr('id')=='hakol_provider' ||$(this).attr('id')=='maam_provider'){}
+        else{
+            if ( $(this).not(':hidden') ) {
+                var price_str = $(this).html();
+                // https://stackoverflow.com/questions/34609571/extract-numbers-from-string-and-store-them-in-array-javascript
+                var dollar = price_str.match(/\d+/g)[0];
+                var shekel = price_str.match(/\d+/g)[1]
+                var euro = price_str.match(/\d+/g)[2]
+//                console.log('shekel: '+shekel)
+
+                var dollar_num = parseInt(dollar);
+                sum_dollar += dollar_num;
+//                console.log('sum_dollar: '+sum_dollar)
+                var shekel_num = parseInt(shekel);
+                sum_shekel += shekel_num;
+                var euro_num = parseInt(euro);
+                sum_euro += euro_num;
+//                console.log($(this).attr('id'))
+             }
+        }
+
+    });
+    $("#hakol_provider").html('$'+sum_dollar+'<br/>'+'₪'+sum_shekel+'<br/>'+'€'+sum_euro)
+
+}

@@ -108,7 +108,7 @@ $('#mainlist').find('.Cost_per_client, .Cost_per_provider, .Cost_transfer_client
                     var new_text = text.replace('€','');
                 }
                 var int_to_save_in_db = parseInt(new_text+ '34')
-                //console.log('int_to_save_in db:'+ int_to_save_in_db)
+                console.log('int_to_save_in db:'+ int_to_save_in_db)
                 $(this).text('₪'+ new_text);
                 $.ajax({
                     url: '/ajax/add_shekel/',
@@ -227,10 +227,10 @@ $(document).ready(function () {
 //};
 
 function DoSubmit(){
-    console.log('update_form submit')
+//    console.log('update_form submit')
     $('.currency_sign').each(function () {
         var from = $(this).val();
-        console.log('from_db '+ from)
+//        console.log('from_db '+ from)
         if (from.includes('₪')){
                 $(this).val(from.replace('₪','')+'34');
             }else if (from.includes('$')){

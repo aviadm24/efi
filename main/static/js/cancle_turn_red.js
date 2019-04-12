@@ -10,6 +10,8 @@ function on_cancle(){
             $(this).closest('tr').css('color', 'red');
         }
     });
+    update_sum_table()
+    sum_sum_list()
 }
 
 $(document).ready(function () {

@@ -20,7 +20,7 @@ $(document).on("dblclick", "#mainlist tbody tr td", function(e) {
     var id = $(this).closest('tr').find('.id').text();
     var td_id = $(this).attr('class');
     td_id = td_id.split(' ')[0];
-    console.log('class:' + td_id);
+//    console.log('class:' + td_id);
     $('#row_id').val(id);
     $('#cell_id').val(td_id);
 
@@ -44,12 +44,6 @@ $(document).on("dblclick", "#mainlist tbody tr td", function(e) {
 });
 
 
-//$(window).scroll(function(){
-//    $('#clone_input').css({
-//        'left': $(this).scrollLeft() + 15 //Why this 15, because in the CSS, we have set left 15, so as we scroll, we would want this to remain at 15px left
-//    });
-//});
-
 // clone the select according to id
 //http://www.jqueryfaqs.com/Articles/Clone-Copy-Dropdown-List-with-Selected-Value-using-jQuery.aspx
 function update_row(){
@@ -72,7 +66,7 @@ function update_row(){
         }
 
     }
-    console.log('new_value: ' + new_value);
+//    console.log('new_value: ' + new_value);
     $.ajax({
         url: '/ajax/update_cell/',
         data: {
@@ -99,7 +93,7 @@ function update_row(){
         $('#mainlist tbody tr td.'+class_atr).each(function() {
 //        console.log($(this).text())
             if($(this).closest('tr').find('.id').text()==id){
-                console.log('changing: '+$(this).text());
+//                console.log('changing: '+$(this).text());
                 $(this).text(new_value);
             }
         });
@@ -107,11 +101,11 @@ function update_row(){
     if (td_id=='KM'){
         $('#mainlist tbody tr td.KM').each( function(){
             var km = parseInt($(this).text());
-            console.log('km == '+Number.isInteger(km))
+//            console.log('km == '+Number.isInteger(km))
             var km_min_20  = km - 200;
             if(km > 200){
                 var km_min_str = km_min_20.toString();
-                console.log('km_min == '+km_min_str)
+//                console.log('km_min == '+km_min_str)
                 $(this).closest('tr').find('.Extra_KM_client').text(km_min_str);
                 $(this).closest('tr').find('.Extra_KM_provider').text(km_min_str);
                 $.ajax({
