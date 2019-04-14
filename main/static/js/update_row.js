@@ -93,18 +93,6 @@ $(document).on("dblclick", "#mainlist tbody tr td", function(e) {
         });
         $(this).attr("id", "updating_now");
 
-    }else if(td_id == 'Flight_num'){
-        var clo = $('#id_Flight_num').clone();
-        //Set the ID and Name
-        clo.attr("id", "clo_"+td_id);
-        clo.attr("style", "width:120px;");
-        $('#id_Flight_num').select2({
-              tags: true
-            });
-        var clone_button = $('#update_button').clone();
-        $(this).append(clo);
-        $(this).append(clone_button);
-
     }else{
         $('#updating_now').children().remove();
         $('#updating_now').removeAttr( "id" );
