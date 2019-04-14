@@ -8,7 +8,7 @@
 //  },  true //capturing phase!!
 //
 //);
-
+var td_added_list = []
 $(document).on("dblclick", "#mainlist tbody tr td", function(e) {
     e.preventDefault();
     $('#clone_input').empty();
@@ -25,11 +25,59 @@ $(document).on("dblclick", "#mainlist tbody tr td", function(e) {
     $('#cell_id').val(td_id);
 
     if (td_id.includes('time')){
-        $('#new_date_time').show();
+        var html =
+        '<div class="input-group date" id="new_date_time" data-target-input="nearest" style="width:220px">'+
+          '<input name="new_date_time" id="id_new_date_time" type="text" class="form-control datetimepicker-input" data-target="#new_date_time"/>'+
+          '<div class="input-group-append" data-target="#new_date_time" data-toggle="datetimepicker">'+
+              '<div class="input-group-text"><i class="fa fa-calendar"></i></div>'+
+          '</div>'+
+        '</div>'
+
+//        var clo = $('#new_date_time').clone();
+//        clo.attr("id", "clo_"+td_id);
+        var clone_button = $('#update_button').clone();
+        $(this).append(html)
+        $(this).append(clone_button)
+//        $('#new_date_time').show();
+        $(function () {
+            $('#new_date_time').datetimepicker({
+              format: 'YYYY-MM-DD HH:mm',
+              useCurrent: false
+            });
+        });
     }else if(td_id.includes('Date')){
-        $('#new_date').show();
+        var html =
+        '<div class="input-group date" id="new_date" data-target-input="nearest" style="width:220px">'+
+          '<input name="new_date" id="id_new_date" type="text" class="form-control datetimepicker-input" data-target="#new_date"/>'+
+          '<div class="input-group-append" data-target="#new_date" data-toggle="datetimepicker">'+
+              '<div class="input-group-text"><i class="fa fa-calendar"></i></div>'+
+          '</div>'+
+        '</div>'
+        var clone_button = $('#update_button').clone();
+        $(this).append(html)
+        $(this).append(clone_button)
+        $(function () {
+            $('#new_date').datetimepicker({
+              format: "YYYY-MM-DD"
+            });
+        });
     }else if(td_id == 'Flight_shcedule'){
-        $('#flight_shcedule_update').show();
+        var html =
+        '<div class="input-group date" id="flight_shcedule_update" data-target-input="nearest" style="width:120px">'+
+          '<input name="flight_shcedule_update" id="id_flight_shcedule_update" type="text" class="form-control datetimepicker-input" data-target="#flight_shcedule_update"/>'+
+          '<div class="input-group-append" data-target="#flight_shcedule_update" data-toggle="datetimepicker">'+
+              '<div class="input-group-text"><i class="fa fa-calendar"></i></div>'+
+          '</div>'+
+        '</div>'
+        var clone_button = $('#update_button').clone();
+        $(this).append(html)
+        $(this).append(clone_button)
+        $(function () {
+            $('#flight_shcedule_update').datetimepicker({
+              format: 'HH:mm',
+              useCurrent: false
+            });
+        });
     }else{
         var clo = $('#id_'+td_id).clone();
         //Set the ID and Name

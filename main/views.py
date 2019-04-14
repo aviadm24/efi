@@ -389,6 +389,8 @@ def update_cell_json(request):
 
         if td_id == 'Project_num':
             main_list_model.objects.filter(pk=id).update(Project_num=new_value)
+        if td_id == 'Customer_num':
+            main_list_model.objects.filter(pk=id).update(Customer_num=new_value)
         if td_id == 'Customer':
             main_list_model.objects.filter(pk=id).update(Customer=new_value)
         if td_id == 'Contact':

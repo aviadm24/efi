@@ -117,10 +117,10 @@ function sum_sum_list(){
         else{
             if ( $(this).not(':hidden') ) {
                 var price_str = $(this).html();
-                // https://stackoverflow.com/questions/34609571/extract-numbers-from-string-and-store-them-in-array-javascript
-                var dollar = price_str.match(/\d+/g)[0];
-                var shekel = price_str.match(/\d+/g)[1]
-                var euro = price_str.match(/\d+/g)[2]
+                var dollar_shekel_euro_array = price_str.split('<br>');
+                var dollar = parseFloat(dollar_shekel_euro_array[0].replace(/[^\d.]/g,''));
+                var shekel = parseFloat(dollar_shekel_euro_array[1].replace(/[^\d.]/g,''));
+                var euro = parseFloat(dollar_shekel_euro_array[2].replace(/[^\d.]/g,''));
 //                console.log('shekel: '+shekel+ ':' +$(this).attr('id'))
 
                 var dollar_num = parseInt(dollar);

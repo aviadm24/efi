@@ -2,14 +2,14 @@
 var table = $('#mainlist').DataTable({
               paging: false,
 //              "pageLength": 500,
-              "order": [[ 4, "desc" ]],
+              "order": [[ 5, "desc" ]],
               "createdRow": function ( row, data, index ) {
 //                    var today = new Date()
                     var today = moment().format('MM/DD/YYYY');
 //                    if ( data[5].replace(/[\$,]/g, '') * 1 > 150000 ) {
 //                        $('td', row).eq(5).addClass('highlight');
 //                    }
-                    if ( data[4]==today) {
+                    if ( data[5]==today) {
                         $('td', row).addClass('highlight');
                     }
                 },

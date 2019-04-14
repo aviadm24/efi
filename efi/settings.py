@@ -137,8 +137,9 @@ USE_TZ = True
 
 # https://docs.djangoproject.com/en/2.1/ref/templates/builtins/#std:templatefilter-date
 # https://stackoverflow.com/questions/1513502/django-how-to-format-a-datefields-date-representation
+# DATE_INPUT_FORMAT = '%m/%d/%Y'
 DATE_INPUT_FORMATS = ('%Y-%m-%d', '%d-%m-%Y', '%m/%d/%Y', '%d/%m/%Y', '%Y/%m/%d', '%A, %B %d %Y')
-DATE_FORMATS = ('%A, %B %d %Y', '%Y-%m-%d')
+DATE_FORMATS = ('%A, %B %d %Y', '%Y-%m-%d', '%m/%d/%Y')
 # DATETIME_INPUT_FORMATS = ('%m/%d/%Y %H:%M',)
 DATETIME_FORMAT = 'n/j/Y G:i'
 # https://stackoverflow.com/questions/28049010/modifying-display-format-of-datetimes-in-django-tables2

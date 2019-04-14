@@ -8,6 +8,7 @@ from django.urls import reverse
 # heroku pg:reset
 class main_list_model(models.Model):
     Project_num = models.IntegerField(blank=True, null=True, verbose_name='Project number')
+    Customer_num = models.IntegerField(blank=True, null=True, verbose_name='Customer number')
     Customer = models.CharField(max_length=100, blank=True, null=True, verbose_name='Reference customer')
     Contact = models.CharField(max_length=100, blank=True, null=True)
     Date = models.DateField(blank=True, null=True)
