@@ -25,6 +25,9 @@ $(document).on("dblclick", "#mainlist tbody tr td", function(e) {
     $('#cell_id').val(td_id);
 
     if (td_id.includes('time')){
+        $('#updating_now').children().remove();
+        $('#updating_now').removeAttr( "id" );
+
         var html =
         '<div class="input-group date" id="new_date_time" data-target-input="nearest" style="width:220px">'+
           '<input name="new_date_time" id="id_new_date_time" type="text" class="form-control datetimepicker-input" data-target="#new_date_time"/>'+
@@ -45,7 +48,12 @@ $(document).on("dblclick", "#mainlist tbody tr td", function(e) {
               useCurrent: false
             });
         });
+        $(this).attr("id", "updating_now");
+
     }else if(td_id.includes('Date')){
+        $('#updating_now').children().remove();
+        $('#updating_now').removeAttr( "id" );
+
         var html =
         '<div class="input-group date" id="new_date" data-target-input="nearest" style="width:220px">'+
           '<input name="new_date" id="id_new_date" type="text" class="form-control datetimepicker-input" data-target="#new_date"/>'+
@@ -61,7 +69,12 @@ $(document).on("dblclick", "#mainlist tbody tr td", function(e) {
               format: "YYYY-MM-DD"
             });
         });
+        $(this).attr("id", "updating_now");
+
     }else if(td_id == 'Flight_shcedule'){
+        $('#updating_now').children().remove();
+        $('#updating_now').removeAttr( "id" );
+
         var html =
         '<div class="input-group date" id="flight_shcedule_update" data-target-input="nearest" style="width:120px">'+
           '<input name="flight_shcedule_update" id="id_flight_shcedule_update" type="text" class="form-control datetimepicker-input" data-target="#flight_shcedule_update"/>'+
@@ -78,7 +91,24 @@ $(document).on("dblclick", "#mainlist tbody tr td", function(e) {
               useCurrent: false
             });
         });
+        $(this).attr("id", "updating_now");
+
+    }else if(td_id == 'Flight_num'){
+        var clo = $('#id_Flight_num').clone();
+        //Set the ID and Name
+        clo.attr("id", "clo_"+td_id);
+        clo.attr("style", "width:120px;");
+        $('#id_Flight_num').select2({
+              tags: true
+            });
+        var clone_button = $('#update_button').clone();
+        $(this).append(clo);
+        $(this).append(clone_button);
+
     }else{
+        $('#updating_now').children().remove();
+        $('#updating_now').removeAttr( "id" );
+
         var clo = $('#id_'+td_id).clone();
         //Set the ID and Name
         clo.attr("id", "clo_"+td_id);
@@ -86,6 +116,7 @@ $(document).on("dblclick", "#mainlist tbody tr td", function(e) {
         var clone_button = $('#update_button').clone();
         $(this).append(clo)
         $(this).append(clone_button)
+        $(this).attr("id", "updating_now");
 //        $('#clone_input').append(clo)
 //        $('#clone_input').css({"border-style": "inset", cursor:"default"});
     }
