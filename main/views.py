@@ -410,6 +410,9 @@ def update_cell_json(request):
 
         if td_id == 'Flight_num':
             main_list_model.objects.filter(pk=id).update(Flight_num=new_value)
+            flight, created = Flight_data.objects.get_or_create(Flight=new_value)
+            if created:
+                messages.success(request, 'Your Flight_num was successfully created!')
         if td_id == 'Flight_shcedule':
             main_list_model.objects.filter(pk=id).update(Flight_shcedule=new_value)
         if td_id == 'Start_time':
@@ -418,8 +421,14 @@ def update_cell_json(request):
             main_list_model.objects.filter(pk=id).update(End_time=new_value)
         if td_id == 'From':
             main_list_model.objects.filter(pk=id).update(From=new_value)
+            from_data, created = From_data.objects.get_or_create(From=new_value)
+            if created:
+                messages.success(request, 'Your From_data was successfully created!')
         if td_id == 'To':
             main_list_model.objects.filter(pk=id).update(To=new_value)
+            to_data, created = To_data.objects.get_or_create(To=new_value)
+            if created:
+                messages.success(request, 'Your To_data was successfully created!')
         if td_id == 'Provider':
             main_list_model.objects.filter(pk=id).update(Provider=new_value)
         if td_id == 'Driver_name':

@@ -93,6 +93,22 @@ $(document).on("dblclick", "#mainlist tbody tr td", function(e) {
         });
         $(this).attr("id", "updating_now");
 
+    }else if(td_id == 'Flight_num'||td_id == 'To'||td_id == 'From'){
+        $('#updating_now').children().remove();
+        $('#updating_now').removeAttr( "id" );
+        var clo = $('#id_'+td_id).clone();
+        //Set the ID and Name
+        clo.attr("id", "clo_"+td_id);
+        clo.attr("style", "width:120px;");
+
+        var clone_button = $('#update_button').clone();
+        $(this).append(clo);
+        $('#clo_'+td_id).select2({
+              tags: true
+            });
+        $(this).append(clone_button);
+        $(this).attr("id", "updating_now");
+
     }else{
         $('#updating_now').children().remove();
         $('#updating_now').removeAttr( "id" );
