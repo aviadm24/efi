@@ -8,4 +8,6 @@ class main_list_Table(tables.Table):
         attrs = {'class': 'table',
                  'id': 'mainlist',
                  'border': '1',
-                 'td': {'style': "border: 1px solid black;"}}
+                 'td': {'style': "border: 1px solid black;"}
+                 }
+

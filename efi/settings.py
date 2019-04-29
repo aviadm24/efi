@@ -143,7 +143,7 @@ DATE_FORMATS = ('%A, %B %d %Y', '%Y-%m-%d', '%m/%d/%Y')
 # DATETIME_INPUT_FORMATS = ('%m/%d/%Y %H:%M',)
 DATETIME_FORMAT = 'n/j/Y G:i'
 # https://stackoverflow.com/questions/28049010/modifying-display-format-of-datetimes-in-django-tables2
-SHORT_DATETIME_FORMAT = 'n/j/Y G:i'
+SHORT_DATETIME_FORMAT = 'n/j/Y H:i'
 TIME_FORMAT = 'G:i'
 
 # Static files (CSS, JavaScript, Images)

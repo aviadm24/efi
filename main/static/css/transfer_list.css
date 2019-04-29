@@ -8,28 +8,24 @@ table#sum_list{
     margin:10px;
 }
 
-//#mainlist thead,tbody,tr,td,th{
-//    border: 1px solid black;
-//    border-bottom: 1px solid black;
-//    border-top: 1px solid black;
-//}
+/*
+https://stackoverflow.com/questions/24840074/how-to-stick-table-headerthead-on-top-while-scrolling-down-the-table-rows-with
+This will work on every browser
+*/
 
-//#sum_list thead,tbody,tr,td,th{
-//    border: 1px solid black;
-//    border-bottom: 1px solid black;
-//    border-top: 1px solid black;
-//}
+.id{
+    display: none;
+}
 
-//.table thead th{
-//    border-bottom: 1px solid black;
-//    border-top: 1px solid black;
-//}
+#mainlist thead th {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    z-index: 999;
+    background: white;
+    border-bottom: 2px solid black;
+}
 
-
-
-//input.form-control datetimepicker-input{
-//    width:150px;
-//}
 #select_list {
     border: 3px solid green;
     border-collapse: collapse;

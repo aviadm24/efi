@@ -2,7 +2,7 @@
 var table = $('#mainlist').DataTable({
               paging: false,
 //              "pageLength": 500,
-              "order": [[ 5, "desc" ]],
+              "order": [[ 5, "asc"], [12, "asc"]],
               "createdRow": function ( row, data, index ) {
 //                    var today = new Date()
                     var today = moment().format('MM/DD/YYYY');

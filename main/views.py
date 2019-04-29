@@ -120,11 +120,12 @@ def main_list(request):
     provider_list = main_list_model.objects.values_list('Provider', flat=True)
     provider_set = set(provider_list)
     last_month = datetime.today() - timedelta(days=30)
+    today = datetime.today() - timedelta(days=1)
     # all = main_list_model.objects.all().order_by('Date')
     # passed = transfer.objects.filter(Date__lt=now).order_by('Date')
 
-    # table_upcoming = main_list_model.objects.filter(Date__gte=last_month).order_by('Date')
-    table_upcoming = main_list_Table(main_list_model.objects.filter(Date__gte=last_month).order_by('Date'))
+    # table_from_last_month = main_list_Table(main_list_model.objects.filter(Date__gte=last_month).order_by('Date'))
+    table_upcoming = main_list_Table(main_list_model.objects.filter(Date__gte=today))
     # table_all = main_list_Table(main_list_model.objects.all())
     RequestConfig(request, paginate=False).configure(table_upcoming)
 
