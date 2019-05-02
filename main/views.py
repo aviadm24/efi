@@ -135,28 +135,27 @@ def main_list(request):
         date_form = DateForm(request.POST)
         # print('view - from:', request.POST['From'])
         if 'date_filter' in request.POST:
-            if date_form.is_valid():
-                start = date_form.cleaned_data['start']
-                end = date_form.cleaned_data['end']
-                table_upcoming = main_list_Table(main_list_model.objects.filter(Date__range=[start, end]))
-                return render(request, 'main/main_list_model_form.html', {'form': form,
-                                                              'field_names': field_names[1:],
-                                                              'table_upcoming': table_upcoming,
-                                                              'p_num_list': p_num_set,
-                                                              'customer_list': customer_set,
-                                                              'provider_list': provider_set,
-                                                              'date_form': date_form})
-            else:
-                print('date form error: ', date_form.errors)
+            pass
+            # if date_form.is_valid():
+            #     start = date_form.cleaned_data['start']
+            #     end = date_form.cleaned_data['end']
+            #     table_upcoming = main_list_Table(main_list_model.objects.filter(Date__range=[start, end]))
+            #     return render(request, 'main/main_list_model_form.html', {'form': form,
+            #                                                   'field_names': field_names[1:],
+            #                                                   'table_upcoming': table_upcoming,
+            #                                                   'p_num_list': p_num_set,
+            #                                                   'customer_list': customer_set,
+            #                                                   'provider_list': provider_set,
+            #                                                   'date_form': date_form})
+            # else:
+            #     print('date form error: ', date_form.errors)
         else:
             if form.is_valid():
                 for key, value in form.cleaned_data.items():
-                    print(key)
                     if key == 'Flight_num':
                         if Flight_data.objects.filter(Flight=value).exists():
                             pass
                         else:
-                            print(value)
                             f = Flight_data.objects.create(Flight=value)
                     if key == 'From':
                         if From_data.objects.filter(From=value).exists():
@@ -168,6 +167,13 @@ def main_list(request):
                             pass
                         else:
                             f = To_data.objects.create(To=value)
+                    if key == 'Driver_name':
+                        driver_data, created = Driver_data.objects.get_or_create(Driver=value)
+                        if created:
+                            messages.success(request, 'New Driver_data was successfully created!')
+                    if key == 'Contact' and value != '':
+                        main_list_model.objects.filter(Project_num=form.cleaned_data['Project_num']).update(Contact=value)
+
                 # from_changeToDollarSign = form.save(commit=False)
                 # from_changeToDollarSign.Cost_per_client = str(form.cleaned_data['Cost_per_client'])+'33'
                 # print('Cost_per_client: ', from_changeToDollarSign.Cost_per_client)
@@ -385,8 +391,8 @@ def update_cell_json(request):
         print('id val', id)
         td_id = td_id.split()[0]
         print('td_id val', td_id)
-        data = main_list_model.objects.filter(pk=id)
-        td_id_data = data.values()[0][td_id]
+        data = main_list_model.objects.get(pk=id)
+        # td_id_data = data.values()[0][td_id]
 
         if td_id == 'Project_num':
             main_list_model.objects.filter(pk=id).update(Project_num=new_value)
@@ -396,7 +402,7 @@ def update_cell_json(request):
             main_list_model.objects.filter(pk=id).update(Customer=new_value)
         if td_id == 'Contact':
             main_list_model.objects.filter(pk=id).update(Contact=new_value)
-
+            main_list_model.objects.filter(Project_num=getattr(data, 'Project_num')).update(Contact=new_value)
 
         if td_id == 'Date':
             main_list_model.objects.filter(pk=id).update(Date=new_value)
@@ -434,6 +440,9 @@ def update_cell_json(request):
             main_list_model.objects.filter(pk=id).update(Provider=new_value)
         if td_id == 'Driver_name':
             main_list_model.objects.filter(pk=id).update(Driver_name=new_value)
+            driver_data, created = Driver_data.objects.get_or_create(Driver=new_value)
+            if created:
+                messages.success(request, 'Your Driver_data was successfully created!')
         if td_id == 'status_cheshbonit_yeruka1':
             main_list_model.objects.filter(pk=id).update(status_cheshbonit_yeruka1=new_value)
         if td_id == 'Comments':

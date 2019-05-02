@@ -8,7 +8,7 @@ from django.urls import reverse
 # heroku pg:reset
 class main_list_model(models.Model):
     Project_num = models.IntegerField(blank=True, null=True, verbose_name='Project number')
-    Customer_num = models.IntegerField(blank=True, null=True, verbose_name='Customer number')
+    Customer_num = models.CharField(max_length=100, blank=True, null=True, verbose_name='Customer number')
     Customer = models.CharField(max_length=100, blank=True, null=True, verbose_name='Reference customer')
     Contact = models.CharField(max_length=100, blank=True, null=True)
     Date = models.DateField(blank=True, null=True)
@@ -18,7 +18,7 @@ class main_list_model(models.Model):
     Luggage = models.CharField(max_length=10, blank=True, null=True, verbose_name='Number of PAX & Luggage')  # changed to char field
 
     Flight_num = models.CharField(max_length=100, blank=True, null=True)
-    Flight_shcedule = models.TimeField(blank=True, null=True)
+    Flight_shcedule = models.DateTimeField(blank=True, null=True)
     Start_time = models.DateTimeField(blank=True, null=True)
     End_time = models.DateTimeField(blank=True, null=True)
     From = models.CharField(max_length=100, blank=True, null=True)

@@ -88,7 +88,7 @@
 
         $(function () {
             $('#Flight_shcedule').datetimepicker({
-              format: 'HH:mm',
+              format: 'YYYY-MM-DD HH:mm',
               useCurrent: false
             });
         });
@@ -130,7 +130,8 @@
 
         $(function () {
             $('#new_date').datetimepicker({
-              format: "YYYY-MM-DD"
+              format: "YYYY-MM-DD",
+              useCurrent: false
             });
         });
 
@@ -159,6 +160,9 @@
               tags: true
             });
             $('#id_Flight_num').select2({
+              tags: true
+            });
+            $('#id_Driver_name').select2({
               tags: true
             });
 

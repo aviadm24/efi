@@ -1,7 +1,7 @@
 {% extends 'main/base.html' %}
 {% block transfer_list %}
 {% load render_table from django_tables2 %}
-
+<div id="order_line">
 <form method="post" action="/" style="">{% csrf_token %}
     {% for error in from.errors %}
         <p style="color: red">{{ error }}</p>
@@ -55,10 +55,12 @@
       {% endfor %}
   </tr>
 </table>
-<button class="btn btn-primary btn-lg" type="submit">שמור</button>
-<!--<input class="btn-primary" type="submit" value="שמור" />-->
+<div>
+<button id="add_new_order_button" class="btn btn-primary btn-lg" type="submit">שמור</button>
+</div>
+    <!--<input class="btn-primary" type="submit" value="שמור" />-->
 </form>
-
+</div>
 {% if messages %}
   <div class="alert alert-success">
     {% for message in messages %}
@@ -81,7 +83,9 @@
         </div>
     {% endfor %}
 {% endif %}
+
 <br>
+<div>
 <table class="table table-bordered" id="select_list">
   <thead>
     <tr>
@@ -155,7 +159,7 @@
 <button id="reset"><a href="/">reset filters</a></button>
 <br>
 <br>
-
+</div>
 <!--<div id="waper_for_update" style="position: absolute; left:90%; top:75%;">-->
     <input type="button" value="update" id="update_button" onkeypress="update_row();" onclick="update_row();" style="display: none;">
     <input type="button" value="update" id="update_button_old" onkeypress="update_row();" onclick="update_row();" style="display: none; position: absolute; left:90%; top:75%;">

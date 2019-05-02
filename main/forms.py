@@ -23,7 +23,7 @@ class main_list_form(forms.ModelForm):
     Customer = forms.ModelChoiceField(queryset=Customer_data.objects.all(), required=False)
     Type_of_service = forms.ModelChoiceField(queryset=Service_data.objects.all(), required=False)
     Type_of_car = forms.ModelChoiceField(queryset=Car_data.objects.all(), required=False)
-    Driver_name = forms.ModelChoiceField(queryset=Driver_data.objects.all(), required=False)
+    # Driver_name = forms.ModelChoiceField(queryset=Driver_data.objects.all(), required=False)
     Flight_shcedule = forms.TimeField(required=False)
     Flight_num = forms.CharField(widget=forms.Select(), required=False, initial='')
     Provider = forms.ModelChoiceField(queryset=Provider_data.objects.all(), required=False)
@@ -34,6 +34,7 @@ class main_list_form(forms.ModelForm):
     # To = forms.CharField(widget=forms.Select(choices=[(doc, doc) for doc in To_data.objects.all()]), required=False)
 
     To = forms.CharField(widget=forms.Select(), required=False)
+    Driver_name = forms.CharField(widget=forms.Select(), required=False)
 
     # From = forms.ModelChoiceField(queryset=From_data.objects.all(), required=False)
 
@@ -82,8 +83,8 @@ class main_list_form(forms.ModelForm):
 
         self.fields['Cost_per_client'].widget.attrs.update({'class': 'currency_sign'})
         self.fields['Cost_per_provider'].widget.attrs.update({'class': 'currency_sign'})
-        self.fields['Cost_extra_hour_client'].widget.attrs.update({'value': '50', 'class': 'currency_sign'})
-        self.fields['Cost_extra_hour_provider'].widget.attrs.update({'value': '60', 'class': 'currency_sign'})
+        self.fields['Cost_extra_hour_client'].widget.attrs.update({'class': 'currency_sign'})
+        self.fields['Cost_extra_hour_provider'].widget.attrs.update({'class': 'currency_sign'})
         self.fields['Cost_transfer_client'].widget.attrs.update({'class': 'currency_sign'})
         self.fields['Cost_transfer_provider'].widget.attrs.update({'class': 'currency_sign'})
         self.fields['Cost_VIP_client'].widget.attrs.update({'class': 'currency_sign'})
@@ -99,6 +100,9 @@ class main_list_form(forms.ModelForm):
         self.fields['Flight_num'].widget.choices = [(doc, doc) for doc in Flight_data.objects.all()]
         self.fields['From'].widget.choices = [(doc, doc) for doc in From_data.objects.all()]
         self.fields['To'].widget.choices = [(doc, doc) for doc in To_data.objects.all()]
+        # https: // stackoverflow.com / questions / 7503241 / django - models - selecting - single - field
+        # Employees.objects.values_list('eng_name', flat=True)
+        self.fields['Driver_name'].widget.choices = [(doc, doc) for doc in Driver_data.objects.values_list('Driver', flat=True)]
         # print('choices= ', [(doc, doc) for doc in To_data.objects.all()])
         # self.fields['Color'].widget.attrs.update({'class': 'color'})
 

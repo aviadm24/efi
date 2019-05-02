@@ -17,6 +17,16 @@ This will work on every browser
     display: none;
 }
 
+div#order_line{
+    display: flex;
+}
+
+#add_new_order_button{
+    position: sticky;
+    position: -webkit-sticky;
+    left: 0;
+}
+
 #mainlist thead th {
     position: sticky;
     position: -webkit-sticky;
@@ -25,6 +35,9 @@ This will work on every browser
     background: white;
     border-bottom: 2px solid black;
 }
+
+#mainlist.dataTable tr.odd { background-color: #E2E4FF; }
+#mainlist.dataTable tr.even { background-color: white; }
 
 #select_list {
     border: 3px solid green;

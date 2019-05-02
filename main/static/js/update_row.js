@@ -18,9 +18,13 @@ $(document).on("dblclick", "#mainlist tbody tr td", function(e) {
     $('#new_date_time').hide();
     $('#flight_shcedule_update').hide();
     var id = $(this).closest('tr').find('.id').text();
-    var td_id = $(this).attr('class');
+    if ($(this).closest('tr').find('.Status').text() == 'Cancled'){
+        alert('אין אפשרות לשנות בשורה זו')
+    }else{
+
+        var td_id = $(this).attr('class');
     td_id = td_id.split(' ')[0];
-//    console.log('class:' + td_id);
+//    console.log('class:' + td_id);111
     $('#row_id').val(id);
     $('#cell_id').val(td_id);
 
@@ -35,7 +39,7 @@ $(document).on("dblclick", "#mainlist tbody tr td", function(e) {
               '<div class="input-group-text"><i class="fa fa-calendar"></i></div>'+
           '</div>'+
         '</div>'
-
+        $('#new_date_time').datetimepicker('setDate', '04/30/2019');
 //        var clo = $('#new_date_time').clone();
 //        clo.attr("id", "clo_"+td_id);
         var clone_button = $('#update_button').clone();
@@ -66,7 +70,8 @@ $(document).on("dblclick", "#mainlist tbody tr td", function(e) {
         $(this).append(clone_button)
         $(function () {
             $('#new_date').datetimepicker({
-              format: "YYYY-MM-DD"
+              format: "YYYY-MM-DD",
+              useCurrent: false
             });
         });
         $(this).attr("id", "updating_now");
@@ -87,13 +92,13 @@ $(document).on("dblclick", "#mainlist tbody tr td", function(e) {
         $(this).append(clone_button)
         $(function () {
             $('#flight_shcedule_update').datetimepicker({
-              format: 'HH:mm',
+              format: 'YYYY-MM-DD HH:mm',
               useCurrent: false
             });
         });
         $(this).attr("id", "updating_now");
 
-    }else if(td_id == 'Flight_num'||td_id == 'To'||td_id == 'From'){
+    }else if(td_id == 'Flight_num'||td_id == 'To'||td_id == 'From'|| td_id == 'Driver_name'){
         $('#updating_now').children().remove();
         $('#updating_now').removeAttr( "id" );
         var clo = $('#id_'+td_id).clone();
@@ -124,11 +129,26 @@ $(document).on("dblclick", "#mainlist tbody tr td", function(e) {
 //        $('#clone_input').append(clo)
 //        $('#clone_input').css({"border-style": "inset", cursor:"default"});
     }
+
+    }
+
 });
 
 
 // clone the select according to id
 //http://www.jqueryfaqs.com/Articles/Clone-Copy-Dropdown-List-with-Selected-Value-using-jQuery.aspx
+
+//$('#clo_status_cheshbonit_yeruka1').on("change", function () {
+//https://stackoverflow.com/questions/18746381/dynamically-created-select-menu-on-change-not-working
+$(document).on("change", '#clo_status_cheshbonit_yeruka1', function () {
+    var new_value = $("#clo_status_cheshbonit_yeruka1 option:selected").text()
+    if (new_value == 'נשלחה הזמנת רכש'){
+        alert('צריך לקלוט מספר הזמנת רכש')
+        var html = '<input id="id_hazmanat_rechesh" type="text" />';
+        $('#updating_now').append(html);
+    }
+});
+
 function update_row(){
     var id = $('#row_id').val();
     var td_id = $('#cell_id').val();
@@ -141,15 +161,18 @@ function update_row(){
         var new_value = $('#id_flight_shcedule_update').val()
     }else{
         if ($("#clo_"+td_id).is('select')){
-//            alert('Select');
-            var new_value = $("#clo_"+td_id+" option:selected").text()
+            var new_value = $("#clo_"+td_id+" option:selected").text();
+            if (new_value == 'נשלחה הזמנת רכש'){
+                var order_num = $("#id_hazmanat_rechesh").val();
+                console.log('order_num val: '+order_num)
+                new_value = ':נשלחה הזמנת רכש'+'\n'+order_num;
+            }
         }else{
-//            alert('input');
-            var new_value = $("#clo_"+td_id).val()
+            var new_value = $("#clo_"+td_id).val();
         }
 
     }
-//    console.log('new_value: ' + new_value);
+    console.log('new val: '+new_value)
     $.ajax({
         url: '/ajax/update_cell/',
         data: {
@@ -217,6 +240,16 @@ function update_row(){
             }
         });
     }
+    if (td_id=='Contact'){
+        var proj_num = $(this).closest('tr').find('.Project_num').text();
+        console.log('project num: '+ proj_num)
+        $('.Project_num').each( function(){
+            console.log('project nums: '+ $(this).text())
+            if($(this).text()==proj_num){
+            $(this).closest('tr').find('.Contact').text(new_value);
+            }
+        });
+    }
     $('#new_value').val('');
     $("#clone_input").empty();
     $("#special_clone_input").children().hide();
@@ -227,8 +260,9 @@ function update_row(){
 
     start_min_end_func();
     if (td_id=='Start_time' || td_id=='End_time' || td_id =='Based_on_client' || td_id =='Based_on_provider'){
-        console.log('update_sum_table fired')
+//        console.log('update_sum_table fired')
         update_sum_table()
     };
     sum_sum_list();
+
 }

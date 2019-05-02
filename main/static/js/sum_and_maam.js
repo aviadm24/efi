@@ -72,7 +72,7 @@ function sum_price(cla){
 
 
 function sum_sum_list(){
-    console.log( 'sum sum list called!')
+//    console.log( 'sum sum list called!')
     var sum_dollar = 0;
     var sum_shekel = 0;
     var sum_euro = 0;
@@ -82,24 +82,24 @@ function sum_sum_list(){
         else{
             if ( $(this).not(':hidden') ) {
                 var price_str = $(this).html();
-                console.log('price_str: '+$(this).html())
+//                console.log('price_str: '+$(this).html())
                 // https://stackoverflow.com/questions/34609571/extract-numbers-from-string-and-store-them-in-array-javascript
                 var dollar_shekel_euro_array = price_str.split('<br>');
-                console.log('new _array: '+dollar_shekel_euro_array)
+//                console.log('new _array: '+dollar_shekel_euro_array)
 //                var dollar = price_str.match(/\d+/g)[0];
 //                var shekel = price_str.match(/\d+/g)[1]
 //                var euro = price_str.match(/\d+/g)[2]
                 var dollar = parseFloat(dollar_shekel_euro_array[0].replace(/[^\d.]/g,''));
                 var shekel = parseFloat(dollar_shekel_euro_array[1].replace(/[^\d.]/g,''));
                 var euro = parseFloat(dollar_shekel_euro_array[2].replace(/[^\d.]/g,''));
-                console.log('shekel: '+shekel+ ':' +$(this).attr('id'))
+//                console.log('shekel: '+shekel+ ':' +$(this).attr('id'))
 
                 var dollar_num = dollar;
                 sum_dollar += dollar_num;
 //                console.log('sum_dollar: '+sum_dollar)
                 var shekel_num = shekel;
                 sum_shekel += shekel_num;
-                console.log('sum_shekel: '+sum_shekel)
+//                console.log('sum_shekel: '+sum_shekel)
                 var euro_num = euro;
                 sum_euro += euro_num;
 //                console.log($(this).attr('id'))
