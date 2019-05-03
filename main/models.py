@@ -18,6 +18,12 @@ class main_list_model(models.Model):
     Luggage = models.CharField(max_length=10, blank=True, null=True, verbose_name='Number of PAX & Luggage')  # changed to char field
 
     Flight_num = models.CharField(max_length=100, blank=True, null=True)
+    # changing from time field to date time field made a big problem
+    # https: // stackoverflow.com / questions / 15237366 / how - to - execute - a - sql - script - on - heroku
+    # https: // stackoverflow.com / questions / 23892307 / django - change - timefield - to - datetimefield - in -models - py / 39104671
+    # https: // stackoverflow.com / questions / 10200769 / postgresql - column - foo - does - not -exist
+    # https: // www.postgresql.org / docs / 9.1 / datatype - datetime.html
+    # very importent to know!
     Flight_shcedule = models.DateTimeField(blank=True, null=True)
     Start_time = models.DateTimeField(blank=True, null=True)
     End_time = models.DateTimeField(blank=True, null=True)

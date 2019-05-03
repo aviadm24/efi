@@ -22,9 +22,10 @@ div#order_line{
 }
 
 #add_new_order_button{
+    float: right;
     position: sticky;
     position: -webkit-sticky;
-    left: 0;
+    right: 50px;
 }
 
 #mainlist thead th {
