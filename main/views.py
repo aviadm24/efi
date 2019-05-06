@@ -171,6 +171,10 @@ def main_list(request):
                         driver_data, created = Driver_data.objects.get_or_create(Driver=value)
                         if created:
                             messages.success(request, 'New Driver_data was successfully created!')
+                    if key == 'Provider':
+                        provider_data, created = Provider_data.objects.get_or_create(Provider_name=value)
+                        if created:
+                            messages.success(request, 'New Provider_data was successfully created!')
                     if key == 'Contact' and value != '':
                         main_list_model.objects.filter(Project_num=form.cleaned_data['Project_num']).update(Contact=value)
 
@@ -200,14 +204,21 @@ def main_list(request):
                                                               'date_form': date_form})
 
 def whole_list(request):
-
+    p_num_list = main_list_model.objects.values_list('Project_num', flat=True)
+    p_num_set = set(p_num_list)
+    customer_list = main_list_model.objects.values_list('Customer', flat=True)
+    customer_set = set(customer_list)
+    provider_list = main_list_model.objects.values_list('Provider', flat=True)
+    provider_set = set(provider_list)
     table_all = main_list_Table(main_list_model.objects.all())
     RequestConfig(request, paginate=False).configure(table_all)
+    date_form = DateForm()
+    return render(request, 'main/whole_list.html', {'table_all': table_all,
+                                                    'p_num_list': p_num_set,
+                                                    'customer_list': customer_set,
+                                                    'provider_list': provider_set,
+                                                    'date_form': date_form})
 
-    # field_names = [f.name for f in main_list_model._meta.get_fields()]
-    # all = main_list_model.objects.all().order_by('Date')
-    # print('all: ', all)
-    return render(request, 'main/whole_list.html', {'table_all': table_all})
 
 
 
@@ -438,6 +449,9 @@ def update_cell_json(request):
                 messages.success(request, 'Your To_data was successfully created!')
         if td_id == 'Provider':
             main_list_model.objects.filter(pk=id).update(Provider=new_value)
+            provider_data, created = Provider_data.objects.get_or_create(Provider_name=new_value)
+            if created:
+                messages.success(request, 'Your Provider_data was successfully created!')
         if td_id == 'Driver_name':
             main_list_model.objects.filter(pk=id).update(Driver_name=new_value)
             driver_data, created = Driver_data.objects.get_or_create(Driver=new_value)

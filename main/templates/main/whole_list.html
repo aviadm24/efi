@@ -3,7 +3,81 @@
 {% load render_table from django_tables2 %}
 <h3>main list</h3>
 
+<div>
+<table class="table table-bordered" id="select_list">
+  <thead>
+    <tr>
+        <th>project_filter</th>
+        <th>customer_filter</th>
+        <th>provider_filter</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td>
+            <select id="p_num" name="p_num_list" onChange="project_filter()" data-default="---SELECT---">
+              <option  value="---SELECT---" selected="selected">---SELECT---</option>
+              {% for p_num in p_num_list %}
+               <option value="{{p_num}}">{{p_num|capfirst}}</option>
+              {% endfor %}
+            </select>
+        </td>
+        <td>
+            <select id="customer" name="customer_list" onChange="customer_filter()">
+              <option  value="---SELECT---" selected="selected">---SELECT---</option>
+              {% for customer in customer_list %}
+               <option value="{{customer}}">{{customer|capfirst}}</option>
+              {% endfor %}
+            </select>
+        </td>
+        <td>
+            <select id="provider" name="provider_list" onChange="provider_filter()">
+              <option  value="---SELECT---" selected="selected">---SELECT---</option>
+              {% for provider in provider_list %}
+               <option value="{{provider}}">{{provider|capfirst}}</option>
+              {% endfor %}
+            </select>
+        </td>
+     </tr>
+   </tbody>
+</table>
 
+
+<form method="post" action="/" style="">{% csrf_token %}
+    {% for field in date_form %}
+        {% if field.name == 'start'%}
+            <td>
+              <div class="input-group date" id="{{field.name}}" data-target-input="nearest">
+                  <input name="{{field.name}}" id="id_{{field.name}}" type="text" class="form-control datetimepicker-input" data-target="#{{field.name}}"/>
+                  <div class="input-group-append" data-target="#{{field.name}}" data-toggle="datetimepicker">
+                      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                  </div>
+              </div>
+            </td>
+        {%else%}
+              {% if field.name == 'end' %}
+                    <td>
+                      <div class="input-group date" id="{{field.name}}" data-target-input="nearest">
+                          <input name="{{field.name}}" id="id_{{field.name}}" type="text" class="form-control datetimepicker-input" data-target="#{{field.name}}"/>
+                          <div class="input-group-append" data-target="#{{field.name}}" data-toggle="datetimepicker">
+                              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                          </div>
+                      </div>
+                    </td>
+
+              {% endif %}
+        {% endif %}
+    {% endfor %}
+    <!--<input type="submit" name="date_filter" value="שלח" />-->
+</form>
+<br>
+<button onclick="date_filter()">date filter</button>
+<br>
+<br>
+<button id="reset"><a href="/">reset filters</a></button>
+<br>
+<br>
+</div>
 {% render_table table_all %}
 
 

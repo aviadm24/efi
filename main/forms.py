@@ -26,7 +26,7 @@ class main_list_form(forms.ModelForm):
     # Driver_name = forms.ModelChoiceField(queryset=Driver_data.objects.all(), required=False)
     Flight_shcedule = forms.TimeField(required=False)
     Flight_num = forms.CharField(widget=forms.Select(), required=False, initial='')
-    Provider = forms.ModelChoiceField(queryset=Provider_data.objects.all(), required=False)
+    # Provider = forms.ModelChoiceField(queryset=Provider_data.objects.all(), required=False)
     Status = forms.ModelChoiceField(queryset=Status_data.objects.all(), required=False)
     status_cheshbonit_yeruka1 = forms.ModelChoiceField(queryset=Yeruka_data.objects.all(), required=False)
     status_cheshbonit_yeruka2 = forms.ModelChoiceField(queryset=Yeruka2_data.objects.all(), required=False)
@@ -35,7 +35,7 @@ class main_list_form(forms.ModelForm):
 
     To = forms.CharField(widget=forms.Select(), required=False)
     Driver_name = forms.CharField(widget=forms.Select(), required=False)
-
+    Provider = forms.CharField(widget=forms.Select(), required=False)
     # From = forms.ModelChoiceField(queryset=From_data.objects.all(), required=False)
 
     # From = forms.ChoiceField(choices=[(doc, doc) for doc in From_data.objects.all()], required=False)
@@ -102,7 +102,10 @@ class main_list_form(forms.ModelForm):
         self.fields['To'].widget.choices = [(doc, doc) for doc in To_data.objects.all()]
         # https: // stackoverflow.com / questions / 7503241 / django - models - selecting - single - field
         # Employees.objects.values_list('eng_name', flat=True)
-        self.fields['Driver_name'].widget.choices = [(doc, doc) for doc in Driver_data.objects.values_list('Driver', flat=True)]
+        self.fields['Driver_name'].widget.choices = [(doc, doc) for doc in
+                                                     Driver_data.objects.values_list('Driver', flat=True)]
+        self.fields['Provider'].widget.choices = [(doc, doc) for doc in
+                                                     Provider_data.objects.values_list('Provider_name', flat=True)]
         # print('choices= ', [(doc, doc) for doc in To_data.objects.all()])
         # self.fields['Color'].widget.attrs.update({'class': 'color'})
 

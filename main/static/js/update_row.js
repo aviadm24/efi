@@ -98,7 +98,7 @@ $(document).on("dblclick", "#mainlist tbody tr td", function(e) {
         });
         $(this).attr("id", "updating_now");
 
-    }else if(td_id == 'Flight_num'||td_id == 'To'||td_id == 'From'|| td_id == 'Driver_name'){
+    }else if(td_id == 'Flight_num'||td_id == 'To'||td_id == 'From'|| td_id == 'Driver_name'|| td_id == 'Provider'){
         $('#updating_now').children().remove();
         $('#updating_now').removeAttr( "id" );
         var clo = $('#id_'+td_id).clone();

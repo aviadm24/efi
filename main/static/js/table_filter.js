@@ -143,7 +143,9 @@ function date_filter(){
     function( settings, data, dataIndex ) {
         var min  = $('#id_start').val();
         var max  = $('#id_end').val();
-        var createdAt = data[4] || 0; // Our date column in the table
+        console.log(min)
+        console.log(max)
+        var createdAt = data[5] || 0; // Our date column in the table
 
         if  (
                 ( min == "" || max == "" )
