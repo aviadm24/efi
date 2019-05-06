@@ -80,59 +80,69 @@
 </div>
 {% render_table table_all %}
 
+<table class="table" id="sum_list_client" border="1" >
+  <thead>
+    <tr>
+        <th class="min">מחיר FD ללקוח</th>
+        <th class="min">מחיר TRN ללקוח</th>
+        <th class="min">מחיר EXTRA HOUR ללקוח</th>
+        <th class="min">מחיר FT VIP SERVICE ללקוח</th>
+        <th class="min">מחיר שונות ללקוח</th>
+        <th class="min">סה"כ</th>
+        <th class="min">
+            <button onclick="maam()">
+סה&quot;כ
+מחירים
+כולל
+מע&quot;מ
+            </button>
+        </th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td class="min" id="Cost_per_client"  style="border: 1px solid black;"></td>
+        <td class="min" id="Cost_transfer_client"  style="border: 1px solid black;"></td>
+        <td class="min" id="Cost_extra_hour_client"  style="border: 1px solid black;"></td>
+        <td class="min" id="Cost_VIP_client"  style="border: 1px solid black;"></td>
+        <td class="min" id="shonot_client"  style="border: 1px solid black;"></td>
+        <td class="min" id="hakol_client" style="border: 1px solid black;"></td>
+        <td class="min" id="maam_client" style="border: 1px solid black;"></td>
+      </tr>
+   </tbody>
+</table>
 
-<!--<table class="table table-bordered">-->
-  <!--<thead>-->
-    <!--<tr>-->
-      <!--<th>Update</th>-->
-      <!--{% for name in field_names %}-->
-      <!--<th>{{name}}</th>-->
-      <!--{% endfor %}-->
-    <!--</tr>-->
-  <!--</thead>-->
-  <!--<tbody>-->
-    <!--{% for row in all %}-->
 
-          <!--<tr>-->
-            <!--<td><a href="/update_row/{{row.id}}">{{ forloop.counter }}</a></td>-->
-            <!--<td>{{ row.Project_num}}</td>-->
-            <!--<td>{{ row.Customer}}</td>-->
-            <!--<td>{{ row.Date }}</td>-->
-            <!--<td>{{ row.Type_of_service}}</td>-->
-            <!--<td>{{ row.Type_of_car }}</td>-->
-            <!--<td>{{ row.Driver_name }}</td>-->
-            <!--<td>{{ row.Luggage }}</td>-->
-            <!--<td>{{ row.Name }}</td>-->
-            <!--<td>{{ row.Flight_num }}</td>-->
-            <!--<td>{{ row.Time_of_flight }}</td>-->
-            <!--<td>{{ row.Time_of_PU }}</td>-->
-            <!--<td>{{ row.End_time }}</td>-->
-            <!--<td>{{ row.From }}</td>-->
-            <!--<td>{{ row.To }}</td>-->
-            <!--<td>{{ row.Extra_hours_client }}</td>-->
-            <!--<td>{{ row.Based_on_client }}</td>-->
-            <!--<td>{{ row.Extra_hours_provider }}</td>-->
-            <!--<td>{{ row.Based_on_provider }}</td>-->
-              <!--<td>{{ row.Total_extra_client }}</td>-->
-              <!--<td>{{ row.Total_extra_provider }}</td>-->
-            <!--<td>{{ row.KM }}</td>-->
-            <!--<td>{{ row.Comments }}</td>-->
-            <!--<td>{{ row.Provider }}</td>-->
-            <!--<td>{{ row.Cost_per_client }}</td>-->
-            <!--<td>{{ row.Cost_per_provider }}</td>-->
-            <!--<td>{{ row.Cost_extra_hour_client }}</td>-->
-            <!--<td>{{ row.Cost_extra_hour_provider }}</td>-->
-            <!--<td>{{ row.Cost_transfer_client }}</td>-->
-            <!--<td>{{ row.Cost_transfer_provider }}</td>-->
-            <!--<td>{{ row.Cost_VIP_client }}</td>-->
-            <!--<td>{{ row.Cost_VIP_provider }}</td>-->
-            <!--<td>{{ row.Status }}</td>-->
-            <!--<td class="color_id">{{ row.Color }}</td>-->
-
-          <!--</tr>-->
-
-    <!--{% endfor %}-->
-  <!--</tbody>-->
-<!--</table>-->
+<table class="table" id="sum_list_provider" border="1" >
+  <thead>
+    <tr>
+        <th class="min">מחיר FD לספק</th>
+        <th class="min">מחיר TRN לספק</th>
+        <th class="min">מחיר EXTRA HOUR לספק</th>
+        <th class="min">מחיר FT VIP SERVICE לספק</th>
+        <th class="min">מחיר שונות לספק</th>
+        <th class="min">סה"כ</th>
+        <th class="min">
+            <button onclick="maam()">
+סה&quot;כ
+מחירים
+כולל
+מע&quot;מ
+            </button>
+        </th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td class="min" id="Cost_per_provider"  style="border: 1px solid black;"></td>
+        <td class="min" id="Cost_transfer_provider"  style="border: 1px solid black;"></td>
+        <td class="min" id="Cost_extra_hour_provider"  style="border: 1px solid black;"></td>
+        <td class="min" id="Cost_VIP_provider"  style="border: 1px solid black;"></td>
+        <td class="min" id="shonot_provider"  style="border: 1px solid black;"></td>
+        <td class="min" id="hakol_provider" style="border: 1px solid black;"></td>
+        <td class="min" id="maam_provider" style="border: 1px solid black;"></td>
+      </tr>
+   </tbody>
+</table>
 
 {% endblock %}

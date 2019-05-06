@@ -24,7 +24,7 @@ class main_list_form(forms.ModelForm):
     Type_of_service = forms.ModelChoiceField(queryset=Service_data.objects.all(), required=False)
     Type_of_car = forms.ModelChoiceField(queryset=Car_data.objects.all(), required=False)
     # Driver_name = forms.ModelChoiceField(queryset=Driver_data.objects.all(), required=False)
-    Flight_shcedule = forms.TimeField(required=False)
+    # Flight_shcedule = forms.TimeField(required=False)
     Flight_num = forms.CharField(widget=forms.Select(), required=False, initial='')
     # Provider = forms.ModelChoiceField(queryset=Provider_data.objects.all(), required=False)
     Status = forms.ModelChoiceField(queryset=Status_data.objects.all(), required=False)
