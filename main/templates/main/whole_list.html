@@ -2,7 +2,15 @@
 {% block transfer_list %}
 {% load render_table from django_tables2 %}
 <h3>main list</h3>
-
+<div style="display: none;">
+{{hidden_form.as_p}}
+</div>
+<div id="update_values" style="display: none;">
+        <input type="text" name="row_id" id="row_id" maxlength="100">
+        <input type="text" name="cell_id" id="cell_id" maxlength="100">
+        <!--<input type="text" name="new_value" id="new_value" maxlength="100">-->
+</div>
+<input type="button" value="update" id="update_button" onkeypress="update_row();" onclick="update_row();" style="display: none;">
 <div>
 <table class="table table-bordered" id="select_list">
   <thead>

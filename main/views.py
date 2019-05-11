@@ -212,8 +212,10 @@ def whole_list(request):
     provider_set = set(provider_list)
     table_all = main_list_Table(main_list_model.objects.all())
     RequestConfig(request, paginate=False).configure(table_all)
+    hidden_form = main_list_form()
     date_form = DateForm()
-    return render(request, 'main/whole_list.html', {'table_all': table_all,
+    return render(request, 'main/whole_list.html', {'hidden_form': hidden_form,
+                                                    'table_all': table_all,
                                                     'p_num_list': p_num_set,
                                                     'customer_list': customer_set,
                                                     'provider_list': provider_set,

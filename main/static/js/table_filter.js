@@ -1,5 +1,28 @@
 
-var table = $('#mainlist').DataTable({
+$(document).ready(function () {
+
+    $('.Cost_per_client, .Cost_per_provider, .Cost_transfer_client, .Cost_transfer_provider, .Cost_extra_hour_client, .Cost_extra_hour_provider, .Cost_VIP_client, .Cost_VIP_provider, .shonot_client, .shonot_provider').each(function () {
+        var from_db = $(this).text();
+
+        var doll_or_shek = from_db % 100;
+        var new_var = (from_db/100).toFixed(0)
+
+        if (from_db != '—' && doll_or_shek==33 || doll_or_shek==34 || doll_or_shek==35){
+//            console.log('from_db '+ from_db)
+//            console.log('new var: '+ new_var)
+            if (doll_or_shek == 33){
+                $(this).text('$'+ new_var);
+            }else if (doll_or_shek == 34){
+                $(this).text('₪'+ new_var);
+            }else{
+                $(this).text('€'+ new_var);
+            }
+        }
+
+    });
+});
+var table = $('#mainlist');
+table = $('#mainlist').DataTable({
               paging: false,
 //              "pageLength": 500,
               "order": [[ 5, "asc"], [12, "asc"]],
@@ -13,6 +36,20 @@ var table = $('#mainlist').DataTable({
                         $('td', row).addClass('highlight');
                     }
                 },
+                dom: 'Bfrtip',
+                buttons: ['excel'],
+                // https://datatables.net/forums/discussion/44588/hidden-fields-need-to-be-export-into-excel
+                // "buttons": [ { extend: 'csv', text: 'CSV', exportOptions: { modifier: { search: 'applied' }}}, { extend: 'excel', text: 'Excel', exportOptions: { modifier: { search: 'applied' }}}, { extend: 'pdf', text: 'PDF', exportOptions: { modifier: { search: 'applied' }}}, { extend: 'print', text: 'Print visible', exportOptions: { modifier: { search: 'applied' }}} ]
+//                "buttons": [{ extend: 'excel', text: 'Excel', exportOptions: { modifier: { search: 'applied' },
+//                                                                                columns: '.exported',
+//                                                                                format: {
+//                body: function ( data, row, column, node ) {
+//                    // Strip $ from salary column to make it numeric
+//                    return column === 5 ?
+//                        data.replace( /[$,]/g, '' ) :
+//                        data;
+//                }}
+//                }}]
 //              "iDisplayLength": -1,
 //              "aLengthMenu": [[ 25, 50, 100,500,1000,-1], [25, 50,100,500,1000, "All"]],
               });
@@ -99,10 +136,16 @@ function customer_filter() {
           return dataLabel  == customer;
        }
     );
+
+//    var columns = table.columns(1);
+//    console.log('column: '+ column)
+//    columns.visible( ! column.visible() );
+
     table.draw();
 
     // delete unwanted td's
     $('#mainlist').find('.Extra_hours_provider, .Based_on_provider, .Extra_KM_provider, .Cost_per_provider, .Cost_transfer_provider, .Cost_extra_hour_provider, .Cost_VIP_provider, .shonot_provider').hide();
+    $('#mainlist').find('td').not('.Extra_hours_provider, .Based_on_provider, .Extra_KM_provider, .Cost_per_provider, .Cost_transfer_provider, .Cost_extra_hour_provider, .Cost_VIP_provider, .shonot_provider').addClass('exported');
     $('#sum_list_provider').hide()
 //    $('#mainlist').find('thead tr th:nth-child(15),th:nth-child(16),th:nth-child(17),th:nth-child(18),th:nth-child(19),th:nth-child(20),th:nth-child(23),th:nth-child(24),th:nth-child(27),th:nth-child(29),th:nth-child(31),th:nth-child(33),th:nth-child(35)').hide();
 //    $('#mainlist').find('tbody tr td:nth-child(15),td:nth-child(16),td:nth-child(17),td:nth-child(18),td:nth-child(19),td:nth-child(20),td:nth-child(23),td:nth-child(24),td:nth-child(27),td:nth-child(29),td:nth-child(31),td:nth-child(33),td:nth-child(35)').hide();

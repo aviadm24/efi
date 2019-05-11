@@ -10,6 +10,7 @@
 //);
 var td_added_list = []
 $(document).on("dblclick", "#mainlist tbody tr td", function(e) {
+    console.log('update function called')
     e.preventDefault();
     $('#clone_input').empty();
     $('#update_button').show();
