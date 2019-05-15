@@ -36,7 +36,7 @@ urlpatterns = [
     # url(r'^customer_list$', views.customer_list, name='customer_list'),
     url(r'^whole_list$', views.whole_list, name='whole_list'),
     url(r'^table_view$', views.table_view, name='table_view'),
-    path('update_row/<int:pk>', views.update.as_view(), name='update_row'),
+    # path('update_row/<int:pk>', views.update.as_view(), name='update_row'),
 
     url(r'^ajax/update_cell/$', views.update_cell_json, name='update_cell'),
     url(r'^ajax/add_color/$', views.add_color_json, name='add_color'),

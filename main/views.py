@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, render_to_response
 from django.contrib import messages
-from .forms import main_list_form, UploadFileForm, DateForm, main_list_form_update
+from .forms import main_list_form, UploadFileForm, DateForm
 from django.forms import formset_factory
 from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
@@ -231,7 +231,7 @@ def add_dollar(request):
     data = main_list_model.objects.filter(pk=id)
     print('data: ', data.values())
     td_data = data.values()[0][td_id]
-    print('td_data: ', td_data)
+    print('new_int: ', new_int)
 
     if td_id == 'Extra_KM_client':
         main_list_model.objects.filter(pk=id).update(Extra_KM_client=new_int)
@@ -254,10 +254,10 @@ def add_dollar(request):
         main_list_model.objects.filter(pk=id).update(Cost_VIP_client=new_int)
     if td_id == 'Cost_VIP_provider':
         main_list_model.objects.filter(pk=id).update(Cost_VIP_provider=new_int)
-    if td_id == 'shonot_client':
-        main_list_model.objects.filter(pk=id).update(shonot_client=new_int)
-    if td_id == 'shonot_provider':
-        main_list_model.objects.filter(pk=id).update(shonot_provider=new_int)
+    if td_id == 'Cost_shonot_client':
+        main_list_model.objects.filter(pk=id).update(Cost_shonot_client=new_int)
+    if td_id == 'Cost_shonot_provider':
+        main_list_model.objects.filter(pk=id).update(Cost_shonot_provider=new_int)
 
     return JsonResponse({})
 
@@ -266,7 +266,7 @@ def add_shekel(request):
     td_id = request.GET.get('td_id')
     new_int = request.GET.get('new_int')
     data = main_list_model.objects.filter(pk=id)
-    print('data: ', data.values())
+    # print('data: ', data.values())
     td_data = data.values()[0][td_id]
     print('td_data: ', td_data)
 
@@ -291,10 +291,10 @@ def add_shekel(request):
         main_list_model.objects.filter(pk=id).update(Cost_VIP_client=new_int)
     if td_id == 'Cost_VIP_provider':
         main_list_model.objects.filter(pk=id).update(Cost_VIP_provider=new_int)
-    if td_id == 'shonot_client':
-        main_list_model.objects.filter(pk=id).update(shonot_client=new_int)
-    if td_id == 'shonot_provider':
-        main_list_model.objects.filter(pk=id).update(shonot_provider=new_int)
+    if td_id == 'Cost_shonot_client':
+        main_list_model.objects.filter(pk=id).update(Cost_shonot_client=new_int)
+    if td_id == 'Cost_shonot_provider':
+        main_list_model.objects.filter(pk=id).update(Cost_shonot_provider=new_int)
 
     return JsonResponse({})
 
@@ -303,7 +303,7 @@ def add_euro(request):
     td_id = request.GET.get('td_id')
     new_int = request.GET.get('new_int')
     data = main_list_model.objects.filter(pk=id)
-    print('data: ', data.values())
+    # print('data: ', data.values())
     td_data = data.values()[0][td_id]
     print('td_data: ', td_data)
 
@@ -328,10 +328,10 @@ def add_euro(request):
         main_list_model.objects.filter(pk=id).update(Cost_VIP_client=new_int)
     if td_id == 'Cost_VIP_provider':
         main_list_model.objects.filter(pk=id).update(Cost_VIP_provider=new_int)
-    if td_id == 'shonot_client':
-        main_list_model.objects.filter(pk=id).update(shonot_client=new_int)
-    if td_id == 'shonot_provider':
-        main_list_model.objects.filter(pk=id).update(shonot_provider=new_int)
+    if td_id == 'Cost_shonot_client':
+        main_list_model.objects.filter(pk=id).update(Cost_shonot_client=new_int)
+    if td_id == 'Cost_shonot_provider':
+        main_list_model.objects.filter(pk=id).update(Cost_shonot_provider=new_int)
 
     return JsonResponse({})
 
@@ -501,10 +501,10 @@ def update_cell_json(request):
             main_list_model.objects.filter(pk=id).update(Cost_VIP_client=new_value)
         if td_id == 'Cost_VIP_provider':
             main_list_model.objects.filter(pk=id).update(Cost_VIP_provider=new_value)
-        if td_id == 'shonot_client':
-            main_list_model.objects.filter(pk=id).update(shonot_client=new_value)
-        if td_id == 'shonot_provider':
-            main_list_model.objects.filter(pk=id).update(shonot_provider=new_value)
+        if td_id == 'Cost_shonot_client':
+            main_list_model.objects.filter(pk=id).update(Cost_shonot_client=new_value)
+        if td_id == 'Cost_shonot_provider':
+            main_list_model.objects.filter(pk=id).update(Cost_shonot_provider=new_value)
 
 
     # else:
@@ -535,7 +535,7 @@ def update_cell_json(request):
     #         main_list_model.objects.filter(pk=id).update(Color=color_json)
     #         print('new color: ', type(color_json))
 
-    return JsonResponse({'is_taken': 'is_taken'})
+    return JsonResponse({})
 
 
 
@@ -564,91 +564,91 @@ def update_cell_json(request):
 #
 #     return JsonResponse({'is_taken': 'is_taken'})
 
-class update(UpdateView):
-    model = main_list_model
-    form_class = main_list_form_update
-    # fields = '__all__'
-    success_url = reverse_lazy('main_list')
-    template_name_suffix = '_update_form'
-
-    # def form_valid(self, form):
-    #   pass
-
-    def get_form_kwargs(self):
-        kwargs = super(update, self).get_form_kwargs()
-
-        if 'data' in kwargs.keys():
-            print('kwargs: ', kwargs['data'].keys())
-            for key in kwargs['data'].keys():
-                if key == 'Flight_num':
-                    if Flight_data.objects.filter(Flight=kwargs['data'][key]).exists():
-                        pass
-                    else:
-                        print('creat in kwargs: ', kwargs['data'][key])
-                        f = Flight_data.objects.create(Flight=kwargs['data'][key])
-        return kwargs
-
-    def check_for_null(self, field, model, query_dicy=None):
-        if field:
-            return model.objects.get(**query_dicy).pk
-        else:
-            return '-'
-
-    def check_for_null_returns_string(self, field, model, query_dicy=None):
-        if field:
-            return model.objects.get(**query_dicy)
-        else:
-            return '-'
-
-    def get_initial(self):
-        if self.get_object().Customer != None:
-            customer = Customer_data.objects.get(Customer_name=self.get_object().Customer).pk
-        else:
-            customer = '-'
-
-        driver_field = self.get_object().Driver_name
-        driver = self.check_for_null(driver_field, Driver_data, {'Driver': driver_field})
-
-        provider_field = self.get_object().Provider
-        provider = self.check_for_null(provider_field, Provider_data, {'Provider_name': provider_field})
-
-        service_data_field = self.get_object().Type_of_service
-        service_data = self.check_for_null(service_data_field, Service_data, {'Service': service_data_field})
-
-        status_data_field = self.get_object().Status
-        status_data = self.check_for_null(status_data_field, Status_data, {'Status': status_data_field})
-
-        yeruka_data_field = self.get_object().status_cheshbonit_yeruka1
-        yeruka_data = self.check_for_null(yeruka_data_field, Yeruka_data, {'Yeruka': yeruka_data_field})
-
-        yeruka2_data_field = self.get_object().status_cheshbonit_yeruka2
-        yeruka2_data = self.check_for_null(yeruka2_data_field, Yeruka2_data, {'Yeruka2': yeruka2_data_field})
-
-        to_data_field = self.get_object().To
-        to_data = self.check_for_null_returns_string(to_data_field, To_data, {'To': to_data_field})
-
-        from_data_field = self.get_object().From
-        from_data = self.check_for_null_returns_string(from_data_field, From_data, {'From': from_data_field})
-
-        car_data_field = self.get_object().Type_of_car
-        car_data = self.check_for_null(car_data_field, Car_data, {'Car': car_data_field})
-
-        flight_data_field = self.get_object().Flight_num
-        flight_data = self.check_for_null_returns_string(flight_data_field, Flight_data, {'Flight': flight_data_field})
-        print('initail flight data: ', flight_data)
-        return {
-            'Customer': customer,
-            'Driver_name': driver,
-            'Provider': provider,
-            'Type_of_service': service_data,
-            'Status': status_data,
-            'status_cheshbonit_yeruka1': yeruka_data,
-            'status_cheshbonit_yeruka2': yeruka2_data,
-            'To': to_data,
-            'From': from_data,
-            'Type_of_car': car_data,
-            'Flight_num': flight_data
-        }
+# class update(UpdateView):
+#     model = main_list_model
+#     form_class = main_list_form_update
+#     # fields = '__all__'
+#     success_url = reverse_lazy('main_list')
+#     template_name_suffix = '_update_form'
+#
+#     # def form_valid(self, form):
+#     #   pass
+#
+#     def get_form_kwargs(self):
+#         kwargs = super(update, self).get_form_kwargs()
+#
+#         if 'data' in kwargs.keys():
+#             print('kwargs: ', kwargs['data'].keys())
+#             for key in kwargs['data'].keys():
+#                 if key == 'Flight_num':
+#                     if Flight_data.objects.filter(Flight=kwargs['data'][key]).exists():
+#                         pass
+#                     else:
+#                         print('creat in kwargs: ', kwargs['data'][key])
+#                         f = Flight_data.objects.create(Flight=kwargs['data'][key])
+#         return kwargs
+#
+#     def check_for_null(self, field, model, query_dicy=None):
+#         if field:
+#             return model.objects.get(**query_dicy).pk
+#         else:
+#             return '-'
+#
+#     def check_for_null_returns_string(self, field, model, query_dicy=None):
+#         if field:
+#             return model.objects.get(**query_dicy)
+#         else:
+#             return '-'
+#
+#     def get_initial(self):
+#         if self.get_object().Customer != None:
+#             customer = Customer_data.objects.get(Customer_name=self.get_object().Customer).pk
+#         else:
+#             customer = '-'
+#
+#         driver_field = self.get_object().Driver_name
+#         driver = self.check_for_null(driver_field, Driver_data, {'Driver': driver_field})
+#
+#         provider_field = self.get_object().Provider
+#         provider = self.check_for_null(provider_field, Provider_data, {'Provider_name': provider_field})
+#
+#         service_data_field = self.get_object().Type_of_service
+#         service_data = self.check_for_null(service_data_field, Service_data, {'Service': service_data_field})
+#
+#         status_data_field = self.get_object().Status
+#         status_data = self.check_for_null(status_data_field, Status_data, {'Status': status_data_field})
+#
+#         yeruka_data_field = self.get_object().status_cheshbonit_yeruka1
+#         yeruka_data = self.check_for_null(yeruka_data_field, Yeruka_data, {'Yeruka': yeruka_data_field})
+#
+#         yeruka2_data_field = self.get_object().status_cheshbonit_yeruka2
+#         yeruka2_data = self.check_for_null(yeruka2_data_field, Yeruka2_data, {'Yeruka2': yeruka2_data_field})
+#
+#         to_data_field = self.get_object().To
+#         to_data = self.check_for_null_returns_string(to_data_field, To_data, {'To': to_data_field})
+#
+#         from_data_field = self.get_object().From
+#         from_data = self.check_for_null_returns_string(from_data_field, From_data, {'From': from_data_field})
+#
+#         car_data_field = self.get_object().Type_of_car
+#         car_data = self.check_for_null(car_data_field, Car_data, {'Car': car_data_field})
+#
+#         flight_data_field = self.get_object().Flight_num
+#         flight_data = self.check_for_null_returns_string(flight_data_field, Flight_data, {'Flight': flight_data_field})
+#         print('initail flight data: ', flight_data)
+#         return {
+#             'Customer': customer,
+#             'Driver_name': driver,
+#             'Provider': provider,
+#             'Type_of_service': service_data,
+#             'Status': status_data,
+#             'status_cheshbonit_yeruka1': yeruka_data,
+#             'status_cheshbonit_yeruka2': yeruka2_data,
+#             'To': to_data,
+#             'From': from_data,
+#             'Type_of_car': car_data,
+#             'Flight_num': flight_data
+#         }
 
 def upload_file(request):
     if request.method == 'POST':

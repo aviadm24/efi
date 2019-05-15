@@ -2,7 +2,7 @@
 //"tbody tr td:nth-child(26),td:nth-child(27),td:nth-child(28),td:nth-child(29),td:nth-child(30),td:nth-child(31),td:nth-child(32),td:nth-child(33),td:nth-child(34),td:nth-child(35)"
 
 var counter = 0;
-$('#mainlist').find('.Cost_per_client, .Cost_per_provider, .Cost_transfer_client, .Cost_transfer_provider, .Cost_extra_hour_client, .Cost_extra_hour_provider, .Cost_VIP_client, .Cost_VIP_provider, .shonot_client, .shonot_provider').bind("contextmenu",function(e) {
+$('#mainlist tbody tr').find('.Cost_per_client, .Cost_per_provider, .Cost_transfer_client, .Cost_transfer_provider, .Cost_extra_hour_client, .Cost_extra_hour_provider, .Cost_VIP_client, .Cost_VIP_provider, .Cost_shonot_client, .Cost_shonot_provider').bind("contextmenu",function(e) {
 //    console.log('left click !')
     var dollar_mode = $('#dollar_mode').prop('checked')
     if (dollar_mode){
@@ -67,10 +67,12 @@ $('#mainlist').find('.Cost_per_client, .Cost_per_provider, .Cost_transfer_client
                 case 2:
                     var added_text = shekel();
                     $(this).text(added_text)
+                    console.log('text: '+ added_text)
                     break;
                 case 3:
                     var added_text = euro();
                     $(this).text(added_text)
+                    console.log('text: '+ added_text)
                     counter=0;
                     break;
                 }
@@ -79,71 +81,71 @@ $('#mainlist').find('.Cost_per_client, .Cost_per_provider, .Cost_transfer_client
 
             function dollar(){
                 if (text.includes('₪')){
-                    var new_text = text.replace('₪','');
+                    var new_text = '$'+ text.replace('₪','');
                 }else if (text.includes('$')){
-                    var new_text = text.replace('$','');
+                    var new_text = '$'+ text.replace('$','');
                 }else{
-                    var new_text = text.replace('€','');
+                    var new_text = '$'+ text.replace('€','');
                 }
-                var int_to_save_in_db = parseInt(new_text)+ '33'
+//                var int_to_save_in_db = parseInt(new_text)+ '33'
 
                 $.ajax({
                     url: '/ajax/add_dollar/',
                     data: {
                       'id': id,
                       'td_id': td_id,
-                      'new_int':int_to_save_in_db
+                      'new_int':new_text
                     },
                     dataType: 'json',
                     });
-                return '$'+ new_text
+                return new_text
             };
 
             function shekel(){
                 if (text.includes('₪')){
-                    var new_text = text.replace('₪','');
+                    var new_text = '₪'+ text.replace('₪','');
                 }else if (text.includes('$')){
-                    var new_text = text.replace('$','');
+                    var new_text = '₪'+ text.replace('$','');
                 }else{
-                    var new_text = text.replace('€','');
+                    var new_text = '₪'+ text.replace('€','');
                 }
-                var int_to_save_in_db = parseInt(new_text+ '34')
-                console.log('int_to_save_in db:'+ int_to_save_in_db)
-                $(this).text('₪'+ new_text);
+//                var int_to_save_in_db = parseInt(new_text+ '34')
+//                console.log('int_to_save_in db:'+ int_to_save_in_db)
+//                $(this).text('₪'+ new_text);
                 $.ajax({
                     url: '/ajax/add_shekel/',
                     data: {
                       'id': id,
                       'td_id': td_id,
-                      'new_int':int_to_save_in_db
+                      'new_int':new_text
                     },
                     dataType: 'json',
                     });
-                return '₪'+ new_text
+                return new_text
             };
 
             function euro(){
                 if (text.includes('₪')){
-                    var new_text = text.replace('₪','');
+                    var new_text = '€'+ text.replace('₪','');
                 }else if (text.includes('$')){
-                    var new_text = text.replace('$','');
+                    var new_text = '€'+ text.replace('$','');
                 }else{
-                    var new_text = text.replace('€','');
+                    var new_text = '€'+ text.replace('€','');
                 }
-                var int_to_save_in_db = parseInt(new_text+ '35')
+                //var int_to_save_in_db = parseInt(new_text+ '35')
                 //console.log('int_to_save_in db:'+ int_to_save_in_db)
-                $(this).text('€'+ new_text);
+//                $(this).text('€'+ new_text);
                 console.log('new_text:'+ $(this).text())
                 $.ajax({
                     url: '/ajax/add_euro/',
                     data: {
                       'id': id,
                       'td_id': td_id,
-                      'new_int':int_to_save_in_db
+                      'new_int':new_text
                     },
                     dataType: 'json',
                     });
-                return '€'+ new_text
+                return new_text
             };
 
             $("#sum_list_client td, #sum_list_provider td").each(function() {
@@ -174,21 +176,24 @@ $(document).ready(function () {
 
     $('.Cost_per_client, .Cost_per_provider, .Cost_transfer_client, .Cost_transfer_provider, .Cost_extra_hour_client, .Cost_extra_hour_provider, .Cost_VIP_client, .Cost_VIP_provider, .shonot_client, .shonot_provider').each(function () {
         var from_db = $(this).text();
+        if ( from_db.includes('$') || from_db.includes('€') || from_db.includes('₪') ){
+        }else{
+            var doll_or_shek = from_db % 100;
+            var new_var = (from_db/100).toFixed(0)
 
-        var doll_or_shek = from_db % 100;
-        var new_var = (from_db/100).toFixed(0)
-
-        if (from_db != '—' && doll_or_shek==33 || doll_or_shek==34 || doll_or_shek==35){
-//            console.log('from_db '+ from_db)
-//            console.log('new var: '+ new_var)
-            if (doll_or_shek == 33){
-                $(this).text('$'+ new_var);
-            }else if (doll_or_shek == 34){
-                $(this).text('₪'+ new_var);
-            }else{
-                $(this).text('€'+ new_var);
+            if (from_db != '—' && doll_or_shek==33 || doll_or_shek==34 || doll_or_shek==35){
+    //            console.log('from_db '+ from_db)
+    //            console.log('new var: '+ new_var)
+                if (doll_or_shek == 33){
+                    $(this).text('$'+ new_var);
+                }else if (doll_or_shek == 34){
+                    $(this).text('₪'+ new_var);
+                }else{
+                    $(this).text('€'+ new_var);
+                }
             }
         }
+
 
     });
 });
@@ -235,7 +240,7 @@ function DoSubmit(){
                 $(this).val(from.replace('₪','')+'34');
             }else if (from.includes('$')){
                 $(this).val(from.replace('$','')+'33');
-            }else if (from.includes('$')){
+            }else if (from.includes('€')){
                 $(this).val(from.replace('€','')+'35');
             }
 

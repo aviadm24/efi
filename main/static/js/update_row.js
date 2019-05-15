@@ -170,6 +170,12 @@ function update_row(){
             }
         }else{
             var new_value = $("#clo_"+td_id).val();
+            if (td_id.includes('Cost')){
+                    if ( new_value.includes('$') || new_value.includes('€') || new_value.includes('₪') ){
+                    }else{
+                        new_value = '$'+new_value;
+                    }
+                }
         }
 
     }
@@ -182,7 +188,7 @@ function update_row(){
           'td_id': td_id,
         },
         dataType: 'json',
-        success: function(response){alert('row was updated');},
+//        success: function(response){alert('row was updated');},
         error:function(){alert('row was not updated!');}
         });
     if (td_id.includes('highlight')){

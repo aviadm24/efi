@@ -39,7 +39,9 @@ table = $('#mainlist').DataTable({
                 dom: 'Bfrtip',
                 buttons: ['excel'],
                 // https://datatables.net/forums/discussion/44588/hidden-fields-need-to-be-export-into-excel
+
                 // "buttons": [ { extend: 'csv', text: 'CSV', exportOptions: { modifier: { search: 'applied' }}}, { extend: 'excel', text: 'Excel', exportOptions: { modifier: { search: 'applied' }}}, { extend: 'pdf', text: 'PDF', exportOptions: { modifier: { search: 'applied' }}}, { extend: 'print', text: 'Print visible', exportOptions: { modifier: { search: 'applied' }}} ]
+
 //                "buttons": [{ extend: 'excel', text: 'Excel', exportOptions: { modifier: { search: 'applied' },
 //                                                                                columns: '.exported',
 //                                                                                format: {
@@ -50,6 +52,7 @@ table = $('#mainlist').DataTable({
 //                        data;
 //                }}
 //                }}]
+
 //              "iDisplayLength": -1,
 //              "aLengthMenu": [[ 25, 50, 100,500,1000,-1], [25, 50,100,500,1000, "All"]],
               });
@@ -124,6 +127,8 @@ function customer_filter() {
 
     var customer = $('#customer').val()
     console.log('Customer:' + customer)
+
+
     $.fn.dataTable.ext.search.push(
        function(settings, data, dataIndex) {
           var dataLabel = table
@@ -136,19 +141,44 @@ function customer_filter() {
           return dataLabel  == customer;
        }
     );
+    table.draw();
+    table.destroy();
+//    $('#mainlist').find('td').not('.Extra_hours_provider, .Based_on_provider, .Extra_KM_provider, .Cost_per_provider, .Cost_transfer_provider, .Cost_extra_hour_provider, .Cost_VIP_provider, .Cost_shonot_provider').addClass('exported');
+    table = $('#mainlist').DataTable({
+              paging: false,
+              "order": [[ 5, "asc"], [12, "asc"]],
+              "createdRow": function ( row, data, index ) {
+                    var today = moment().format('MM/DD/YYYY');
+                    if ( data[5]==today) {
+                        $('td', row).addClass('highlight');
+                    }
+                },
+                dom: 'Bfrtip',
+//                https://www.datatables.net/forums/discussion/38301/export-to-excel-only-visible-columns-not-working
+                "buttons": [{ extend: 'excel', text: 'Excel', exportOptions: {columns: ':visible'}}],
+                "columnDefs": [
+                    {
+                        "targets": [ 16,17,18,19,20,21,22,23,24,25,26,27,28,30,32,34,36,38 ],
+                        "visible": false,
+                        "searchable": false
+                    },
+//                    {
+//                        "targets": [ 3 ],
+//                        "visible": false
+//                    }
+                ]
+              });
 
 //    var columns = table.columns(1);
 //    console.log('column: '+ column)
 //    columns.visible( ! column.visible() );
 
-    table.draw();
+
 
     // delete unwanted td's
-    $('#mainlist').find('.Extra_hours_provider, .Based_on_provider, .Extra_KM_provider, .Cost_per_provider, .Cost_transfer_provider, .Cost_extra_hour_provider, .Cost_VIP_provider, .shonot_provider').hide();
-    $('#mainlist').find('td').not('.Extra_hours_provider, .Based_on_provider, .Extra_KM_provider, .Cost_per_provider, .Cost_transfer_provider, .Cost_extra_hour_provider, .Cost_VIP_provider, .shonot_provider').addClass('exported');
+//    $('#mainlist').find('.Extra_hours_provider, .Based_on_provider, .Extra_KM_provider, .Cost_per_provider, .Cost_transfer_provider, .Cost_extra_hour_provider, .Cost_VIP_provider, .Cost_shonot_provider').hide();
+
     $('#sum_list_provider').hide()
-//    $('#mainlist').find('thead tr th:nth-child(15),th:nth-child(16),th:nth-child(17),th:nth-child(18),th:nth-child(19),th:nth-child(20),th:nth-child(23),th:nth-child(24),th:nth-child(27),th:nth-child(29),th:nth-child(31),th:nth-child(33),th:nth-child(35)').hide();
-//    $('#mainlist').find('tbody tr td:nth-child(15),td:nth-child(16),td:nth-child(17),td:nth-child(18),td:nth-child(19),td:nth-child(20),td:nth-child(23),td:nth-child(24),td:nth-child(27),td:nth-child(29),td:nth-child(31),td:nth-child(33),td:nth-child(35)').hide();
 
     update_sum_table()
     sum_sum_list()
@@ -171,10 +201,31 @@ function provider_filter() {
        }
     );
     table.draw();
+    table.destroy();
+    table = $('#mainlist').DataTable({
+              paging: false,
+              "order": [[ 5, "asc"], [12, "asc"]],
+              "createdRow": function ( row, data, index ) {
+                    var today = moment().format('MM/DD/YYYY');
+                    if ( data[5]==today) {
+                        $('td', row).addClass('highlight');
+                    }
+                },
+                dom: 'Bfrtip',
+                "buttons": [{ extend: 'excel', text: 'Excel', exportOptions: {columns: ':visible'}}],
+                "columnDefs": [
+                    {
+                        "targets": [ 0,1,2,3,4,17,18,19,20,21,22,23,24,25,26,27,28,29,31,33,35,37 ],
+//                        "targets": 'Cost_shonot_client',
 
+                        "visible": false,
+                        "searchable": false
+                    },
+                ]
+              });
     // delete unwanted td's
 
-    $('#mainlist').find('.Extra_hours_client, .Based_on_client, .Extra_KM_client, .Cost_per_client, .Cost_transfer_client, .Cost_extra_hour_client, .Cost_VIP_client, .shonot_client').hide();
+//    $('#mainlist').find('.Extra_hours_client, .Based_on_client, .Extra_KM_client, .Cost_per_client, .Cost_transfer_client, .Cost_extra_hour_client, .Cost_VIP_client, .Cost_shonot_client').hide();
     $('#sum_list_client').hide()
     update_sum_table()
     sum_sum_list()
