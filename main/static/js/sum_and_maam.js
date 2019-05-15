@@ -51,7 +51,7 @@ function sum_price(cla){
                         }
                 }
             }else{
-                var value = $(this).val();
+                var value = $(this).text();
                 console.log('value: '+ value)
                 if (value.includes('₪')){
                     new_value = parseInt(value.replace('₪',''));
