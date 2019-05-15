@@ -51,7 +51,8 @@ function sum_price(cla){
                         }
                 }
             }else{
-                var value = $(this).text();
+                var value = $(this).val();
+                console.log('value: '+ value)
                 if (value.includes('₪')){
                     new_value = parseInt(value.replace('₪',''));
                     sum_shekel += new_value;
