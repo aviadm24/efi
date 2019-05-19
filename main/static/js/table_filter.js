@@ -64,29 +64,23 @@ table = $('#mainlist').DataTable({
 
 
 
-function update_sum_table(){
-    $("#sum_list_client td, #sum_list_provider td").each(function() {
-        var id = $(this).attr("id");
-        var [sum_dollar,sum_shekel,sum_euro] = sum_price(id);
-        if (id == 'hakol_client'){
-            console.log('UPDATE sum table called')
-            console.log('check: '+[sum_dollar,sum_shekel,sum_euro])
-        }
-
-        $("#"+id).html('$'+sum_dollar+'<br/>'+'₪'+sum_shekel+'<br/>'+'€'+sum_euro)
-    });
-}
-
-
-$(document).ready(function() {
-    update_sum_table()
-//    $("#sum_list td").each(function() {
+//function update_sum_table(){
+//    $("#sum_list_client td, #sum_list_provider td").each(function() {
 //        var id = $(this).attr("id");
 //        var [sum_dollar,sum_shekel,sum_euro] = sum_price(id);
-//        console.log()
+//        if (id == 'hakol_client'){
+//            console.log('UPDATE sum table called')
+//            console.log('check: '+[sum_dollar,sum_shekel,sum_euro])
+//        }
+//
 //        $("#"+id).html('$'+sum_dollar+'<br/>'+'₪'+sum_shekel+'<br/>'+'€'+sum_euro)
 //    });
-});
+//}
+//
+//
+//$(document).ready(function() {
+//    update_sum_table()
+//});
 
 function project_filter() {
     var project_num = $('#p_num').val()
@@ -158,9 +152,9 @@ function customer_filter() {
                 "buttons": [{ extend: 'excel', text: 'Excel', exportOptions: {columns: ':visible'}}],
                 "columnDefs": [
                     {
-                        "targets": [ 16,17,18,19,20,21,22,23,24,25,26,27,28,30,32,34,36,38 ],
+                        "targets": [ 16,17,18,19,20,21,23,24,25,26,27,28,30,32,34,36,38 ],
                         "visible": false,
-                        "searchable": false
+                        "searchable": true
                     },
 //                    {
 //                        "targets": [ 3 ],
@@ -177,7 +171,7 @@ function customer_filter() {
 
     // delete unwanted td's
 //    $('#mainlist').find('.Extra_hours_provider, .Based_on_provider, .Extra_KM_provider, .Cost_per_provider, .Cost_transfer_provider, .Cost_extra_hour_provider, .Cost_VIP_provider, .Cost_shonot_provider').hide();
-
+    $('#mainlist').find('.Extra_hours_provider, .Extra_hours_client').hide();
     $('#sum_list_provider').hide()
 
     update_sum_table()
@@ -215,7 +209,7 @@ function provider_filter() {
                 "buttons": [{ extend: 'excel', text: 'Excel', exportOptions: {columns: ':visible'}}],
                 "columnDefs": [
                     {
-                        "targets": [ 0,1,2,3,4,17,18,19,20,21,22,23,24,25,26,27,28,29,31,33,35,37 ],
+                        "targets": [ 0,1,2,3,4,17,18,19,20,21,22,23,25,26,27,28,29,31,33,35,37 ],
 //                        "targets": 'Cost_shonot_client',
 
                         "visible": false,
@@ -226,6 +220,7 @@ function provider_filter() {
     // delete unwanted td's
 
 //    $('#mainlist').find('.Extra_hours_client, .Based_on_client, .Extra_KM_client, .Cost_per_client, .Cost_transfer_client, .Cost_extra_hour_client, .Cost_VIP_client, .Cost_shonot_client').hide();
+    $('#mainlist').find('.Extra_hours_provider, .Extra_hours_client').hide();
     $('#sum_list_client').hide()
     update_sum_table()
     sum_sum_list()

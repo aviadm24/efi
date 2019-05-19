@@ -14,10 +14,11 @@ function sum_price(cla){
         if (row_status == 'cancled' || row_status == 'Cancled'){}else{
 
             if (cla == 'Cost_extra_hour_client'){
-                var cost_extra =  parseFloat($(this).closest('tr').find('.Extra_hours_client').text());
-    //            console.log('cost_extra: '+ cost_extra)
+                var cost_extra =  parseFloat($(this).closest('tr').find('.Extra_hours_client').html());
+//                var cost_extra =  parseFloat($(this).closest('tr').find('.Extra_hours_client:hidden').html());
+//                console.log('cost_extra client: '+ cost_extra)
                 if(cost_extra>0){
-//                    console.log('cost_extra: '+ cost_extra)
+                    console.log('cost_extra2: '+ cost_extra)
                     var value = $(this).text();
                         if (value.includes('₪')){
                             new_value = parseInt(value.replace('₪',''));
@@ -25,16 +26,18 @@ function sum_price(cla){
                         }else if (value.includes('$')){
                             new_value = parseInt(value.replace('$',''));
                             sum_dollar += new_value*cost_extra;
-//                            console.log('sum_dollar: '+ sum_dollar)
+
                         }else if (value.includes('€')){
                             new_value = parseInt(value.replace('€',''));
                             sum_euro += new_value*cost_extra;
+                            console.log('sum_euro: '+ sum_euro)
                         }else{
                             new_value = parseInt(value);
                         }
                 }
             }else if(cla == 'Cost_extra_hour_provider'){
                 var cost_extra =  parseFloat($(this).closest('tr').find('.Extra_hours_provider').text());
+                console.log('cost_extra provider: '+ cost_extra)
                 if(cost_extra>0){
                     var value = $(this).text();
                         if (value.includes('₪')){
@@ -52,7 +55,7 @@ function sum_price(cla){
                 }
             }else{
                 var value = $(this).text();
-                console.log('value: '+ value)
+//                console.log('value: '+ value)
                 if (value.includes('₪')){
                     new_value = parseInt(value.replace('₪',''));
                     sum_shekel += new_value;
@@ -71,6 +74,23 @@ function sum_price(cla){
     return [sum_dollar,sum_shekel,sum_euro]
 }
 
+function update_sum_table(){
+    $("#sum_list_client td, #sum_list_provider td").each(function() {
+        var id = $(this).attr("id");
+        var [sum_dollar,sum_shekel,sum_euro] = sum_price(id);
+        if (id == 'hakol_client'){
+            console.log('UPDATE sum table called')
+            console.log('check: '+[sum_dollar,sum_shekel,sum_euro])
+        }
+
+        $("#"+id).html('$'+sum_dollar+'<br/>'+'₪'+sum_shekel+'<br/>'+'€'+sum_euro)
+    });
+}
+
+
+$(document).ready(function() {
+    update_sum_table()
+});
 
 function sum_sum_list(){
 //    console.log( 'sum sum list called!')
