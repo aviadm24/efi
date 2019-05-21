@@ -190,7 +190,8 @@ function provider_filter() {
               .to$()
               .find('td.Provider')
               .text();
-          //console.log('data label:'+dataLabel)
+          console.log('data label:'+dataLabel)
+          console.log('provider == datalable:'+provider==dataLabel)
           return dataLabel  == provider;
        }
     );

@@ -37,7 +37,7 @@ function sum_price(cla){
                 }
             }else if(cla == 'Cost_extra_hour_provider'){
                 var cost_extra =  parseFloat($(this).closest('tr').find('.Extra_hours_provider').text());
-                console.log('cost_extra provider: '+ cost_extra)
+//                console.log('cost_extra provider: '+ cost_extra)
                 if(cost_extra>0){
                     var value = $(this).text();
                         if (value.includes('₪')){
