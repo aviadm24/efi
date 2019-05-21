@@ -178,6 +178,17 @@ function customer_filter() {
     sum_sum_list()
 }
 
+function only_difference_is_space(label, name){
+    console.log(label.length)
+    console.log(name.length)
+    label = label.trim();
+    name = name.trim();
+    if (label==name){
+        return true
+    }
+}
+
+
 function provider_filter() {
 
     var provider = $('#provider').val()
@@ -191,8 +202,11 @@ function provider_filter() {
               .find('td.Provider')
               .text();
           console.log('data label:'+dataLabel)
-          console.log('provider == datalable:'+provider==dataLabel)
-          return dataLabel  == provider;
+          console.log('provider == datalable:')
+          console.log(provider==dataLabel)
+          console.log(only_difference_is_space(dataLabel, provider))
+//          return dataLabel  == provider;
+          return only_difference_is_space(dataLabel, provider);
        }
     );
     table.draw();
@@ -210,14 +224,13 @@ function provider_filter() {
                 "buttons": [{ extend: 'excel', text: 'Excel', exportOptions: {columns: ':visible'}}],
                 "columnDefs": [
                     {
-                        "targets": [ 0,1,2,3,4,17,18,19,20,21,22,23,25,26,27,28,29,31,33,35,37 ],
-//                        "targets": 'Cost_shonot_client',
-
+                        "targets": [ 0,2,3,4,17,18,19,20,21,22,23,25,26,27,28,29,31,33,35,37 ],
                         "visible": false,
-                        "searchable": false
+                        "searchable": true
                     },
                 ]
               });
+
     // delete unwanted td's
 
 //    $('#mainlist').find('.Extra_hours_client, .Based_on_client, .Extra_KM_client, .Cost_per_client, .Cost_transfer_client, .Cost_extra_hour_client, .Cost_VIP_client, .Cost_shonot_client').hide();
