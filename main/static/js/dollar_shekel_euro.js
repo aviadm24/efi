@@ -191,36 +191,25 @@ $(document).ready(function () {
                 }else{
                     $(this).text('€'+ new_var);
                 }
+            }else{
+//                $(this).text('$'+ from_db);
             }
         }
 
 
     });
 });
-// for update view!
-//$(document).ready(function () {
-//
-//    $('.currency_sign').each(function () {
-//        var from_db = $(this).val();
-////        console.log('from_db '+ from_db)
-//        var doll_or_shek = from_db % 100;
-//        var new_var = (from_db/100).toFixed(0)
-//
-//        if (from_db != '—' && doll_or_shek==33 || doll_or_shek==34 || doll_or_shek==35){
-//            console.log('doll_or_shek '+ doll_or_shek)
-//
-//            if (doll_or_shek == 33){
-//                $(this).val('$'+ new_var.toString());
-//            }else if (doll_or_shek == 34){
-//                console.log('new var: '+ '₪'+ new_var.toString())
-//                $(this).val('₪'+ new_var.toString());
-//            }else{
-//                $(this).val('€'+ new_var.toString());
-//            }
-//        }
-//
-//    });
-//});
+
+$(document).ready(function () {
+
+    $('.currency_sign').change(function () {
+        var from_input = $(this).val();
+        console.log('from_input '+ from_input)
+        $(this).val('$'+ from_input.toString());
+        });
+
+});
+
 
 //var myform = $('#update_form');
 //myform.onsubmit = function(){

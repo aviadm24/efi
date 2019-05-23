@@ -12,6 +12,7 @@ from django.http import JsonResponse
 from itertools import chain
 import json
 import csv
+import openpyxl
 # from io import StringIO
 import io
 from django.db import IntegrityError
@@ -767,7 +768,7 @@ def upload_file(request):
                         # except IntegrityError:
                         #     print('row: ', row)
                         #     print('IntegrityError: ', row['\ufeffשם ספק'])
-            else:
+            elif csvfile.name == 'csv_coxtumer_data.xlsx':
                 print('file name: ', csvfile.name)
                 file_reader = csv.DictReader(io.StringIO(csvfile.read().decode('utf-8')))
                 for num, row in enumerate(file_reader):
@@ -812,6 +813,76 @@ def upload_file(request):
                             Customer.save()
                         except IntegrityError:
                             print('IntegrityError: ', row['\ufeffשם לקוח'])
+            else:
+                print('file name: ', csvfile.name)
+                # https: // www.pythoncircle.com / post / 591 / how - to - upload - and -process - the - excel - file - in -django /
+                wb = openpyxl.load_workbook(csvfile)
+
+                # getting a particular sheet by name out of many sheets
+                worksheet = wb["Sheet1"]
+                print(worksheet)
+                excel_data = list()
+                # iterating over the rows and
+                # getting value from each cell in row
+
+                # https: // stackoverflow.com / questions / 11464080 / django - model - field - by - variable
+
+                for row_num, row in enumerate(worksheet.iter_rows()):
+                    if row_num == 0:
+                        # get user name
+                        user = row[0].value
+                        print('user: ', user)
+                    elif row_num == 1:
+                        # get and check field names
+                        # https: // stackoverflow.com / questions / 3106295 / django - get - list - of - model - fields
+                        model_field_names = [f.name for f in main_list_model._meta.get_fields()]
+                        uploaded_model_field_names = [upf.value for upf in row]
+                        # print(model_field_names)
+                        # print(uploaded_model_field_names)
+                        # print(model_field_names==uploaded_model_field_names)
+                    else:
+                        row_data = list()
+                        row_id = row[0].value
+                        model_instance, created = main_list_model.objects.get_or_create(pk=row_id)
+                        for cell_num, cell in enumerate(row):
+                            cell_val = str(cell.value)
+                            if cell_num == 0:
+                                # row_id = cell_val
+                                pass
+                            else:
+                                if cell_val == '—':
+                                    cell_val = None
+
+                                # model_instance, created = main_list_model.objects.get_or_create(pk=row_id)
+                                model_field = model_field_names[cell_num]
+                                if model_field == 'Comments':
+                                    cell_val = ''
+                                if model_field == 'Date':
+                                    try:
+                                        cell_val = datetime.strptime(cell_val, '%m/%d/%Y').strftime('%Y-%m-%d')
+                                    except (ValueError, TypeError) as error:
+                                        print('ValueError: ', cell_val)
+                                        cell_val = None
+
+                                if model_field == 'Flight_shcedule' or 'time' in model_field:
+                                    try:
+                                        cell_val = datetime.strptime(cell_val, '%m/%d/%Y %H:%M').strftime('%Y-%m-%d %H:%M')
+                                    except (ValueError, TypeError) as error:
+                                        print('ValueError: ', cell_val)
+                                        cell_val = None
+
+                                # https: // stackoverflow.com / questions / 21797436 / django - how - to - update - model - field - from -json - data
+
+                                # setattr(model_instance, model_field, cell_val)
+                                model_instance.update_field(model_field, cell_val)
+
+                                print('cell val: ', cell_val)
+                            row_data.append(str(cell.value))
+                        model_instance.save()
+                        excel_data.append(row_data)
+
+                return render(request, 'main/upload.html', {"excel_data": excel_data})
+
             # data = file_reader[0]
 
             # file_reader = csv.reader(csvfile, delimiter=',')

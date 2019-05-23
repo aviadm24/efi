@@ -60,6 +60,13 @@ class main_list_model(models.Model):
 
     Color = models.CharField(max_length=3000, blank=True, null=True)
 
+    def update_field(self, key, value):
+        # This will raise an AttributeError if the key isn't an attribute
+        # of your model
+        # https://stackoverflow.com/questions/21797436/django-how-to-update-model-field-from-json-data
+        getattr(self, key)
+        setattr(self, key, value)
+
     def __str__(self):
         return str(self.Project_num)
 

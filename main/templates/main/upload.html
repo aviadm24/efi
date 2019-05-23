@@ -14,5 +14,16 @@
 
 <h1>read</h1>
 {{row}}
+
+<p></p>
+<hr>
+
+{% for row in excel_data %}
+    {% for cell in row %}
+        {{ cell }}&nbsp;&nbsp;
+    {% endfor %}
+    <br>
+{% endfor %}
+
 </body>
 </html>
