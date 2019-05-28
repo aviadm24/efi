@@ -876,8 +876,9 @@ def upload_file(request):
                                 # setattr(model_instance, model_field, cell_val)
                                 model_instance.update_field(model_field, cell_val)
 
-                                print('cell val: ', cell_val)
+                                # print('cell val: ', cell_val)
                             row_data.append(str(cell.value))
+                        print('row id: ', row_id)
                         model_instance.save()
                         excel_data.append(row_data)
 

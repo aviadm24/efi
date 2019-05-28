@@ -248,12 +248,12 @@ function update_row(){
         });
     }
     if (td_id=='Contact'){
-        var proj_num = $(this).closest('tr').find('.Project_num').text();
+        var proj_num = $('#updating_now').closest('tr').find('.Project_num').text();
         console.log('project num: '+ proj_num)
         $('.Project_num').each( function(){
-            console.log('project nums: '+ $(this).text())
-            if($(this).text()==proj_num){
-            $(this).closest('tr').find('.Contact').text(new_value);
+            console.log('other project num: '+ $(this).text())
+            if($(this).text()== proj_num){
+                $(this).closest('tr').find('.Contact').text(new_value);
             }
         });
     }

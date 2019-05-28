@@ -220,20 +220,20 @@ $(document).ready(function () {
 //});
 //};
 
-function DoSubmit(){
-//    console.log('update_form submit')
-    $('.currency_sign').each(function () {
-        var from = $(this).val();
-//        console.log('from_db '+ from)
-        if (from.includes('₪')){
-                $(this).val(from.replace('₪','')+'34');
-            }else if (from.includes('$')){
-                $(this).val(from.replace('$','')+'33');
-            }else if (from.includes('€')){
-                $(this).val(from.replace('€','')+'35');
-            }
 
-
-    });
-    return true;
-}
+// not used had to do with old update view unused now
+//function DoSubmit(){
+//    $('.currency_sign').each(function () {
+//        var from = $(this).val();
+//        if (from.includes('₪')){
+//                $(this).val(from.replace('₪','')+'34');
+//            }else if (from.includes('$')){
+//                $(this).val(from.replace('$','')+'33');
+//            }else if (from.includes('€')){
+//                $(this).val(from.replace('€','')+'35');
+//            }
+//
+//
+//    });
+//    return true;
+//}

@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>upload</title>
-</head>
-<body>
+{% extends 'main/base.html' %}
+{% block transfer_list %}
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{form}}
@@ -25,5 +20,4 @@
     <br>
 {% endfor %}
 
-</body>
-</html>
+{% endblock %}
