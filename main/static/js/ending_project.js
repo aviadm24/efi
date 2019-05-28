@@ -22,8 +22,11 @@ $(document).ready(function () {
 //    past_projects_set = new Set(past_projects)
 //    var getEntriesArry = past_projects_set.entries();
 //    console.log('past projects: '+getEntriesArry.next().value)
-    console.log('past projects: '+past_projects)
-    alert('projects: ' + past_projects + 'where not closed yet!')
+    console.log('number of past projects: '+past_projects.length)
+    if (past_projects.length > 0){
+        alert('projects: \n' + past_projects + '\nwhere not closed yet!')
+    }
+
 
 
 //    $.ajax({

@@ -7,7 +7,7 @@ from django.urls import reverse
 # python manage.py reset_db
 # heroku pg:reset
 class main_list_model(models.Model):
-    Project_num = models.IntegerField(blank=True, null=True, verbose_name='Project number')
+    Project_num = models.CharField(max_length=100, blank=True, null=True, verbose_name='Project number')
     Customer_num = models.CharField(max_length=100, blank=True, null=True, verbose_name='Customer number')
     Customer = models.CharField(max_length=100, blank=True, null=True, verbose_name='Reference customer')
     Contact = models.CharField(max_length=100, blank=True, null=True)
