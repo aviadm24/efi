@@ -112,7 +112,11 @@ def main_list(request):
     now = timezone.now()
     #  https://stackoverflow.com/questions/7503241/django-models-selecting-single-field
     p_num_list = main_list_model.objects.values_list('Project_num', flat=True)
-    p_num_set = set(p_num_list)
+    try:
+        p_num_set = sorted(set(p_num_list), key=lambda k: int(k))
+    except:
+        p_num_set = set(p_num_list)
+    print('sorted proj num: ', p_num_set)
     # p_num_filterd_list = main_list_model.objects.filter(Date__gte=now).values_list('Project_num', flat=True)
     customer_list = main_list_model.objects.values_list('Customer', flat=True)
     customer_set = set(customer_list)
@@ -206,7 +210,10 @@ def main_list(request):
 
 def whole_list(request):
     p_num_list = main_list_model.objects.values_list('Project_num', flat=True)
-    p_num_set = set(p_num_list)
+    try:
+        p_num_set = sorted(set(p_num_list), key=lambda k: int(k))
+    except:
+        p_num_set = set(p_num_list)
     customer_list = main_list_model.objects.values_list('Customer', flat=True)
     customer_set = set(customer_list)
     provider_list = main_list_model.objects.values_list('Provider', flat=True)
@@ -395,6 +402,11 @@ def add_color_json(request):
 
     return JsonResponse({'is_taken': 'is_taken'})
 
+def end_project_json(request):
+    proj_num = request.GET.get('proj_num')
+    print('changing proj num: ', proj_num)
+    main_list_model.objects.filter(Project_num=proj_num).update(Status='END')
+    return JsonResponse({})
 
 def update_cell_json(request):
     new_value = request.GET.get('new_value')
@@ -850,13 +862,11 @@ def upload_file(request):
                                 # row_id = cell_val
                                 pass
                             else:
+                                model_field = model_field_names[cell_num]
                                 if cell_val == '—':
                                     cell_val = None
-
-                                # model_instance, created = main_list_model.objects.get_or_create(pk=row_id)
-                                model_field = model_field_names[cell_num]
-                                if model_field == 'Comments':
-                                    cell_val = ''
+                                    if model_field == 'Comments':
+                                        cell_val = ''
                                 if model_field == 'Date':
                                     try:
                                         cell_val = datetime.strptime(cell_val, '%m/%d/%Y').strftime('%Y-%m-%d')

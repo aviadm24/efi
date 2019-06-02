@@ -39,6 +39,7 @@ urlpatterns = [
     # path('update_row/<int:pk>', views.update.as_view(), name='update_row'),
 
     url(r'^ajax/update_cell/$', views.update_cell_json, name='update_cell'),
+    url(r'^ajax/end_project/$', views.end_project_json, name='end_project'),
     url(r'^ajax/add_color/$', views.add_color_json, name='add_color'),
     url(r'^ajax/add_dollar/$', views.add_dollar, name='add_dollar'),
     url(r'^ajax/add_shekel/$', views.add_shekel, name='add_shekel'),

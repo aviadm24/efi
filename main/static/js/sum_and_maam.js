@@ -18,7 +18,7 @@ function sum_price(cla){
 //                var cost_extra =  parseFloat($(this).closest('tr').find('.Extra_hours_client:hidden').html());
 //                console.log('cost_extra client: '+ cost_extra)
                 if(cost_extra>0){
-                    console.log('cost_extra2: '+ cost_extra)
+//                    console.log('cost_extra2: '+ cost_extra)
                     var value = $(this).text();
                         if (value.includes('₪')){
                             new_value = parseInt(value.replace('₪',''));
@@ -79,8 +79,8 @@ function update_sum_table(){
         var id = $(this).attr("id");
         var [sum_dollar,sum_shekel,sum_euro] = sum_price(id);
         if (id == 'hakol_client'){
-            console.log('UPDATE sum table called')
-            console.log('check: '+[sum_dollar,sum_shekel,sum_euro])
+//            console.log('UPDATE sum table called')
+//            console.log('check: '+[sum_dollar,sum_shekel,sum_euro])
         }
 
         $("#"+id).html('$'+sum_dollar+'<br/>'+'₪'+sum_shekel+'<br/>'+'€'+sum_euro)

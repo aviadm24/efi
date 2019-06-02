@@ -19,7 +19,8 @@ $(document).on("dblclick", "#mainlist tbody tr td", function(e) {
     $('#new_date_time').hide();
     $('#flight_shcedule_update').hide();
     var id = $(this).closest('tr').find('.id').text();
-    if ($(this).closest('tr').find('.Status').text() == 'Cancled'){
+    var status = $(this).closest('tr').find('.Status').text();
+    if (status == 'Cancled' || status == 'END'){
         alert('אין אפשרות לשנות בשורה זו')
     }else{
 
@@ -166,7 +167,7 @@ function update_row(){
             if (new_value == 'נשלחה הזמנת רכש'){
                 var order_num = $("#id_hazmanat_rechesh").val();
                 console.log('order_num val: '+order_num)
-                new_value = ':נשלחה הזמנת רכש'+'\n'+order_num;
+                new_value = 'נשלחה הזמנת רכש'+'\n'+order_num;
             }
         }else{
             var new_value = $("#clo_"+td_id).val();
@@ -262,7 +263,29 @@ function update_row(){
     $("#special_clone_input").children().hide();
     $('#update_button').hide();
     if (td_id=='Status'){
-        on_cancle()
+        var current_status = $('#updating_now').text();
+        if (current_status == 'Cancled'){
+            on_cancle()
+        }else if(current_status == 'END'){
+            var pastProj = $('#updating_now').closest('tr').find('.Project_num').text();
+//            console.log('END project num: '+ pastProj)
+            $("#m_body").html('do you want to close the whole project: '+pastProj);
+            $('#close_project_select_id').empty();
+            var option = '';
+//            for (var i=0;i<past_projects.length;i++){
+               option += '<option value="'+ pastProj + '">' + pastProj + '</option>';
+//            }
+            $('#close_project_select_id').append(option);
+
+            $("#EndProjModal").modal();
+//            $('#mainlist tbody tr td.Project_num').each(function() {
+//                if ($(this).text() == pastProj){
+//                    $(this).closest('tr').find('.Status').text('END');
+//                    $(this).closest('tr').css('background-color', 'pink');
+//                }
+//            });
+        }
+
     };
 
     start_min_end_func();

@@ -152,7 +152,7 @@ function customer_filter() {
                 "buttons": [{ extend: 'excel', text: 'Excel', exportOptions: {columns: ':visible'}}],
                 "columnDefs": [
                     {
-                        "targets": [ 16,17,18,19,20,21,23,24,25,26,27,28,30,32,34,36,38 ],
+                        "targets": [ 18,20,23,24,25,28,30,32,34,36,38 ],
                         "visible": false,
                         "searchable": true
                     },
@@ -171,7 +171,7 @@ function customer_filter() {
 
     // delete unwanted td's
 //    $('#mainlist').find('.Extra_hours_provider, .Based_on_provider, .Extra_KM_provider, .Cost_per_provider, .Cost_transfer_provider, .Cost_extra_hour_provider, .Cost_VIP_provider, .Cost_shonot_provider').hide();
-    $('#mainlist').find('.Extra_hours_provider, .Extra_hours_client').hide();
+//    $('#mainlist').find('.Extra_hours_provider, .Extra_hours_client').hide();
     $('#sum_list_provider').hide()
 
     update_sum_table()
@@ -224,7 +224,9 @@ function provider_filter() {
                 "buttons": [{ extend: 'excel', text: 'Excel', exportOptions: {columns: ':visible'}}],
                 "columnDefs": [
                     {
-                        "targets": [ 0,2,3,4,17,18,19,20,21,22,23,25,26,27,28,29,31,33,35,37 ],
+                    // there is a problem to hide numbers 0 and 1 in the targets 0 whike make a problem with add_color_json function in views
+                    // 1 will not let to filter with project number
+                        "targets": [ 18,21,22,23,27,29,31,33,35,37 ],
                         "visible": false,
                         "searchable": true
                     },
@@ -234,7 +236,7 @@ function provider_filter() {
     // delete unwanted td's
 
 //    $('#mainlist').find('.Extra_hours_client, .Based_on_client, .Extra_KM_client, .Cost_per_client, .Cost_transfer_client, .Cost_extra_hour_client, .Cost_VIP_client, .Cost_shonot_client').hide();
-    $('#mainlist').find('.Extra_hours_provider, .Extra_hours_client').hide();
+//    $('#mainlist').find('.Extra_hours_provider, .Extra_hours_client').hide();
     $('#sum_list_client').hide()
     update_sum_table()
     sum_sum_list()
