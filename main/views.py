@@ -35,20 +35,14 @@ from django.views.decorators.csrf import csrf_exempt
 BASE_DIR = settings.BASE_DIR
 
 
-def export_csv(request):
-    main_list_resource = main_list_Resource()
-    dataset = main_list_resource.export()
-
-    msg = EmailMessage("caneti", 'test csv attachment', to=['aviadm24@gmail.com'])
-    msg.attach('test.csv', dataset.csv, 'text/csv')
-    msg.content_subtype = "html"
-    msg.send()
-    # response = HttpResponse(dataset.csv, content_type='text/csv')
-
-    # response['Content-Disposition'] = 'attachment; filename="persons.csv"'
-
-    # return response
-    return redirect('/')
+# def export_csv(request):
+#     main_list_resource = main_list_Resource()
+#     dataset = main_list_resource.export()
+#     msg = EmailMessage("caneti", 'test csv attachment', to=['aviadm24@gmail.com'])
+#     msg.attach('test.csv', dataset.csv, 'text/csv')
+#     msg.content_subtype = "html"
+#     msg.send()
+#     return redirect('/')
 
 def send_backup():
     main_list_resource = main_list_Resource()
@@ -58,7 +52,6 @@ def send_backup():
     msg.attach('test.csv', dataset.csv, 'text/csv')
     msg.content_subtype = "html"
     msg.send()
-
 
 
 @csrf_exempt
@@ -76,18 +69,16 @@ def export_table(request):
     return render(request, 'main/send_tables.html', {'mainlist': mainlist, 'sum_list': sum_list})
 
 
-
-def to_send(request):
-    print('to send view')
-    field_names = request.session.get('field_names', '')
-
-    # end_filter = request.session.get('end_filter', '')
-    return render(request, 'main/to_send.html', {'field_names': field_names}) #, 'end_filter': model.query
-
-def table_view(request):
-    table = main_list_Table(main_list_model.objects.all())
-    RequestConfig(request).configure(table)
-    return render(request, 'main/table_view.html', {'table': table})
+# def to_send(request):
+#     print('to send view')
+#     field_names = request.session.get('field_names', '')
+#     # end_filter = request.session.get('end_filter', '')
+#     return render(request, 'main/to_send.html', {'field_names': field_names}) #, 'end_filter': model.query
+#
+# def table_view(request):
+#     table = main_list_Table(main_list_model.objects.all())
+#     RequestConfig(request).configure(table)
+#     return render(request, 'main/table_view.html', {'table': table})
 
 
 def main_list(request):
@@ -218,7 +209,8 @@ def whole_list(request):
     customer_set = set(customer_list)
     provider_list = main_list_model.objects.values_list('Provider', flat=True)
     provider_set = set(provider_list)
-    table_all = main_list_Table(main_list_model.objects.all())
+    # table_all = main_list_Table(main_list_model.objects.all())
+    table_all = main_list_Table(main_list_model.objects.exclude(Status='END'))
     RequestConfig(request, paginate=False).configure(table_all)
     hidden_form = main_list_form()
     date_form = DateForm()
@@ -229,6 +221,30 @@ def whole_list(request):
                                                     'provider_list': provider_set,
                                                     'date_form': date_form})
 
+def ended_projects(request):
+    print('ended projects function')
+    ended_projects_filter = main_list_model.objects.filter(Status='END')
+    p_num_list = ended_projects_filter.values_list('Project_num', flat=True)
+    print('end proj list: ', p_num_list)
+    try:
+        p_num_set = sorted(set(p_num_list), key=lambda k: int(k))
+    except:
+        p_num_set = set(p_num_list)
+    customer_list = ended_projects_filter.values_list('Customer', flat=True)
+    customer_set = set(customer_list)
+    provider_list = ended_projects_filter.values_list('Provider', flat=True)
+    provider_set = set(provider_list)
+    # table_all = main_list_Table(main_list_model.objects.all())
+    table_ended_projects = main_list_Table(ended_projects_filter)
+    RequestConfig(request, paginate=False).configure(table_ended_projects)
+    hidden_form = main_list_form()
+    date_form = DateForm()
+    return render(request, 'main/whole_list.html', {'hidden_form': hidden_form,
+                                                    'table_all': table_ended_projects,
+                                                    'p_num_list': p_num_set,
+                                                    'customer_list': customer_set,
+                                                    'provider_list': provider_set,
+                                                    'date_form': date_form})
 
 
 

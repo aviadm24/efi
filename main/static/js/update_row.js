@@ -10,6 +10,10 @@
 //);
 var td_added_list = []
 $(document).on("dblclick", "#mainlist tbody tr td", function(e) {
+    // get old td value
+    var old_val = $(this).text()
+    console.log('old val: '+old_val)
+    $('#last_val').text(old_val)
     console.log('update function called')
     e.preventDefault();
     $('#clone_input').empty();
@@ -181,6 +185,8 @@ function update_row(){
 
     }
     console.log('new val: '+new_value)
+    if (new_value!='END'){
+
     $.ajax({
         url: '/ajax/update_cell/',
         data: {
@@ -192,6 +198,9 @@ function update_row(){
 //        success: function(response){alert('row was updated');},
         error:function(){alert('row was not updated!');}
         });
+
+    }
+
     if (td_id.includes('highlight')){
         var class_atr = td_id.split(' ')[0];
 
@@ -267,17 +276,22 @@ function update_row(){
         if (current_status == 'Cancled'){
             on_cancle()
         }else if(current_status == 'END'){
+
             var pastProj = $('#updating_now').closest('tr').find('.Project_num').text();
-//            console.log('END project num: '+ pastProj)
-            $("#m_body").html('do you want to close the whole project: '+pastProj);
-            $('#close_project_select_id').empty();
+            console.log('END project num: '+ $('#last_val').html())
+            $("#m_title").html('Are you sure?');
+            $("#m_body").html('changing this cell to "END" means the whole project: '+pastProj+ '\nwill be sent to the "ended projects table" \nand changes will be restricted!');
+            $('#m_select').show();
+            $('#before_update_buttons').hide();
+            $('#update_buttons').show()
+            $('#m_select').empty();
             var option = '';
 //            for (var i=0;i<past_projects.length;i++){
                option += '<option value="'+ pastProj + '">' + pastProj + '</option>';
 //            }
-            $('#close_project_select_id').append(option);
+            $('#m_select').append(option);
 
-            $("#EndProjModal").modal();
+            $("#general_purpose_Modal").modal();
 //            $('#mainlist tbody tr td.Project_num').each(function() {
 //                if ($(this).text() == pastProj){
 //                    $(this).closest('tr').find('.Status').text('END');
@@ -296,3 +310,20 @@ function update_row(){
     sum_sum_list();
 
 }
+
+//$(document).on('change', '#clo_Status', function(){
+//        alert('here');
+//      });
+
+$('.Status').on('change', '#clo_Status', function(){
+    var current_status = $("#clo_Status option:selected").text();
+    console.log('current: '+current_status)
+    if(current_status=='END'){
+        $("#m_title").html('Are you sure?');
+            $("#m_body").html('changing this cell to "END" means the whole project: \nwill be sent to the "ended projects table" \nand changes will be restricted!');
+            $('#m_select').hide();
+            $('#before_update_buttons').show();
+            $('#update_buttons').hide();
+            $("#general_purpose_Modal").modal();
+    }
+});

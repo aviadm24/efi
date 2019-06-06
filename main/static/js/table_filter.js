@@ -32,7 +32,7 @@ table = $('#mainlist').DataTable({
 //                    if ( data[5].replace(/[\$,]/g, '') * 1 > 150000 ) {
 //                        $('td', row).eq(5).addClass('highlight');
 //                    }
-                    if ( data[5]==today) {
+                    if ( data[5]==today && data[20]!= 'Cancled') {
                         $('td', row).addClass('highlight');
                     }
                 },

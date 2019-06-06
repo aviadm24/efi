@@ -74,7 +74,7 @@ class main_list_form(forms.ModelForm):
         self.fields['status_cheshbonit_yeruka1'].label = 'סטטוס חשבונית ירוקה - ספק'
         self.fields['status_cheshbonit_yeruka2'].label = 'סטטוס חשבונית ירוקה - לקוח'
         # https://stackoverflow.com/questions/1513502/django-how-to-format-a-datefields-date-representation
-        self.fields['Project_num'].widget.attrs.update({'style': 'width:100px'})
+        # self.fields['Project_num'].widget.attrs.update({'style': 'width:100px'})
         # self.fields['Flight_shcedule'].widget.attrs.update({'style': 'bgcolor:gray'})
         self.fields['Date'].widget = forms.DateInput(attrs={'id': 'datepicker1'}, format='%A, %B %d %Y')
 
@@ -94,9 +94,9 @@ class main_list_form(forms.ModelForm):
         self.fields['Cost_shonot_provider'].widget.attrs.update({'class': 'currency_sign'})
 
 
-        self.fields['From'].widget.attrs.update({'class': 'form-control'})
-        self.fields['To'].widget.attrs.update({'class': 'js_tags'})
-        self.fields['Flight_num'].widget.attrs.update({'class': 'form-control'})
+        # self.fields['From'].widget.attrs.update({'class': 'form-control'})
+        # self.fields['To'].widget.attrs.update({'class': 'js_tags'})
+        # self.fields['Flight_num'].widget.attrs.update({'class': 'form-control'})
         self.fields['Flight_num'].widget.choices = [(doc, doc) for doc in Flight_data.objects.all()]
         self.fields['From'].widget.choices = [(doc, doc) for doc in From_data.objects.all()]
         self.fields['To'].widget.choices = [(doc, doc) for doc in To_data.objects.all()]

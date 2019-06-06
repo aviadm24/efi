@@ -153,28 +153,8 @@
    </tbody>
 </table>
 
-<div class="modal fade" id="EndProjModal" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">unclosed project</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+{% include 'main/general_purpose_Modal.html' %}
 
-            </div>
-            <div class="modal-body">
-                <div id="m_body"></div>
-                <select id="close_project_select_id">
-                  <option  value="---SELECT---" selected="selected">---SELECT---</option>
-
-                </select>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">no</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="close_project()">yes</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 {% endblock %}
