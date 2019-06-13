@@ -57,7 +57,7 @@ def send_backup():
 @csrf_exempt
 def export_table(request):
     mainlist = request.POST.get('mainlist')
-    print('main list:', type(mainlist))
+    # print('main list:', type(mainlist))
     sum_list = request.POST.get('sum_list')
     mail = request.POST.get('mail')
     content = render_to_string('main/send_tables.html', {'mainlist': mainlist, 'sum_list': sum_list}, request=request)
@@ -101,19 +101,22 @@ def main_list(request):
 
     field_names = [f.name for f in main_list_model._meta.get_fields()]
     now = timezone.now()
+
+    excluded_status_end = main_list_model.objects.exclude(Status='END')
+
     #  https://stackoverflow.com/questions/7503241/django-models-selecting-single-field
-    p_num_list = main_list_model.objects.values_list('Project_num', flat=True)
+    p_num_list = excluded_status_end.values_list('Project_num', flat=True)
     try:
         p_num_set = sorted(set(p_num_list), key=lambda k: int(k))
     except:
         p_num_set = set(p_num_list)
     print('sorted proj num: ', p_num_set)
     # p_num_filterd_list = main_list_model.objects.filter(Date__gte=now).values_list('Project_num', flat=True)
-    customer_list = main_list_model.objects.values_list('Customer', flat=True)
+    customer_list = excluded_status_end.values_list('Customer', flat=True)
     customer_set = set(customer_list)
     # for i in customer_list:
     #     print('customer_list: ', i)
-    provider_list = main_list_model.objects.values_list('Provider', flat=True)
+    provider_list = excluded_status_end.values_list('Provider', flat=True)
     provider_set = set(provider_list)
     last_month = datetime.today() - timedelta(days=30)
     today = datetime.today() - timedelta(days=1)
@@ -200,14 +203,16 @@ def main_list(request):
                                                               'date_form': date_form})
 
 def whole_list(request):
-    p_num_list = main_list_model.objects.values_list('Project_num', flat=True)
+    excluded_status_end = main_list_model.objects.exclude(Status='END')
+    p_num_list = excluded_status_end.values_list('Project_num', flat=True)
     try:
         p_num_set = sorted(set(p_num_list), key=lambda k: int(k))
     except:
         p_num_set = set(p_num_list)
-    customer_list = main_list_model.objects.values_list('Customer', flat=True)
+    print(p_num_set)
+    customer_list = excluded_status_end.values_list('Customer', flat=True)
     customer_set = set(customer_list)
-    provider_list = main_list_model.objects.values_list('Provider', flat=True)
+    provider_list = excluded_status_end.values_list('Provider', flat=True)
     provider_set = set(provider_list)
     # table_all = main_list_Table(main_list_model.objects.all())
     table_all = main_list_Table(main_list_model.objects.exclude(Status='END'))
@@ -488,14 +493,14 @@ def update_cell_json(request):
             driver_data, created = Driver_data.objects.get_or_create(Driver=new_value)
             if created:
                 messages.success(request, 'Your Driver_data was successfully created!')
-        if td_id == 'status_cheshbonit_yeruka1':
-            main_list_model.objects.filter(pk=id).update(status_cheshbonit_yeruka1=new_value)
+        if td_id == 'Provider_status':
+            main_list_model.objects.filter(pk=id).update(Provider_status=new_value)
         if td_id == 'Comments':
             main_list_model.objects.filter(pk=id).update(Comments=new_value)
         if td_id == 'Status':
             main_list_model.objects.filter(pk=id).update(Status=new_value)
-        if td_id == 'status_cheshbonit_yeruka2':
-            main_list_model.objects.filter(pk=id).update(status_cheshbonit_yeruka2=new_value)
+        if td_id == 'Client_status':
+            main_list_model.objects.filter(pk=id).update(Client_status=new_value)
 
         if td_id == 'Extra_hours_client':
             main_list_model.objects.filter(pk=id).update(Extra_hours_client=new_value)

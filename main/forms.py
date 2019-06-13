@@ -28,8 +28,8 @@ class main_list_form(forms.ModelForm):
     Flight_num = forms.CharField(widget=forms.Select(), required=False, initial='')
     # Provider = forms.ModelChoiceField(queryset=Provider_data.objects.all(), required=False)
     Status = forms.ModelChoiceField(queryset=Status_data.objects.all(), required=False)
-    status_cheshbonit_yeruka1 = forms.ModelChoiceField(queryset=Yeruka_data.objects.all(), required=False)
-    status_cheshbonit_yeruka2 = forms.ModelChoiceField(queryset=Yeruka2_data.objects.all(), required=False)
+    Provider_status = forms.ModelChoiceField(queryset=Yeruka_data.objects.all(), required=False)
+    Client_status = forms.ModelChoiceField(queryset=Yeruka2_data.objects.all(), required=False)
     # To = forms.ModelChoiceField(queryset=To_data.objects.all(), required=False)
     # To = forms.CharField(widget=forms.Select(choices=[(doc, doc) for doc in To_data.objects.all()]), required=False)
 
@@ -55,7 +55,7 @@ class main_list_form(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(main_list_form, self).__init__(*args, **kwargs)
         # self.fields['Project_num'].label = 'Project Number'
-        self.fields['Customer'].label = 'Refernce custumer'
+        self.fields['Customer'].label = 'Client Reference Number'
         self.fields['Customer'].widget.attrs.update({'class': 'js_tags'})
         self.fields['Luggage'].label = 'Number of PAX & Luggage'
         # self.fields['Start_time'].label = 'Start_time'
@@ -71,8 +71,8 @@ class main_list_form(forms.ModelForm):
         self.fields['Cost_shonot_client'].label = 'מחיר שונות ללקוח'
         self.fields['Cost_shonot_provider'].label = 'מחיר שונות לספק'
 
-        self.fields['status_cheshbonit_yeruka1'].label = 'סטטוס חשבונית ירוקה - ספק'
-        self.fields['status_cheshbonit_yeruka2'].label = 'סטטוס חשבונית ירוקה - לקוח'
+        self.fields['Provider_status'].label = 'Provider status'
+        self.fields['Client_status'].label = 'Client status'
         # https://stackoverflow.com/questions/1513502/django-how-to-format-a-datefields-date-representation
         # self.fields['Project_num'].widget.attrs.update({'style': 'width:100px'})
         # self.fields['Flight_shcedule'].widget.attrs.update({'style': 'bgcolor:gray'})

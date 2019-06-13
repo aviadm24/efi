@@ -128,6 +128,9 @@ $(document).on("dblclick", "#mainlist tbody tr td", function(e) {
         //Set the ID and Name
         clo.attr("id", "clo_"+td_id);
         clo.attr("name", "clo");
+        if(td_id == 'Comments'){
+            clo.text(old_val);
+        }
         var clone_button = $('#update_button').clone();
         $(this).append(clo)
         $(this).append(clone_button)
@@ -146,14 +149,34 @@ $(document).on("dblclick", "#mainlist tbody tr td", function(e) {
 
 //$('#clo_status_cheshbonit_yeruka1').on("change", function () {
 //https://stackoverflow.com/questions/18746381/dynamically-created-select-menu-on-change-not-working
-$(document).on("change", '#clo_status_cheshbonit_yeruka1', function () {
-    var new_value = $("#clo_status_cheshbonit_yeruka1 option:selected").text()
+$(document).on("change", '#clo_Provider_status', function () {
+    var new_value = $("#clo_Provider_status option:selected").text()
     if (new_value == 'נשלחה הזמנת רכש'){
         alert('צריך לקלוט מספר הזמנת רכש')
         var html = '<input id="id_hazmanat_rechesh" type="text" />';
         $('#updating_now').append(html);
     }
 });
+
+$(document).on("change", '#clo_Client_status', function () {
+    var new_value = $("#clo_Client_status option:selected").text()
+    if (new_value == 'נשלחה חשבונית מס'){
+        alert('צריך לקלוט מספר חשבונית לכל הפרוייקט')
+        var html = '<input id="id_cheshbonit" type="text" />';
+        $('#updating_now').append(html);
+    }
+});
+
+function change_for_all_project_rows(class_name, new_val){
+    var proj_num = $('#updating_now').closest('tr').find('.Project_num').text();
+//    console.log('project num: '+ proj_num)
+    $('.Project_num').each( function(){
+//        console.log('other project num: '+ $(this).text())
+        if($(this).text()== proj_num){
+            $(this).closest('tr').find('.'+class_name).text(new_val);
+        }
+    });
+}
 
 function update_row(){
     var id = $('#row_id').val();
@@ -172,6 +195,11 @@ function update_row(){
                 var order_num = $("#id_hazmanat_rechesh").val();
                 console.log('order_num val: '+order_num)
                 new_value = 'נשלחה הזמנת רכש'+'\n'+order_num;
+            }else if(new_value == 'נשלחה חשבונית מס'){
+                var cheshbonit_num = $("#id_cheshbonit").val();
+                console.log('cheshbonit_num val: '+cheshbonit_num)
+                new_value = 'נשלחה חשבונית מס'+'\n'+cheshbonit_num;
+                change_for_all_project_rows('Client_status', new_value)
             }
         }else{
             var new_value = $("#clo_"+td_id).val();
@@ -270,36 +298,42 @@ function update_row(){
     $('#new_value').val('');
     $("#clone_input").empty();
     $("#special_clone_input").children().hide();
-    $('#update_button').hide();
+
     if (td_id=='Status'){
         var current_status = $('#updating_now').text();
         if (current_status == 'Cancled'){
             on_cancle()
         }else if(current_status == 'END'){
+            var status_check = check_status();
+            var past_proj_with_invoice = status_check.past_projects_with_invoice;
+            console.log('past_proj_with_invoice: '+past_proj_with_invoice)
 
             var pastProj = $('#updating_now').closest('tr').find('.Project_num').text();
-            console.log('END project num: '+ $('#last_val').html())
-            $("#m_title").html('Are you sure?');
-            $("#m_body").html('changing this cell to "END" means the whole project: '+pastProj+ '\nwill be sent to the "ended projects table" \nand changes will be restricted!');
-            $('#m_select').show();
-            $('#before_update_buttons').hide();
-            $('#update_buttons').show()
-            $('#m_select').empty();
-            var option = '';
-//            for (var i=0;i<past_projects.length;i++){
-               option += '<option value="'+ pastProj + '">' + pastProj + '</option>';
-//            }
-            $('#m_select').append(option);
+            if (in_array(pastProj, past_proj_with_invoice)){
+                $("#m_title").html('Are you sure?');
+                $("#m_body").html('changing this cell to "END" means the whole project: '+pastProj+ '\nwill be sent to the "ended projects table" \nand changes will be restricted!');
+                $('#m_select').show();
+                $('#before_update_buttons').hide();
+                $('#update_buttons').show()
+                $('#m_select').empty();
+                var option = '';
+                   option += '<option value="'+ pastProj + '">' + pastProj + '</option>';
+                $('#m_select').append(option);
 
-            $("#general_purpose_Modal").modal();
-//            $('#mainlist tbody tr td.Project_num').each(function() {
-//                if ($(this).text() == pastProj){
-//                    $(this).closest('tr').find('.Status').text('END');
-//                    $(this).closest('tr').css('background-color', 'pink');
-//                }
-//            });
+                $("#general_purpose_Modal").modal();
+            }else{
+                $('#m_select').empty();
+                $("#m_body").html('projects: \n' + past_projects + '\n can not be changed to END until invoice will be sent');
+                $('#m_select').hide();
+                $('#before_update_buttons').show();
+                $('#update_buttons').hide()
+                $("#general_purpose_Modal").modal();
+
+                var old_val = $('#last_val').html();
+                console.log('old_val: '+ old_val);
+                $('#updating_now').text(old_val);
+            }
         }
-
     };
 
     start_min_end_func();
@@ -311,9 +345,6 @@ function update_row(){
 
 }
 
-//$(document).on('change', '#clo_Status', function(){
-//        alert('here');
-//      });
 
 $('.Status').on('change', '#clo_Status', function(){
     var current_status = $("#clo_Status option:selected").text();

@@ -32,11 +32,11 @@ class main_list_model(models.Model):
 
     Provider = models.CharField(max_length=100, blank=True, null=True)
     Driver_name = models.CharField(max_length=100, blank=True, null=True)
-    status_cheshbonit_yeruka1 = models.CharField(max_length=100, blank=True, null=True,
+    Provider_status = models.CharField(max_length=100, blank=True, null=True,
                                                  verbose_name='Status חשבונית ירוקה')  # new
     Comments = models.TextField(blank=True)
     Status = models.CharField(max_length=100, blank=True, null=True)
-    status_cheshbonit_yeruka2 = models.CharField(max_length=100, blank=True, null=True,
+    Client_status = models.CharField(max_length=100, blank=True, null=True,
                                                  verbose_name='Status חשבונית ירוקה')  # new
     Extra_hours_client = models.IntegerField(null=True, blank=True)
     Based_on_client = models.IntegerField(blank=True, null=True)
