@@ -8,7 +8,7 @@ from django.urls import reverse
 # heroku pg:reset
 class main_list_model(models.Model):
     Project_num = models.CharField(max_length=100, blank=True, null=True, verbose_name='Project number')
-    Customer_num = models.CharField(max_length=100, blank=True, null=True, verbose_name='Customer number')
+    Customer_num = models.CharField(max_length=100, blank=True, null=True, verbose_name='Client Reference Number')
     Customer = models.CharField(max_length=100, blank=True, null=True, verbose_name='Reference customer')
     Contact = models.CharField(max_length=100, blank=True, null=True)
     Date = models.DateField(blank=True, null=True)
@@ -33,11 +33,11 @@ class main_list_model(models.Model):
     Provider = models.CharField(max_length=100, blank=True, null=True)
     Driver_name = models.CharField(max_length=100, blank=True, null=True)
     Provider_status = models.CharField(max_length=100, blank=True, null=True,
-                                                 verbose_name='Status חשבונית ירוקה')  # new
+                                       verbose_name='Status Provider')  # new
     Comments = models.TextField(blank=True)
-    Status = models.CharField(max_length=100, blank=True, null=True)
+    Status = models.CharField(max_length=100, blank=True, null=True, verbose_name='Project Status')
     Client_status = models.CharField(max_length=100, blank=True, null=True,
-                                                 verbose_name='Status חשבונית ירוקה')  # new
+                                     verbose_name='Status Client')  # new
     Extra_hours_client = models.IntegerField(null=True, blank=True)
     Based_on_client = models.IntegerField(blank=True, null=True)
     Extra_hours_provider = models.IntegerField(null=True, blank=True)

@@ -152,7 +152,7 @@ function customer_filter() {
                 "buttons": [{ extend: 'excel', text: 'Excel', exportOptions: {columns: ':visible'}}],
                 "columnDefs": [
                     {
-                        "targets": [ 18,20,23,24,25,28,30,32,34,36,38 ],
+                        "targets": [ 16,18,20,23,24,25,28,30,32,34,36,38 ],
                         "visible": false,
                         "searchable": true
                     },
