@@ -1,4 +1,25 @@
 
+//var editor; // use a global for the submit and return data rendering in the examples
+//
+//$(document).ready(function() {
+//    editor = new $.fn.dataTable.Editor( {
+//        table: '#mainlist',
+//        fields: [ {
+//                label: 'Date:',
+//                name:  'Date',
+//                type:  'date',
+//                def:   function () { return new Date(); },
+//                format: 'D MMM YYYY',
+//                fieldInfo: 'Euro style date with 24 hour clock',
+//                opts: {
+//                    hoursAvailable: [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ],
+//                    minutesAvailable: [ 5, 10, 20, 25, 26, 45 ]
+//                }
+//            }
+//        ]
+//    } );
+
+
 $(document).ready(function () {
 
     $('.Cost_per_client, .Cost_per_provider, .Cost_transfer_client, .Cost_transfer_provider, .Cost_extra_hour_client, .Cost_extra_hour_provider, .Cost_VIP_client, .Cost_VIP_provider, .shonot_client, .shonot_provider').each(function () {
