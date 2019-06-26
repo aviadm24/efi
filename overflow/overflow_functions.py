@@ -21,3 +21,128 @@ class Migration(migrations.Migration):
             new_name='Provider_status',
         ),
     ]
+
+# def add_color(request):
+#     color = request.GET.get('color')
+#     if color == '':
+#         pass
+#     else:
+#         id = request.GET.get('id')
+#         td_id = request.GET.get('td_id')
+#         text_color = request.GET.get('text_color')
+#         print('text_color: ', text_color)
+#
+#         old_color = main_list_model.objects.filter(pk=id)
+#         old_color_data = old_color.values()[0]['Color']
+#         if old_color_data == None:
+#             old_color_data = ''
+#         print('old_color: ', old_color_data)
+#
+#         if text_color == 'true':
+#             main_list_model.objects.filter(pk=id).update(Color=old_color_data + td_id + '-' + color + '-' + text_color + '^')
+#             print('new text color: ', td_id + '-' + color + '-' + text_color + '^')
+#         else:
+#             main_list_model.objects.filter(pk=id).update(Color=old_color_data + td_id + '-' + color + '^')
+#             print('new color: ', td_id + '-' + color + '-' + '^')
+#
+#     return JsonResponse({'is_taken': 'is_taken'})
+
+# class update(UpdateView):
+#     model = main_list_model
+#     form_class = main_list_form_update
+#     # fields = '__all__'
+#     success_url = reverse_lazy('main_list')
+#     template_name_suffix = '_update_form'
+#
+#     # def form_valid(self, form):
+#     #   pass
+#
+#     def get_form_kwargs(self):
+#         kwargs = super(update, self).get_form_kwargs()
+#
+#         if 'data' in kwargs.keys():
+#             print('kwargs: ', kwargs['data'].keys())
+#             for key in kwargs['data'].keys():
+#                 if key == 'Flight_num':
+#                     if Flight_data.objects.filter(Flight=kwargs['data'][key]).exists():
+#                         pass
+#                     else:
+#                         print('creat in kwargs: ', kwargs['data'][key])
+#                         f = Flight_data.objects.create(Flight=kwargs['data'][key])
+#         return kwargs
+#
+#     def check_for_null(self, field, model, query_dicy=None):
+#         if field:
+#             return model.objects.get(**query_dicy).pk
+#         else:
+#             return '-'
+#
+#     def check_for_null_returns_string(self, field, model, query_dicy=None):
+#         if field:
+#             return model.objects.get(**query_dicy)
+#         else:
+#             return '-'
+#
+#     def get_initial(self):
+#         if self.get_object().Customer != None:
+#             customer = Customer_data.objects.get(Customer_name=self.get_object().Customer).pk
+#         else:
+#             customer = '-'
+#
+#         driver_field = self.get_object().Driver_name
+#         driver = self.check_for_null(driver_field, Driver_data, {'Driver': driver_field})
+#
+#         provider_field = self.get_object().Provider
+#         provider = self.check_for_null(provider_field, Provider_data, {'Provider_name': provider_field})
+#
+#         service_data_field = self.get_object().Type_of_service
+#         service_data = self.check_for_null(service_data_field, Service_data, {'Service': service_data_field})
+#
+#         status_data_field = self.get_object().Status
+#         status_data = self.check_for_null(status_data_field, Status_data, {'Status': status_data_field})
+#
+#         yeruka_data_field = self.get_object().status_cheshbonit_yeruka1
+#         yeruka_data = self.check_for_null(yeruka_data_field, Yeruka_data, {'Yeruka': yeruka_data_field})
+#
+#         yeruka2_data_field = self.get_object().status_cheshbonit_yeruka2
+#         yeruka2_data = self.check_for_null(yeruka2_data_field, Yeruka2_data, {'Yeruka2': yeruka2_data_field})
+#
+#         to_data_field = self.get_object().To
+#         to_data = self.check_for_null_returns_string(to_data_field, To_data, {'To': to_data_field})
+#
+#         from_data_field = self.get_object().From
+#         from_data = self.check_for_null_returns_string(from_data_field, From_data, {'From': from_data_field})
+#
+#         car_data_field = self.get_object().Type_of_car
+#         car_data = self.check_for_null(car_data_field, Car_data, {'Car': car_data_field})
+#
+#         flight_data_field = self.get_object().Flight_num
+#         flight_data = self.check_for_null_returns_string(flight_data_field, Flight_data, {'Flight': flight_data_field})
+#         print('initail flight data: ', flight_data)
+#         return {
+#             'Customer': customer,
+#             'Driver_name': driver,
+#             'Provider': provider,
+#             'Type_of_service': service_data,
+#             'Status': status_data,
+#             'status_cheshbonit_yeruka1': yeruka_data,
+#             'status_cheshbonit_yeruka2': yeruka2_data,
+#             'To': to_data,
+#             'From': from_data,
+#             'Type_of_car': car_data,
+#             'Flight_num': flight_data
+#         }
+
+
+# def update_row(request):
+#     if request.method == 'POST':
+#         print('update_row - view')
+#         form = main_list_form(request.POST)
+#         if form.is_valid():
+#             print('form pk:', form.pk)
+#             form.save()
+#             messages.success(request, ('Your order was successfully updated!'))
+#             return redirect('add_main_list')
+#         else:
+#             messages.error(request, ('Please correct the error below.'))
+#     return render(request, 'main/main_list_model_form.html')

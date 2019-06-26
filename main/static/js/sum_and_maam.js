@@ -55,7 +55,7 @@ function sum_price(cla){
                 }
             }else{
                 var value = $(this).text();
-//                console.log('value: '+ value)
+
                 if (value.includes('₪')){
                     new_value = parseInt(value.replace('₪',''));
                     sum_shekel += new_value;
@@ -68,6 +68,11 @@ function sum_price(cla){
                 }else{
                     new_value = parseInt(value);
                 }
+//                console.log('sum and maam  - value: '+ new_value)
+//                if (isNaN(new_value)){
+//                    var row_proj_num = $(this).closest('tr').find('.Project_num').text();
+//                    alert('in project number: '+row_proj_num+ 'cell name: '+ cla+'there is a problem with a number')
+//                }
             }
         }
     });

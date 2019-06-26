@@ -4,6 +4,12 @@ from .models import Service_data, Flight_data, Car_data, Provider_data\
                     , From_data, To_data, Yeruka_data, Yeruka2_data
 from import_export import resources
 
+
+class main_list_modelAdmin(admin.ModelAdmin):
+
+    list_display = ('id', 'Project_num', 'Date')
+    search_fields = ('Project_num', 'Date')
+
 admin.site.register(Service_data)
 admin.site.register(Status_data)
 admin.site.register(Car_data)
@@ -11,8 +17,8 @@ admin.site.register(Flight_data)
 admin.site.register(Provider_data)
 admin.site.register(Driver_data)
 admin.site.register(Customer_data)
-admin.site.register(main_list_model)
-
+admin.site.register(main_list_model, main_list_modelAdmin)
+# admin.site.register()
 admin.site.register(From_data)
 admin.site.register(To_data)
 admin.site.register(Yeruka_data)

@@ -42,14 +42,19 @@ $(document).ready(function () {
 
     });
 });
+
 var table = $('#mainlist');
+//https://datatables.net/blog/2014-12-18
+$(document).ready(function() {
+$.fn.dataTable.moment('dddd, MMMM DD, YYYY');
 table = $('#mainlist').DataTable({
               paging: false,
 //              "pageLength": 500,
               "order": [[ 5, "asc"], [12, "asc"]],
               "createdRow": function ( row, data, index ) {
 //                    var today = new Date()
-                    var today = moment().format('MM/DD/YYYY');
+//                    var today = moment().format('MM/DD/YYYY');
+                    var today = moment().format('dddd, MMMM DD, YYYY');
 //                    if ( data[5].replace(/[\$,]/g, '') * 1 > 150000 ) {
 //                        $('td', row).eq(5).addClass('highlight');
 //                    }
@@ -59,6 +64,26 @@ table = $('#mainlist').DataTable({
                 },
                 dom: 'Bfrtip',
                 buttons: ['excel'],
+                columnDefs:[{targets:5, render:function(data){
+                  return moment(data).format('dddd, MMMM DD, YYYY');
+                }}]
+//                columnDefs: [
+////                      { targets: [0, 1], "width": "20%", render: $.fn.dataTable.render.ellipsis(20, false, true) },
+////                      { targets: 2, "width": "33%", render: $.fn.dataTable.render.ellipsis(40, false, true) },
+//                      { targets: 5, render: $.fn.dataTable.render.moment('dddd, MMMM DD, YYYY') },
+////                      { targets: 4, "width": "11%", render: $.fn.dataTable.render.number(',', '.', 0) }
+//                 ]
+//                "columns": [
+//                    {
+//                    "data": "Date",
+//                    "render": function( data, type, row, meta){
+//                                var ThisDate = moment(new Date(data)).format("Do MMM YYYY");
+//                                return ThisDate
+//                                }
+//                    },
+//                    ],
+
+
                 // https://datatables.net/forums/discussion/44588/hidden-fields-need-to-be-export-into-excel
 
                 // "buttons": [ { extend: 'csv', text: 'CSV', exportOptions: { modifier: { search: 'applied' }}}, { extend: 'excel', text: 'Excel', exportOptions: { modifier: { search: 'applied' }}}, { extend: 'pdf', text: 'PDF', exportOptions: { modifier: { search: 'applied' }}}, { extend: 'print', text: 'Print visible', exportOptions: { modifier: { search: 'applied' }}} ]
@@ -77,6 +102,7 @@ table = $('#mainlist').DataTable({
 //              "iDisplayLength": -1,
 //              "aLengthMenu": [[ 25, 50, 100,500,1000,-1], [25, 50,100,500,1000, "All"]],
               });
+} );
 // https://datatables.net/reference/option/pageLength
 // https://stackoverflow.com/questions/9443773/how-to-show-all-rows-by-default-in-jquery-datatable
 //$('#example').dataTable({
