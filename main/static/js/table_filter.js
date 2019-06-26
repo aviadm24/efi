@@ -53,8 +53,8 @@ table = $('#mainlist').DataTable({
               "order": [[ 5, "asc"], [12, "asc"]],
               "createdRow": function ( row, data, index ) {
 //                    var today = new Date()
-//                    var today = moment().format('MM/DD/YYYY');
-                    var today = moment().format('dddd, MMMM DD, YYYY');
+                    var today = moment().format('MM/DD/YYYY');
+//                    var today = moment().format('dddd, MMMM DD, YYYY');
 //                    if ( data[5].replace(/[\$,]/g, '') * 1 > 150000 ) {
 //                        $('td', row).eq(5).addClass('highlight');
 //                    }
@@ -64,9 +64,11 @@ table = $('#mainlist').DataTable({
                 },
                 dom: 'Bfrtip',
                 buttons: ['excel'],
-                columnDefs:[{targets:5, render:function(data){
-                  return moment(data).format('dddd, MMMM DD, YYYY');
-                }}]
+//                columnDefs:[{targets:5, render:function(data){
+//                  return moment(data).format('dddd, MMMM DD, YYYY');
+//                }}]
+
+
 //                columnDefs: [
 ////                      { targets: [0, 1], "width": "20%", render: $.fn.dataTable.render.ellipsis(20, false, true) },
 ////                      { targets: 2, "width": "33%", render: $.fn.dataTable.render.ellipsis(40, false, true) },

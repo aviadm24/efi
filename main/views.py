@@ -103,20 +103,21 @@ def main_list(request):
     now = timezone.now()
 
     excluded_status_end = main_list_model.objects.exclude(Status='END')
+    excluded_status_end_and_past = excluded_status_end.exclude(Status='Past')
 
     #  https://stackoverflow.com/questions/7503241/django-models-selecting-single-field
-    p_num_list = excluded_status_end.values_list('Project_num', flat=True)
+    p_num_list = excluded_status_end_and_past.values_list('Project_num', flat=True)
     try:
         p_num_set = sorted(set(p_num_list), key=lambda k: int(k))
     except:
         p_num_set = set(p_num_list)
     print('sorted proj num: ', p_num_set)
     # p_num_filterd_list = main_list_model.objects.filter(Date__gte=now).values_list('Project_num', flat=True)
-    customer_list = excluded_status_end.values_list('Customer', flat=True)
+    customer_list = excluded_status_end_and_past.values_list('Customer', flat=True)
     customer_set = set(customer_list)
     # for i in customer_list:
     #     print('customer_list: ', i)
-    provider_list = excluded_status_end.values_list('Provider', flat=True)
+    provider_list = excluded_status_end_and_past.values_list('Provider', flat=True)
     provider_set = set(provider_list)
     last_month = datetime.today() - timedelta(days=30)
     today = datetime.today() - timedelta(days=1)
