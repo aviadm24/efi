@@ -204,8 +204,8 @@ def main_list(request):
                                                               'date_form': date_form})
 
 def whole_list(request):
-    excluded_status_end = main_list_model.objects.exclude(Status='END')
-    excluded_status_end_and_past = excluded_status_end.exclude(Status='Past')
+    excluded_status_end = main_list_model.objects.exclude(Status__contains='END')
+    excluded_status_end_and_past = excluded_status_end.exclude(Status__contains='Past')
     p_num_list = excluded_status_end_and_past.values_list('Project_num', flat=True)
     try:
         p_num_set = sorted(set(p_num_list), key=lambda k: int(k))
@@ -233,7 +233,7 @@ def whole_list(request):
 def staged_projects(request):
     print('stage_ended projects function')
     # staged_projects_filter = main_list_model.objects.filter(Client_status__contains='נשלחה חשבונית מס')
-    staged_projects_filter = main_list_model.objects.filter(Status='Past')
+    staged_projects_filter = main_list_model.objects.filter(Status__contains='Past')
     p_num_list = staged_projects_filter.values_list('Project_num', flat=True)
     print('end proj list: ', p_num_list)
     try:
@@ -259,7 +259,7 @@ def staged_projects(request):
 
 def ended_projects(request):
     print('ended projects function')
-    ended_projects_filter = main_list_model.objects.filter(Status='END')
+    ended_projects_filter = main_list_model.objects.filter(Status__contains='END')
     p_num_list = ended_projects_filter.values_list('Project_num', flat=True)
     print('end proj list: ', p_num_list)
     try:

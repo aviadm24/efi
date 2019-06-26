@@ -14,8 +14,15 @@ function close_project(proj_num){
         });
     $('#mainlist tbody tr td.Project_num').each(function() {
         if ($(this).text() == proj_num){
-            $(this).closest('tr').find('.Status').text('END');
-            $(this).closest('tr').css('background-color', 'pink');
+            var status = $(this).closest('tr').find('.Status').text();
+            if (status.includes('Cancled')||status.includes('Canceled')){
+                $(this).closest('tr').find('.Status').text('END - Canceled');
+                $(this).closest('tr').css('background-color', 'pink');
+            }else{
+                $(this).closest('tr').find('.Status').text('END');
+                $(this).closest('tr').css('background-color', 'pink');
+            }
+
         }
     });
     // remove projects from select
@@ -39,8 +46,15 @@ function stage_project(past_projects){
         });
     $('#mainlist tbody tr td.Project_num').each(function() {
         if (in_array($(this).text(), past_projects)){
-            $(this).closest('tr').find('.Status').text('Past');
-            $(this).closest('tr').css('background-color', 'plum');
+            var status = $(this).closest('tr').find('.Status').text();
+            if (status.includes('Cancled')||status.includes('Canceled')){
+                $(this).closest('tr').find('.Status').text('Past - Canceled');
+                $(this).closest('tr').css('background-color', 'plum');
+            }else{
+                $(this).closest('tr').find('.Status').text('Past');
+                $(this).closest('tr').css('background-color', 'plum');
+            }
+
         }
     });
     // remove projects from select

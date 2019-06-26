@@ -8,7 +8,7 @@ function on_cancle(){
     $("#mainlist").find("td.Status").each(function() { //get all rows in table
         var status = $(this).text();
         //console.log(status)
-        if (status == 'Cancled'|| status == 'cancled'){
+        if (status.includes('Cancled')|| status.includes('cancled')|| status.includes('Canceled')){
             var closest_tr = $(this).closest('tr');
             turn_cost_to_zero(closest_tr);
             closest_tr.css('color', 'red');
@@ -23,7 +23,7 @@ $(document).ready(function () {
     $("#mainlist").find("td.Status").each(function() { //get all rows in table
         var status = $(this).text();
         //console.log(status)
-        if (status == 'Cancled'|| status == 'cancled'){
+        if (status.includes('Cancled')|| status.includes('cancled')|| status.includes('Canceled')){
             var closest_tr = $(this).closest('tr');
             turn_cost_to_zero(closest_tr);
             closest_tr.css('color', 'red');

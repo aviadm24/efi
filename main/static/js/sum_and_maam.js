@@ -11,7 +11,9 @@ function sum_price(cla){
     $("#mainlist td."+cla).each(function() {
         var row_status = $(this).closest('tr').find('.Status').text();
 //        console.log('row status: ' + row_status)
-        if (row_status == 'cancled' || row_status == 'Cancled'){}else{
+        if (row_status.includes('cancled') || row_status.includes('Cancled') || row_status.includes('Canceled')){
+            console.log('row status: ' + row_status)
+        }else{
 
             if (cla == 'Cost_extra_hour_client'){
                 var cost_extra =  parseFloat($(this).closest('tr').find('.Extra_hours_client').html());
