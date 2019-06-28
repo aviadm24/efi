@@ -174,7 +174,7 @@ $('#mainlist tbody tr').find('.Cost_per_client, .Cost_per_provider, .Cost_transf
 
 $(document).ready(function () {
 
-    $('.Cost_per_client, .Cost_per_provider, .Cost_transfer_client, .Cost_transfer_provider, .Cost_extra_hour_client, .Cost_extra_hour_provider, .Cost_VIP_client, .Cost_VIP_provider, .shonot_client, .shonot_provider').each(function () {
+    $('.Cost_per_client, .Cost_per_provider, .Cost_transfer_client, .Cost_transfer_provider, .Cost_extra_hour_client, .Cost_extra_hour_provider, .Cost_VIP_client, .Cost_VIP_provider, .Cost_shonot_client, .Cost_shonot_provider').each(function () {
         var from_db = $(this).text();
         if ( from_db.includes('$') || from_db.includes('€') || from_db.includes('₪') ){
         }else{

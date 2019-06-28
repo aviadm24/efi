@@ -79,14 +79,7 @@ function dont_close_project(){
 //    $('#updating_now').text(old_val)
 //}
 
-function in_array(val, array){
-    var index = array.indexOf(val);
-    if (index > -1){
-        return true
-    }else{
-        return false
-    }
-}
+
 
 function check_status(){
     var today = moment();
