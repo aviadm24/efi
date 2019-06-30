@@ -37,6 +37,8 @@ urlpatterns = [
     url(r'^ajax/stage_project/$', views.stage_project_json, name='stage_project'),
     url(r'^ajax/change_for_all_project_rows/$', views.change_for_all_project_rows, name='change_for_all_project_rows'),
 
+    url(r'^ajax/cancel_currency_fields/$', views.cancel_currency_fields, name='cancel_currency_fields'),
+
     url(r'^ajax/end_project/$', views.end_project_json, name='end_project'),
     url(r'^ajax/add_color/$', views.add_color_json, name='add_color'),
     url(r'^ajax/add_dollar/$', views.add_dollar, name='add_dollar'),

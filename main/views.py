@@ -7,7 +7,7 @@ from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy, reverse
 from django.utils import timezone
 from .models import main_list_model, Provider_data, Customer_data, From_data, To_data, Yeruka2_data, Yeruka_data,\
-    Status_data, Service_data, Car_data, Driver_data, Flight_data
+    Status_data, Service_data, Car_data, Driver_data, Flight_data, Fields_to_cancel
 from django.http import JsonResponse
 from itertools import chain
 import json
@@ -483,6 +483,20 @@ def change_for_all_project_rows(request):
     return JsonResponse({})
 
 
+def cancel_currency_fields(request):
+    # https: // stackoverflow.com / questions / 31795295 / how - to - reference - a - set - of - model - fields - in -django
+    id = request.GET.get('id')
+
+    list_of_fields_to_cancel = Fields_to_cancel.objects.all().values_list('Currency_field', flat=True)
+    model_instance = main_list_model.objects.get(id=id)
+    for Currency_field in list_of_fields_to_cancel:
+        model_instance.update_field(Currency_field, '0')
+        model_instance.save()
+    return JsonResponse({})
+
+
+
+
 def update_cell_json(request):
     new_value = request.GET.get('new_value')
     print('new val', new_value)
@@ -552,7 +566,9 @@ def update_cell_json(request):
         if td_id == 'Comments':
             main_list_model.objects.filter(pk=id).update(Comments=new_value)
         if td_id == 'Status':
+            # print('got status!!!!!!!!!!!!!!!!!!!')
             main_list_model.objects.filter(pk=id).update(Status=new_value)
+            # print(main_list_model.objects.get(pk=id).values())
         if td_id == 'Client_status':
             main_list_model.objects.filter(pk=id).update(Client_status=new_value)
 

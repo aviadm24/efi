@@ -291,8 +291,8 @@ function update_row(){
 
     if (td_id=='Status'){
         var current_status = $('#updating_now').text();
-        if (current_status == 'Cancled'){
-            on_cancle()
+        if (current_status == 'Cancled' || current_status == 'Canceled'){
+            on_cancel(id)
         }else if(current_status == 'END'){
             var status_check = check_status();
             var past_proj_with_invoice = status_check.past_projects_with_invoice;

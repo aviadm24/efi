@@ -20,6 +20,7 @@ class UploadFileForm(forms.Form):
 
 class main_list_form(forms.ModelForm):
     Project_num = forms.CharField(required=True)
+    Date = forms.DateField(required=True)
     Customer = forms.ModelChoiceField(queryset=Customer_data.objects.all(), required=False)
     Type_of_service = forms.ModelChoiceField(queryset=Service_data.objects.all(), required=False)
     Type_of_car = forms.ModelChoiceField(queryset=Car_data.objects.all(), required=False)

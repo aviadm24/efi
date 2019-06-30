@@ -64,6 +64,13 @@ table = $('#mainlist').DataTable({
                 },
                 dom: 'Bfrtip',
                 buttons: ['excel'],
+//                "aoColumnsDefs": [
+//                    { "sClass": "currency", "aTargets": ['Extra_hours_client', 'Based_on_client', 'Extra_KM_client',
+//                     'Cost_per_client', 'Cost_transfer_client', 'Cost_extra_hour_client', 'Cost_VIP_client',
+//                     'Cost_shonot_client', 'Extra_hours_provider', 'Based_on_provider', 'Extra_KM_provider',
+//                      'Cost_per_provider', 'Cost_transfer_provider', 'Cost_extra_hour_provider', 'Cost_VIP_provider',
+//                       'Cost_shonot_provider'] }
+//                ]
 //                columnDefs:[{targets:5, render:function(data){
 //                  return moment(data).format('dddd, MMMM DD, YYYY');
 //                }}]
@@ -275,7 +282,7 @@ function provider_filter() {
                     {
                     // there is a problem to hide numbers 0 and 1 in the targets 0 whike make a problem with add_color_json function in views
                     // 1 will not let to filter with project number
-                        "targets": [ 18,21,22,23,27,29,31,33,35,37 ],
+                        "targets": [ 21,22,23,27,29,31,33,35,37 ],
                         "visible": false,
                         "searchable": true
                     },

@@ -194,3 +194,9 @@ class From_data(models.Model):
     def __str__(self):
         return self.From
 
+
+class Fields_to_cancel(models.Model):
+    Currency_field = models.CharField(max_length=256, blank=True, unique=True)
+
+    def __str__(self):
+        return self.Currency_field
