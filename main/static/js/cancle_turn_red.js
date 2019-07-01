@@ -42,3 +42,16 @@ $(document).ready(function () {
         }
     });
 });
+
+$(document).ready(function () {
+    console.log('new cancel function')
+    $("#mainlist").find("td.Status").each(function() { //get all rows in table
+        var status = $(this).text();
+        //console.log(status)
+        if (status.includes('Cancled')|| status.includes('cancled')|| status.includes('Canceled')){
+            var id = $(this).closest('tr').find('.id').text();
+            console.log('id to cancel: '+id)
+            on_cancel(id)
+        }
+    });
+});

@@ -64,13 +64,6 @@ table = $('#mainlist').DataTable({
                 },
                 dom: 'Bfrtip',
                 buttons: ['excel'],
-//                "aoColumnsDefs": [
-//                    { "sClass": "currency", "aTargets": ['Extra_hours_client', 'Based_on_client', 'Extra_KM_client',
-//                     'Cost_per_client', 'Cost_transfer_client', 'Cost_extra_hour_client', 'Cost_VIP_client',
-//                     'Cost_shonot_client', 'Extra_hours_provider', 'Based_on_provider', 'Extra_KM_provider',
-//                      'Cost_per_provider', 'Cost_transfer_provider', 'Cost_extra_hour_provider', 'Cost_VIP_provider',
-//                       'Cost_shonot_provider'] }
-//                ]
                 columnDefs:[{targets:5, render:function(data){
                   return moment(data).format('dddd, MMMM DD, YYYY');
                 }}]

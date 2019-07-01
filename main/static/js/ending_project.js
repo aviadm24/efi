@@ -44,10 +44,13 @@ function stage_project(past_projects){
 //        success: function(response){alert('project staged');},
         error:function(){alert('projects was not staged!');}
         });
+//    var canceled_proj = [];
     $('#mainlist tbody tr td.Project_num').each(function() {
         if (in_array($(this).text(), past_projects)){
             var status = $(this).closest('tr').find('.Status').text();
+            var id = $(this).closest('tr').find('.id').text();
             if (status.includes('Cancled')||status.includes('Canceled')){
+//                canceled_proj.push(id);
                 $(this).closest('tr').find('.Status').text('Past - Canceled');
                 $(this).closest('tr').css('background-color', 'plum');
             }else{

@@ -6,6 +6,9 @@ from django.urls import reverse
 #https://stackoverflow.com/questions/15454008/how-to-reset-db-in-django-i-get-a-command-reset-not-found-error
 # python manage.py reset_db
 # heroku pg:reset
+
+# backups
+# Asia/Jerusalem
 class main_list_model(models.Model):
     Project_num = models.CharField(max_length=100, blank=True, null=True, verbose_name='Project number')
     Customer_num = models.CharField(max_length=100, blank=True, null=True, verbose_name='Client Reference Number')
@@ -38,10 +41,10 @@ class main_list_model(models.Model):
     Status = models.CharField(max_length=100, blank=True, null=True, verbose_name='Project Status')
     Client_status = models.CharField(max_length=100, blank=True, null=True,
                                      verbose_name='Status Client')  # new
-    Extra_hours_client = models.IntegerField(null=True, blank=True)
-    Based_on_client = models.IntegerField(blank=True, null=True)
-    Extra_hours_provider = models.IntegerField(null=True, blank=True)
-    Based_on_provider = models.IntegerField(blank=True, null=True)  # , default='09:00'
+    Extra_hours_client = models.FloatField(null=True, blank=True)
+    Based_on_client = models.FloatField(blank=True, null=True)
+    Extra_hours_provider = models.FloatField(null=True, blank=True)
+    Based_on_provider = models.FloatField(blank=True, null=True)  # , default='09:00'
 
     KM = models.IntegerField(blank=True, null=True)
     Extra_KM_client = models.IntegerField(blank=True, null=True)
@@ -59,6 +62,7 @@ class main_list_model(models.Model):
     Cost_shonot_provider = models.CharField(max_length=100, blank=True, null=True)
 
     Color = models.CharField(max_length=3000, blank=True, null=True)
+    Canceled = models.NullBooleanField(blank=True, null=True)
 
     def update_field(self, key, value):
         # This will raise an AttributeError if the key isn't an attribute

@@ -486,9 +486,13 @@ def change_for_all_project_rows(request):
 def cancel_currency_fields(request):
     # https: // stackoverflow.com / questions / 31795295 / how - to - reference - a - set - of - model - fields - in -django
     id = request.GET.get('id')
-
-    list_of_fields_to_cancel = Fields_to_cancel.objects.all().values_list('Currency_field', flat=True)
     model_instance = main_list_model.objects.get(id=id)
+    print('model field canceled: ', model_instance.Canceled)
+    model_instance.Canceled = True
+    model_instance.save()
+    print('model field canceled: ', model_instance.Canceled)
+    # main_list_model.objects.filter(id=id).update(Canceled=True)
+    list_of_fields_to_cancel = Fields_to_cancel.objects.all().values_list('Currency_field', flat=True)
     for Currency_field in list_of_fields_to_cancel:
         model_instance.update_field(Currency_field, '0')
         model_instance.save()
@@ -836,7 +840,10 @@ def upload_file(request):
                         row_id = row[0].value
                         model_instance, created = main_list_model.objects.get_or_create(pk=row_id)
                         for cell_num, cell in enumerate(row):
-                            cell_val = str(cell.value)
+                            cell_val = cell.value
+                            if type(cell_val) == 'float':
+                                cell_val = int(cell_val)
+
                             if cell_num == 0:
                                 # row_id = cell_val
                                 pass
@@ -846,9 +853,15 @@ def upload_file(request):
                                     cell_val = None
                                     if model_field == 'Comments':
                                         cell_val = ''
+                                elif cell_val == 'NaN':
+                                    cell_val = None
                                 if model_field == 'Date':
                                     try:
-                                        cell_val = datetime.strptime(cell_val, '%m/%d/%Y').strftime('%Y-%m-%d')
+                                        # cell_val = datetime.strptime(cell_val, '%m/%d/%Y').strftime('%Y-%m-%d')
+                                        # 'l, F d, Y'
+                                        # https: // ourcodeworld.com / articles / read / 555 / how - to - format - datetime - objects - in -the - view - and -template - in -django
+                                        cell_val = datetime.strptime(cell_val, '%A, %B %d, %Y').strftime('%Y-%m-%d')
+
                                     except (ValueError, TypeError) as error:
                                         print('ValueError: ', cell_val)
                                         cell_val = None
