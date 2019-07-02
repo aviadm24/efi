@@ -510,7 +510,7 @@ def update_cell_json(request):
         print('id val', id)
         td_id = td_id.split()[0]
         print('td_id val', td_id)
-        data = main_list_model.objects.get(pk=id)
+        model_instance = main_list_model.objects.get(pk=id)
         # td_id_data = data.values()[0][td_id]
 
         if td_id == 'Project_num':
@@ -521,7 +521,7 @@ def update_cell_json(request):
             main_list_model.objects.filter(pk=id).update(Customer=new_value)
         if td_id == 'Contact':
             main_list_model.objects.filter(pk=id).update(Contact=new_value)
-            main_list_model.objects.filter(Project_num=getattr(data, 'Project_num')).update(Contact=new_value)
+            main_list_model.objects.filter(Project_num=getattr(model_instance, 'Project_num')).update(Contact=new_value)
 
         if td_id == 'Date':
             main_list_model.objects.filter(pk=id).update(Date=new_value)
@@ -613,6 +613,13 @@ def update_cell_json(request):
             main_list_model.objects.filter(pk=id).update(Cost_shonot_client=new_value)
         if td_id == 'Cost_shonot_provider':
             main_list_model.objects.filter(pk=id).update(Cost_shonot_provider=new_value)
+        if td_id == 'Canceled':
+            main_list_model.objects.filter(pk=id).update(Canceled=new_value)
+            if new_value == True:
+                list_of_fields_to_cancel = Fields_to_cancel.objects.all().values_list('Currency_field', flat=True)
+                for Currency_field in list_of_fields_to_cancel:
+                    model_instance.update_field(Currency_field, '0')
+                    model_instance.save()
 
     # else:
     #     id = request.GET.get('id')

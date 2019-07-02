@@ -108,7 +108,7 @@ class main_list_form(forms.ModelForm):
         self.fields['Provider'].widget.choices = [(doc, doc) for doc in
                                                      Provider_data.objects.values_list('Provider_name', flat=True)]
         # print('choices= ', [(doc, doc) for doc in To_data.objects.all()])
-        # self.fields['Color'].widget.attrs.update({'class': 'color'})
+        self.fields['Canceled'].widget.choices = [('False', '✘'), ('True', '✔')]
 
     # def clean_Cost_per_client(self):
     #     if self.data['Cost_per_client']:

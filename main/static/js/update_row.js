@@ -180,16 +180,25 @@ function update_row(){
         var new_value = $('#id_flight_shcedule_update').val()
     }else{
         if ($("#clo_"+td_id).is('select')){
-            var new_value = $("#clo_"+td_id+" option:selected").text();
-            if (new_value == 'נשלחה הזמנת רכש'){
-                var order_num = $("#id_hazmanat_rechesh").val();
-                console.log('order_num val: '+order_num)
-                new_value = 'נשלחה הזמנת רכש'+'\n'+order_num;
-            }else if(new_value == 'נשלחה חשבונית מס'){
-                var cheshbonit_num = $("#id_cheshbonit").val();
-                console.log('cheshbonit_num val: '+cheshbonit_num)
-                new_value = 'נשלחה חשבונית מס'+'\n'+cheshbonit_num;
-                change_for_all_project_rows('Client_status', new_value)
+            if (td_id == 'Canceled'){
+                new_value = $("#clo_"+td_id).val();
+                if (new_value == 'True'){
+                    tr_tag = $('#updating_now').closest('tr');
+                    turn_cost_to_zero(tr_tag)
+                }
+            }else{
+                var new_value = $("#clo_"+td_id+" option:selected").text();
+                console.log('select new val: '+new_value)
+                if (new_value == 'נשלחה הזמנת רכש'){
+                    var order_num = $("#id_hazmanat_rechesh").val();
+                    console.log('order_num val: '+order_num)
+                    new_value = 'נשלחה הזמנת רכש'+'\n'+order_num;
+                }else if(new_value == 'נשלחה חשבונית מס'){
+                    var cheshbonit_num = $("#id_cheshbonit").val();
+                    console.log('cheshbonit_num val: '+cheshbonit_num)
+                    new_value = 'נשלחה חשבונית מס'+'\n'+cheshbonit_num;
+                    change_for_all_project_rows('Client_status', new_value)
+                }
             }
         }else{
             var new_value = $("#clo_"+td_id).val();
@@ -219,26 +228,24 @@ function update_row(){
 
     }
 
-    if (td_id.includes('highlight')){
-        var class_atr = td_id.split(' ')[0];
-
-        $('#mainlist tbody tr td.'+class_atr+'.highlight').each(function() {
-//        console.log($(this).text());
-            if($(this).closest('tr').find('.id').text()==id){
-                console.log('changing: '+$(this).text());
-                $(this).text(new_value);
-            }
-        });
-    }else{
-        var class_atr = td_id.split(' ')[0];
-        $('#mainlist tbody tr td.'+class_atr).each(function() {
-//        console.log($(this).text())
-            if($(this).closest('tr').find('.id').text()==id){
+//    if (td_id.includes('highlight')){
+//        var class_atr = td_id.split(' ')[0];
+//        $('#mainlist tbody tr td.'+class_atr+'.highlight').each(function() {
+//            if($(this).closest('tr').find('.id').text()==id){
 //                console.log('changing: '+$(this).text());
-                $(this).text(new_value);
-            }
-        });
-    }
+//                $(this).text(new_value);
+//            }
+//        });
+//    }else{
+//        var class_atr = td_id.split(' ')[0];
+    if (new_value == 'True'){ new_value = '✔'}else{new_value = '✘'}
+    $('#updating_now').text(new_value);
+//        $('#mainlist tbody tr td.'+class_atr).each(function() {
+//            if($(this).closest('tr').find('.id').text()==id){
+//                $(this).text(new_value);
+//            }
+//        });
+//    }
     if (td_id=='KM'){
         $('#mainlist tbody tr td.KM').each( function(){
             var km = parseInt($(this).text());

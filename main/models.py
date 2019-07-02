@@ -63,6 +63,7 @@ class main_list_model(models.Model):
 
     Color = models.CharField(max_length=3000, blank=True, null=True)
     Canceled = models.NullBooleanField(blank=True, null=True)
+    # Canceled = models.BooleanField(default=False)
 
     def update_field(self, key, value):
         # This will raise an AttributeError if the key isn't an attribute
