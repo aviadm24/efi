@@ -238,7 +238,7 @@ function update_row(){
 //        });
 //    }else{
 //        var class_atr = td_id.split(' ')[0];
-    if (new_value == 'True'){ new_value = '✔'}else{new_value = '✘'}
+    if (new_value == 'True'){ new_value = '✔'}else if(new_value == 'False'){new_value = '✘'}
     $('#updating_now').text(new_value);
 //        $('#mainlist tbody tr td.'+class_atr).each(function() {
 //            if($(this).closest('tr').find('.id').text()==id){
