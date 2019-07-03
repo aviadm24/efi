@@ -32,72 +32,76 @@ $(document).ready(function() {
 
 $(document).ready(function () {
 
-    $('table#mainlist tbody tr td').click(function () {
-        //console.log('main list tr')
-        var color = $('#custom').val();
-        var color_method = $('#color_method').prop('checked')
-//        console.log('color_method: '+color_method)
-        var id = $(this).closest('tr').find('.id').text();
-        var td_id = $(this).attr('class');
-        //$('#id_Color').val(color);
-        if (color_method == false){
-                //console.log('color_method false')
-                $.ajax({
-                url: '/ajax/add_color/',
-                data: {
-                  'id': id,
-                  'color': color,
-                  'td_id': td_id,
-                  'text_color': color_method,
-                },
-                dataType: 'json',
-                });
-                $(this).css('background', color);
 
-            }else{
-                //console.log('color_method true')
-                $.ajax({
-                url: '/ajax/add_color/',
-                data: {
-                  'id': id,
-                  'color': color,
-                  'td_id': td_id,
-                  'text_color': color_method,
-                },
-                dataType: 'json',
-                });
-                $(this).css('color', color);
+        $('table#mainlist tbody tr td').click(function () {
+        console.log('checked: '+$('#color_on').prop('checked'))
+        if ($('#color_on').prop('checked')==true){
+            var color = $('#custom').val();
+            var color_method = $('#color_method').prop('checked')
+            console.log('color_method: '+color_method)
+            var id = $(this).closest('tr').find('.id').text();
+            var td_id = $(this).attr('class');
+            //$('#id_Color').val(color);
+            if (color_method == false){
+                    //console.log('color_method false')
+                    $.ajax({
+                    url: '/ajax/add_color/',
+                    data: {
+                      'id': id,
+                      'color': color,
+                      'td_id': td_id,
+                      'text_color': color_method,
+                    },
+                    dataType: 'json',
+                    });
+                    $(this).css('background', color);
 
-            }
+                }else{
+                    //console.log('color_method true')
+                    $.ajax({
+                    url: '/ajax/add_color/',
+                    data: {
+                      'id': id,
+                      'color': color,
+                      'td_id': td_id,
+                      'text_color': color_method,
+                    },
+                    dataType: 'json',
+                    });
+                    $(this).css('color', color);
 
-    });
+                }
+            }else{console.log('color off')}
+        });
 
-    $('td').dblclick(function() {
+        $('td').dblclick(function() {
 //        var color_method = $('#color_method').prop('checked')
-        var id = $(this).closest('tr').find('.id').text();
-        var td_id = $(this).attr('class');
-        $.ajax({
-                url: '/ajax/add_color/',
-                data: {
-                  'id': id,
-                  'color': '',
-                  'td_id': td_id,
-                  'text_color': false,
-                },
-                dataType: 'json',
-                });
-        $(this).css('background', '');
-        $.ajax({
-                url: '/ajax/add_color/',
-                data: {
-                  'id': id,
-                  'color': '',
-                  'td_id': td_id,
-                  'text_color': true,
-                },
-                dataType: 'json',
-                });
-        $(this).css('color', '');
+            if ($('#color_on').prop('checked')==true){
+                    var id = $(this).closest('tr').find('.id').text();
+                    var td_id = $(this).attr('class');
+                    $.ajax({
+                            url: '/ajax/add_color/',
+                            data: {
+                              'id': id,
+                              'color': '',
+                              'td_id': td_id,
+                              'text_color': false,
+                            },
+                            dataType: 'json',
+                            });
+                    $(this).css('background', '');
+                    $.ajax({
+                            url: '/ajax/add_color/',
+                            data: {
+                              'id': id,
+                              'color': '',
+                              'td_id': td_id,
+                              'text_color': true,
+                            },
+                            dataType: 'json',
+                            });
+                    $(this).css('color', '');
+            }
         });
 });
 

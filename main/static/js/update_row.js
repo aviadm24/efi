@@ -11,133 +11,137 @@
 var td_added_list = []
 $(document).on("dblclick", "#mainlist tbody tr td", function(e) {
     // get old td value
-    var old_val = $(this).text()
-    console.log('old val: '+old_val)
-    $('#last_val').text(old_val)
-    console.log('update function called')
-    e.preventDefault();
-    $('#clone_input').empty();
-    $('#update_button').show();
-    $('#update_values').hide();
-    $('#new_date').hide();
-    $('#new_date_time').hide();
-    $('#flight_shcedule_update').hide();
-    var id = $(this).closest('tr').find('.id').text();
-    var status = $(this).closest('tr').find('.Status').text();
-    if (status == 'Cancled' || status == 'END'){
-        alert('אין אפשרות לשנות בשורה זו')
-    }else{
+    if (!$('#color_on').prop('checked')){
+        var old_val = $(this).text()
+        console.log('old val: '+old_val)
+        $('#last_val').text(old_val)
+        console.log('update function called')
+        e.preventDefault();
+        $('#clone_input').empty();
+        $('#update_button').show();
+        $('#update_values').hide();
+        $('#new_date').hide();
+        $('#new_date_time').hide();
+        $('#flight_shcedule_update').hide();
+        var id = $(this).closest('tr').find('.id').text();
+        var canceled = $(this).closest('tr').find('.Canceled').text();
+    //    var status = $(this).closest('tr').find('.Status').text();
+        if (canceled=='✔'){
+            alert('אין אפשרות לשנות בשורה זו')
+        }else{
 
-        var td_id = $(this).attr('class');
-    td_id = td_id.split(' ')[0];
-//    console.log('class:' + td_id);111
-    $('#row_id').val(id);
-    $('#cell_id').val(td_id);
+            var td_id = $(this).attr('class');
+        td_id = td_id.split(' ')[0];
+    //    console.log('class:' + td_id);111
+        $('#row_id').val(id);
+        $('#cell_id').val(td_id);
 
-    if (td_id.includes('time')){
-        $('#updating_now').children().remove();
-        $('#updating_now').removeAttr( "id" );
+        if (td_id.includes('time')){
+            $('#updating_now').children().remove();
+            $('#updating_now').removeAttr( "id" );
 
-        var html =
-        '<div class="input-group date" id="new_date_time" data-target-input="nearest" style="width:220px">'+
-          '<input name="new_date_time" id="id_new_date_time" type="text" class="form-control datetimepicker-input" data-target="#new_date_time"/>'+
-          '<div class="input-group-append" data-target="#new_date_time" data-toggle="datetimepicker">'+
-              '<div class="input-group-text"><i class="fa fa-calendar"></i></div>'+
-          '</div>'+
-        '</div>'
-        $('#new_date_time').datetimepicker('setDate', '04/30/2019');
-//        var clo = $('#new_date_time').clone();
-//        clo.attr("id", "clo_"+td_id);
-        var clone_button = $('#update_button').clone();
-        $(this).append(html)
-        $(this).append(clone_button)
-//        $('#new_date_time').show();
-        $(function () {
-            $('#new_date_time').datetimepicker({
-              format: 'YYYY-MM-DD HH:mm',
-              useCurrent: false
+            var html =
+            '<div class="input-group date" id="new_date_time" data-target-input="nearest" style="width:220px">'+
+              '<input name="new_date_time" id="id_new_date_time" type="text" class="form-control datetimepicker-input" data-target="#new_date_time"/>'+
+              '<div class="input-group-append" data-target="#new_date_time" data-toggle="datetimepicker">'+
+                  '<div class="input-group-text"><i class="fa fa-calendar"></i></div>'+
+              '</div>'+
+            '</div>'
+            $('#new_date_time').datetimepicker('setDate', '04/30/2019');
+    //        var clo = $('#new_date_time').clone();
+    //        clo.attr("id", "clo_"+td_id);
+            var clone_button = $('#update_button').clone();
+            $(this).append(html)
+            $(this).append(clone_button)
+    //        $('#new_date_time').show();
+            $(function () {
+                $('#new_date_time').datetimepicker({
+                  format: 'YYYY-MM-DD HH:mm',
+                  useCurrent: false
+                });
             });
-        });
-        $(this).attr("id", "updating_now");
+            $(this).attr("id", "updating_now");
 
-    }else if(td_id.includes('Date')){
-        $('#updating_now').children().remove();
-        $('#updating_now').removeAttr( "id" );
+        }else if(td_id.includes('Date')){
+            $('#updating_now').children().remove();
+            $('#updating_now').removeAttr( "id" );
 
-        var html =
-        '<div class="input-group date" id="new_date" data-target-input="nearest" style="width:220px">'+
-          '<input name="new_date" id="id_new_date" type="text" class="form-control datetimepicker-input" data-target="#new_date"/>'+
-          '<div class="input-group-append" data-target="#new_date" data-toggle="datetimepicker">'+
-              '<div class="input-group-text"><i class="fa fa-calendar"></i></div>'+
-          '</div>'+
-        '</div>'
-        var clone_button = $('#update_button').clone();
-        $(this).append(html)
-        $(this).append(clone_button)
-        $(function () {
-            $('#new_date').datetimepicker({
-              format: "YYYY-MM-DD",
-              useCurrent: false
+            var html =
+            '<div class="input-group date" id="new_date" data-target-input="nearest" style="width:220px">'+
+              '<input name="new_date" id="id_new_date" type="text" class="form-control datetimepicker-input" data-target="#new_date"/>'+
+              '<div class="input-group-append" data-target="#new_date" data-toggle="datetimepicker">'+
+                  '<div class="input-group-text"><i class="fa fa-calendar"></i></div>'+
+              '</div>'+
+            '</div>'
+            var clone_button = $('#update_button').clone();
+            $(this).append(html)
+            $(this).append(clone_button)
+            $(function () {
+                $('#new_date').datetimepicker({
+                  format: "YYYY-MM-DD",
+                  useCurrent: false
+                });
             });
-        });
-        $(this).attr("id", "updating_now");
+            $(this).attr("id", "updating_now");
 
-    }else if(td_id == 'Flight_shcedule'){
-        $('#updating_now').children().remove();
-        $('#updating_now').removeAttr( "id" );
+        }else if(td_id == 'Flight_shcedule'){
+            $('#updating_now').children().remove();
+            $('#updating_now').removeAttr( "id" );
 
-        var html =
-        '<div class="input-group date" id="flight_shcedule_update" data-target-input="nearest" style="width:120px">'+
-          '<input name="flight_shcedule_update" id="id_flight_shcedule_update" type="text" class="form-control datetimepicker-input" data-target="#flight_shcedule_update"/>'+
-          '<div class="input-group-append" data-target="#flight_shcedule_update" data-toggle="datetimepicker">'+
-              '<div class="input-group-text"><i class="fa fa-calendar"></i></div>'+
-          '</div>'+
-        '</div>'
-        var clone_button = $('#update_button').clone();
-        $(this).append(html)
-        $(this).append(clone_button)
-        $(function () {
-            $('#flight_shcedule_update').datetimepicker({
-              format: 'YYYY-MM-DD HH:mm',
-              useCurrent: false
+            var html =
+            '<div class="input-group date" id="flight_shcedule_update" data-target-input="nearest" style="width:120px">'+
+              '<input name="flight_shcedule_update" id="id_flight_shcedule_update" type="text" class="form-control datetimepicker-input" data-target="#flight_shcedule_update"/>'+
+              '<div class="input-group-append" data-target="#flight_shcedule_update" data-toggle="datetimepicker">'+
+                  '<div class="input-group-text"><i class="fa fa-calendar"></i></div>'+
+              '</div>'+
+            '</div>'
+            var clone_button = $('#update_button').clone();
+            $(this).append(html)
+            $(this).append(clone_button)
+            $(function () {
+                $('#flight_shcedule_update').datetimepicker({
+                  format: 'YYYY-MM-DD HH:mm',
+                  useCurrent: false
+                });
             });
-        });
-        $(this).attr("id", "updating_now");
+            $(this).attr("id", "updating_now");
 
-    }else if(td_id == 'Flight_num'||td_id == 'To'||td_id == 'From'|| td_id == 'Driver_name'|| td_id == 'Provider'){
-        $('#updating_now').children().remove();
-        $('#updating_now').removeAttr( "id" );
-        var clo = $('#id_'+td_id).clone();
-        //Set the ID and Name
-        clo.attr("id", "clo_"+td_id);
-        clo.attr("style", "width:120px;");
+        }else if(td_id == 'Flight_num'||td_id == 'To'||td_id == 'From'|| td_id == 'Driver_name'|| td_id == 'Provider'){
+            $('#updating_now').children().remove();
+            $('#updating_now').removeAttr( "id" );
+            var clo = $('#id_'+td_id).clone();
+            //Set the ID and Name
+            clo.attr("id", "clo_"+td_id);
+            clo.attr("style", "width:120px;");
 
-        var clone_button = $('#update_button').clone();
-        $(this).append(clo);
-        $('#clo_'+td_id).select2({
-              tags: true
-            });
-        $(this).append(clone_button);
-        $(this).attr("id", "updating_now");
+            var clone_button = $('#update_button').clone();
+            $(this).append(clo);
+            $('#clo_'+td_id).select2({
+                  tags: true
+                });
+            $(this).append(clone_button);
+            $(this).attr("id", "updating_now");
 
-    }else{
-        $('#updating_now').children().remove();
-        $('#updating_now').removeAttr( "id" );
+        }else{
+            $('#updating_now').children().remove();
+            $('#updating_now').removeAttr( "id" );
 
-        var clo = $('#id_'+td_id).clone();
-        //Set the ID and Name
-        clo.attr("id", "clo_"+td_id);
-        clo.attr("name", "clo");
-        if(td_id == 'Comments'){
-            clo.text(old_val);
+            var clo = $('#id_'+td_id).clone();
+            //Set the ID and Name
+            clo.attr("id", "clo_"+td_id);
+            clo.attr("name", "clo");
+            if(td_id == 'Comments'){
+                clo.text(old_val);
+            }
+            var clone_button = $('#update_button').clone();
+            $(this).append(clo)
+            $(this).append(clone_button)
+            $(this).attr("id", "updating_now");
+    //        $('#clone_input').append(clo)
+    //        $('#clone_input').css({"border-style": "inset", cursor:"default"});
         }
-        var clone_button = $('#update_button').clone();
-        $(this).append(clo)
-        $(this).append(clone_button)
-        $(this).attr("id", "updating_now");
-//        $('#clone_input').append(clo)
-//        $('#clone_input').css({"border-style": "inset", cursor:"default"});
-    }
+
+        }
 
     }
 
@@ -163,6 +167,10 @@ $(document).on("change", '#clo_Client_status', function () {
     if (new_value == 'נשלחה חשבונית מס'){
         alert('צריך לקלוט מספר חשבונית לכל הפרוייקט')
         var html = '<input id="id_cheshbonit" type="text" />';
+        $('#updating_now').append(html);
+    }else if(new_value.includes('חשבונית עסקה')){
+        alert('צריך לקלוט מספר חשבונית עסקה לכל הפרוייקט')
+        var html = '<input id="id_cheshbonit_iska" type="text" />';
         $('#updating_now').append(html);
     }
 });
@@ -198,6 +206,11 @@ function update_row(){
                     console.log('cheshbonit_num val: '+cheshbonit_num)
                     new_value = 'נשלחה חשבונית מס'+'\n'+cheshbonit_num;
                     change_for_all_project_rows('Client_status', new_value)
+                }else if(new_value.includes('חשבונית עסקה')){
+                    var cheshbonit_iska_num = $("#id_cheshbonit_iska").val();
+                    console.log('cheshbonit_num val: '+cheshbonit_iska_num)
+                    new_value = 'נשלחה חשבונית עסקה מס'+'\n'+cheshbonit_iska_num;
+                    change_for_all_project_rows('Client_status', new_value)
                 }
             }
         }else{
@@ -228,24 +241,9 @@ function update_row(){
 
     }
 
-//    if (td_id.includes('highlight')){
-//        var class_atr = td_id.split(' ')[0];
-//        $('#mainlist tbody tr td.'+class_atr+'.highlight').each(function() {
-//            if($(this).closest('tr').find('.id').text()==id){
-//                console.log('changing: '+$(this).text());
-//                $(this).text(new_value);
-//            }
-//        });
-//    }else{
-//        var class_atr = td_id.split(' ')[0];
     if (new_value == 'True'){ new_value = '✔'}else if(new_value == 'False'){new_value = '✘'}
     $('#updating_now').text(new_value);
-//        $('#mainlist tbody tr td.'+class_atr).each(function() {
-//            if($(this).closest('tr').find('.id').text()==id){
-//                $(this).text(new_value);
-//            }
-//        });
-//    }
+
     if (td_id=='KM'){
         $('#mainlist tbody tr td.KM').each( function(){
             var km = parseInt($(this).text());

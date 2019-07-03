@@ -476,27 +476,29 @@ def change_for_all_project_rows(request):
     proj_num = request.GET.get('proj_num')
     # very important
     # https: // stackoverflow.com / questions / 21797436 / django - how - to - update - model - field - from -json - data
-    model_instances = main_list_model.objects.filter(Project_num=proj_num)
+    model_instances = main_list_model.objects.filter(Project_num=proj_num).exclude(Canceled='True')
+    id_list = []
     for instance in model_instances:
         instance.update_field(class_name, new_val)
         instance.save()
-    return JsonResponse({})
+        id_list.append(instance.id)
+    return JsonResponse({'id_list': id_list})
 
 
-def cancel_currency_fields(request):
-    # https: // stackoverflow.com / questions / 31795295 / how - to - reference - a - set - of - model - fields - in -django
-    id = request.GET.get('id')
-    model_instance = main_list_model.objects.get(id=id)
-    print('model field canceled: ', model_instance.Canceled)
-    model_instance.Canceled = True
-    model_instance.save()
-    print('model field canceled: ', model_instance.Canceled)
-    # main_list_model.objects.filter(id=id).update(Canceled=True)
-    list_of_fields_to_cancel = Fields_to_cancel.objects.all().values_list('Currency_field', flat=True)
-    for Currency_field in list_of_fields_to_cancel:
-        model_instance.update_field(Currency_field, '0')
-        model_instance.save()
-    return JsonResponse({})
+# def cancel_currency_fields(request):
+#     # https: // stackoverflow.com / questions / 31795295 / how - to - reference - a - set - of - model - fields - in -django
+#     id = request.GET.get('id')
+#     model_instance = main_list_model.objects.get(id=id)
+#     print('model field canceled: ', model_instance.Canceled)
+#     model_instance.Canceled = True
+#     model_instance.save()
+#     print('model field canceled: ', model_instance.Canceled)
+#     # main_list_model.objects.filter(id=id).update(Canceled=True)
+#     list_of_fields_to_cancel = Fields_to_cancel.objects.all().values_list('Currency_field', flat=True)
+#     for Currency_field in list_of_fields_to_cancel:
+#         model_instance.update_field(Currency_field, '0')
+#         model_instance.save()
+#     return JsonResponse({})
 
 
 
