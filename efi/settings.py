@@ -30,7 +30,7 @@ SECRET_KEY = 'bjotijs+h#(ew1#+r!+1wj1g11bi3_*zuxfqg)a-h=p46z148+'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['caneti.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['caneti.herokuapp.com', '127.0.0.1', 'scenic-dry-tortugas-44462.herokuapp.com']
 
 
 # Application definition
@@ -178,5 +178,8 @@ else:
     EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
     SENDGRID_API_KEY = os.environ["SENDGRID_API_KEY"]
     SENDGRID_SANDBOX_MODE_IN_DEBUG = False
+
+# new staging env in heroku https://scenic-dry-tortugas-44462.herokuapp.com/ deployed to Heroku
+
 
 LOGIN_REDIRECT_URL = 'main_list'
