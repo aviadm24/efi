@@ -63,7 +63,16 @@ table = $('#mainlist').DataTable({
                     }
                 },
                 dom: 'Bfrtip',
-                buttons: ['excel'],
+//                buttons: ['excel'],
+                buttons: [
+                    {
+                        extend: 'excel',
+                        attr:  {
+                            "title": 'שם לב צריך לעשות ריפרש לטבלה לפני שמורידים אותה לאקסל!',
+                            "data-toggle": 'tooltip'
+                        }
+                    }
+                ],
                 columnDefs:[{targets:5, render:function(data){
                   return moment(data).format('dddd, MMMM DD, YYYY');
                 }}]
