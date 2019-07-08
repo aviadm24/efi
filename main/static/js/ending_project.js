@@ -14,15 +14,8 @@ function close_project(proj_num){
         });
     $('#mainlist tbody tr td.Project_num').each(function() {
         if ($(this).text() == proj_num){
-            var status = $(this).closest('tr').find('.Status').text();
-            if (status.includes('Cancled')||status.includes('Canceled')){
-                $(this).closest('tr').find('.Status').text('END - Canceled');
-                $(this).closest('tr').css('background-color', 'pink');
-            }else{
-                $(this).closest('tr').find('.Status').text('END');
-                $(this).closest('tr').css('background-color', 'pink');
-            }
-
+            $(this).closest('tr').find('.Status').text('END');
+            $(this).closest('tr').css('background-color', 'pink');
         }
     });
     // remove projects from select
@@ -98,15 +91,19 @@ function check_status(){
 
             var hazmanat_rechesh = $(this).closest('tr').find('.Provider_status').text();
             var heshbonit = $(this).closest('tr').find('.Client_status').text();
-            if (hazmanat_rechesh.includes('נשלחה') && heshbonit.startsWith('נשלחה חשבונית מס')){
+            var canceled = $(this).closest('tr').find('.Canceled').text();
+            if (hazmanat_rechesh.includes('נשלחה') && heshbonit.startsWith('נשלחה חשבונית מס') && canceled == '✘'){
 //                console.log('project: '+proj_num)
                 if (!in_array(proj_num, past_projects_with_invoice)){
                   past_projects_with_invoice.push(proj_num);
                 }
             }else{
-                var index = past_projects_with_invoice.indexOf(proj_num);
-                if (index > -1) {
-                  past_projects_with_invoice.splice(index, 1);
+                // important to move to end even if the canceled projects dont have invoice!!
+                if (canceled != '✔'){
+                    var index = past_projects_with_invoice.indexOf(proj_num);
+                    if (index > -1) {
+                      past_projects_with_invoice.splice(index, 1);
+                    }
                 }
             }
 //            console.log('project: '+proj_num)

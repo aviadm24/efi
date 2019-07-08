@@ -820,7 +820,7 @@ def upload_file(request):
             else:
                 print('file name: ', csvfile.name)
                 # https: // www.pythoncircle.com / post / 591 / how - to - upload - and -process - the - excel - file - in -django /
-                wb = openpyxl.load_workbook(csvfile)
+                wb = openpyxl.load_workbook(csvfile, data_only=False)
 
                 # getting a particular sheet by name out of many sheets
                 worksheet = wb["Sheet1"]
@@ -835,6 +835,7 @@ def upload_file(request):
                     if row_num == 0:
                         # get user name
                         user = row[0].value
+                        print('cell dict: ', dir(row[0]))
                         print('user: ', user)
                     elif row_num == 1:
                         # get and check field names
@@ -849,15 +850,28 @@ def upload_file(request):
                         row_id = row[0].value
                         model_instance, created = main_list_model.objects.get_or_create(pk=row_id)
                         for cell_num, cell in enumerate(row):
-                            cell_val = cell.value
-                            if type(cell_val) == 'float':
-                                cell_val = int(cell_val)
+                            cell_val = cell.internal_value
+                            # if type(cell_val) == 'float':
+                            #     cell_val = int(cell_val)
 
                             if cell_num == 0:
-                                # row_id = cell_val
                                 pass
                             else:
                                 model_field = model_field_names[cell_num]
+                                if 'Cost' in model_field:
+                                    if cell.has_style:
+                                        cell_format = cell.number_format
+                                        if type(cell_format) != str:
+                                            print('type: ', type(cell_format))
+                                            cell_format = str(cell_format)
+                                        if '€' in cell_format:
+                                            cell_val = '€'+str(cell_val)
+                                            print('{} : {}'.format(cell_format, cell_val))
+                                        elif '$' in cell_format:
+                                            cell_val = '$'+str(cell_val)
+                                            print('{} : {}'.format(cell_format, cell_val))
+                                # https: // datatables.net / forums / discussion / 46914 / how - do - i - fix - the - dollar - symbol - appearing - at - the - end - of - amounts - in -exported - excel - spreadsheets
+                                # https: // stackoverflow.com / questions / 34652300 / set - openpyxl - cell - format - to - currency
                                 if cell_val == '—':
                                     cell_val = None
                                     if model_field == 'Comments':
@@ -881,14 +895,17 @@ def upload_file(request):
                                     except (ValueError, TypeError) as error:
                                         print('ValueError: ', cell_val)
                                         cell_val = None
+                                if cell_val == '✘':
+                                    cell_val = False
+                                elif cell_val == '✔':
+                                    cell_val = True
 
                                 # https: // stackoverflow.com / questions / 21797436 / django - how - to - update - model - field - from -json - data
-
                                 # setattr(model_instance, model_field, cell_val)
                                 model_instance.update_field(model_field, cell_val)
 
                                 # print('cell val: ', cell_val)
-                            row_data.append(str(cell.value))
+                            row_data.append(str(cell_val))
                         print('row id: ', row_id)
                         model_instance.save()
                         excel_data.append(row_data)
