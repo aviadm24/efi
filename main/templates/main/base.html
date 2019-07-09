@@ -2,7 +2,7 @@
 {% block base %}
 
     <!-- Navigation -->
-    {% include "main\top_navbar.html" %}
+    {% include "main/top_navbar.html" %}
 
     {% if user.is_authenticated %}
         <p>Welcome, {{ user.get_username }}. Thanks for logging in.</p>
