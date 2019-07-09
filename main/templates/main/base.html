@@ -2,51 +2,13 @@
 {% block base %}
 
     <!-- Navigation -->
-    <nav class="navbar navbar-light bg-light static-top">
-      <div class="container">
-        <a class="navbar-brand" href="/admin">Admin</a>
-        <a class="" href="/">Main Page</a>
-        <a class="" href="/whole_list">Whole list</a>
-        <a class="" href="/staged_projects">Staged projects</a>
-        <a class="" href="/ended_projects">Ended projects</a>
-        <a class="" href="/upload">Upload_file</a>
-        <div class="dropdown">
-          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">settings
-          <span class="caret"></span></button>
-          <ul class="dropdown-menu">
-            <li>
-                <input type="checkbox" id="color_on">
-                <label>הוספת צבע פעיל</label>
-            </li>
-            <li>
-                <input type="checkbox" id="color_method">
-                <label>הוספת צבע לכתב</label>
-            </li>
-            <li>
-                <input type='text' id="custom" />
-                <label> בחר צבע</label>
-            </li>
-            <li>
-                <input type="checkbox" id="dollar_mode" checked>
-                <label> תצוגת דולר</label>
-            </li>
-          </ul>
-        </div>
+    {% include "main\top_navbar.html" %}
 
-        <div class="dropdown">
-          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">email
-          <span class="caret"></span></button>
-          <ul class="dropdown-menu">
-            <li>
-                <input type="text" name="mail" id="mail_to_send" maxlength="100">
-                <button onclick="csv_filter()">send mail</button>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-    {% block pro_base %}
-    {% endblock %}
+    {% if user.is_authenticated %}
+        <p>Welcome, {{ user.get_username }}. Thanks for logging in.</p>
+    {% else %}
+        <p>Welcome, new user. Please log in.</p>
+    {% endif %}
     <div class="container" id="transfer_list">
         {% block transfer_list %}
         {% endblock %}

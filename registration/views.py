@@ -18,11 +18,16 @@ def signup(request):
             user.is_active = False
             user.save()
             current_site = get_current_site(request)
-            subject = 'Activate Your MySite Account'
+            subject = 'Activate Your Caneti Account'
             message = render_to_string('registration/account_activation_email.html', {
                 'user': user,
                 'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode(),
+                # this is the right answer->
+                # https://medium.com/@frfahim/django-registration-with-confirmation-email-bb5da011e4ef
+                # https: // stackoverflow.com / questions / 41918836 / how - do - i - get - rid - of - the - b - prefix - in -a - string - in -python
+                # see answer on the bottom
+
                 'token': account_activation_token.make_token(user),
             })
             user.email_user(subject, message)
@@ -44,6 +49,6 @@ def activate(request, uidb64, token):
         user.profile.email_confirmed = True
         user.save()
         login(request, user)
-        return redirect('home')
+        return redirect('/')
     else:
         return render(request, 'registration/account_activation_invalid.html')
