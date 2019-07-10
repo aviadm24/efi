@@ -52,12 +52,9 @@ table = $('#mainlist').DataTable({
 //              "pageLength": 500,
               "order": [[ 5, "asc"], [12, "asc"]],
               "createdRow": function ( row, data, index ) {
-//                    var today = new Date()
+                    // http://live.datatables.net/tohehohe/1/edit
+                    // good way to check other code
                     var today = moment().format('MM/DD/YYYY');
-//                    var today = moment().format('dddd, MMMM DD, YYYY');
-//                    if ( data[5].replace(/[\$,]/g, '') * 1 > 150000 ) {
-//                        $('td', row).eq(5).addClass('highlight');
-//                    }
                     if ( data[5]==today && (data[20]!= 'Cancled' || data[20]!= 'Canceled')) {
                         $('td', row).addClass('highlight');
                     }

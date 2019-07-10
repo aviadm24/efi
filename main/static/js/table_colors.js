@@ -1,6 +1,6 @@
 
 $(document).ready(function() {
-    $('.Color').hide();
+//    $('.Color').hide();
     $('#id_Color').hide();
     $('table#mainlist tbody tr').each(function () {
         var color_string = $(this).find(".Color").text();
@@ -32,7 +32,6 @@ $(document).ready(function() {
 
 $(document).ready(function () {
 
-
         $('table#mainlist tbody tr td').click(function () {
         console.log('checked: '+$('#color_on').prop('checked'))
         if ($('#color_on').prop('checked')==true){
@@ -40,7 +39,7 @@ $(document).ready(function () {
             var color_method = $('#color_method').prop('checked')
             console.log('color_method: '+color_method)
             var id = $(this).closest('tr').find('.id').text();
-            var td_id = $(this).attr('class');
+            var td_id = $(this).attr('class').split(' ')[0];
             //$('#id_Color').val(color);
             if (color_method == false){
                     //console.log('color_method false')
@@ -78,7 +77,7 @@ $(document).ready(function () {
 //        var color_method = $('#color_method').prop('checked')
             if ($('#color_on').prop('checked')==true){
                     var id = $(this).closest('tr').find('.id').text();
-                    var td_id = $(this).attr('class');
+                    var td_id = $(this).attr('class').split(' ')[0];
                     $.ajax({
                             url: '/ajax/add_color/',
                             data: {
