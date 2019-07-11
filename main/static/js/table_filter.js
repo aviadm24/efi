@@ -43,19 +43,25 @@ $(document).ready(function () {
     });
 });
 
+
+$(document).ready(function() {
+    $('.user').hide();
+});
+
+
 var table = $('#mainlist');
 //https://datatables.net/blog/2014-12-18
 $(document).ready(function() {
 $.fn.dataTable.moment('dddd, MMMM DD, YYYY');
 table = $('#mainlist').DataTable({
               paging: false,
-//              "pageLength": 500,
-              "order": [[ 5, "asc"], [12, "asc"]],
+              "order": [[ 6, "asc"], [13, "asc"]],
               "createdRow": function ( row, data, index ) {
                     // http://live.datatables.net/tohehohe/1/edit
                     // good way to check other code
                     var today = moment().format('MM/DD/YYYY');
-                    if ( data[5]==today && (data[20]!= 'Cancled' || data[20]!= 'Canceled')) {
+                    if ( data[6]==today && data[41]!= '<span class="true">✔</span>') {
+//                        console.log(data[6]+ '---'+data[41])
                         $('td', row).addClass('highlight');
                     }
                 },
@@ -70,9 +76,18 @@ table = $('#mainlist').DataTable({
                         }
                     }
                 ],
-                columnDefs:[{targets:5, render:function(data){
-                  return moment(data).format('dddd, MMMM DD, YYYY');
-                }}]
+                columnDefs:[
+                {
+                    targets:6, render:function(data){
+                        return moment(data).format('dddd, MMMM DD, YYYY');
+                    }
+                },
+//                this dose not work!?
+//                {
+//                    targets: 0,
+//                    visible: false
+//                }
+                ]
 
 
 //                columnDefs: [
@@ -195,10 +210,10 @@ function customer_filter() {
 //    $('#mainlist').find('td').not('.Extra_hours_provider, .Based_on_provider, .Extra_KM_provider, .Cost_per_provider, .Cost_transfer_provider, .Cost_extra_hour_provider, .Cost_VIP_provider, .Cost_shonot_provider').addClass('exported');
     table = $('#mainlist').DataTable({
               paging: false,
-              "order": [[ 5, "asc"], [12, "asc"]],
+              "order": [[ 6, "asc"], [13, "asc"]],
               "createdRow": function ( row, data, index ) {
                     var today = moment().format('MM/DD/YYYY');
-                    if ( data[5]==today) {
+                    if ( data[6]==today && data[41]!= '<span class="true">✔</span>') {
                         $('td', row).addClass('highlight');
                     }
                 },
@@ -207,7 +222,7 @@ function customer_filter() {
                 "buttons": [{ extend: 'excel', text: 'Excel', exportOptions: {columns: ':visible'}}],
                 "columnDefs": [
                     {
-                        "targets": [ 16,18,20,23,24,25,28,30,32,34,36,38 ],
+                        "targets": [ 17,19,21,24,25,26,29,31,33,35,37,39 ],
                         "visible": false,
                         "searchable": true
                     },
@@ -268,10 +283,10 @@ function provider_filter() {
     table.destroy();
     table = $('#mainlist').DataTable({
               paging: false,
-              "order": [[ 5, "asc"], [12, "asc"]],
+              "order": [[ 6, "asc"], [13, "asc"]],
               "createdRow": function ( row, data, index ) {
                     var today = moment().format('MM/DD/YYYY');
-                    if ( data[5]==today) {
+                    if ( data[6]==today && data[41]!= '<span class="true">✔</span>') {
                         $('td', row).addClass('highlight');
                     }
                 },
@@ -281,7 +296,7 @@ function provider_filter() {
                     {
                     // there is a problem to hide numbers 0 and 1 in the targets 0 whike make a problem with add_color_json function in views
                     // 1 will not let to filter with project number
-                        "targets": [ 21,22,23,27,29,31,33,35,37 ],
+                        "targets": [ 22,23,24,28,30,32,34,36,38 ],
                         "visible": false,
                         "searchable": true
                     },
@@ -305,7 +320,7 @@ function date_filter(){
         var max  = $('#id_end').val();
         console.log(min)
         console.log(max)
-        var createdAt = data[5] || 0; // Our date column in the table
+        var createdAt = data[6] || 0; // Our date column in the table
 
         if  (
                 ( min == "" || max == "" )
@@ -328,14 +343,14 @@ function date_filter(){
 //} );
 // https://stackoverflow.com/questions/30086341/datatable-hide-and-show-rows-based-on-a-button-click-event
 
-$("#hide").click(function() {
-    $.fn.dataTable.ext.search.push(
-       function(settings, data, dataIndex) {
-          return $(table.row(dataIndex).node()).attr('data-user') == 5;
-       }
-    );
-    table.draw();
-});
+//$("#hide").click(function() {
+//    $.fn.dataTable.ext.search.push(
+//       function(settings, data, dataIndex) {
+//          return $(table.row(dataIndex).node()).attr('data-user') == 5;
+//       }
+//    );
+//    table.draw();
+//});
 
 //$("#reset").click(function() {
 //    $.fn.dataTable.ext.search.pop();

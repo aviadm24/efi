@@ -1,6 +1,6 @@
 
 $(document).ready(function() {
-//    $('.Color').hide();
+    $('.Color').hide();
     $('#id_Color').hide();
     $('table#mainlist tbody tr').each(function () {
         var color_string = $(this).find(".Color").text();

@@ -31,6 +31,7 @@ from .resources import main_list_Resource
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 
 BASE_DIR = settings.BASE_DIR
 
@@ -80,7 +81,7 @@ def export_table(request):
 #     RequestConfig(request).configure(table)
 #     return render(request, 'main/table_view.html', {'table': table})
 
-
+@login_required(login_url='/login/')
 def main_list(request):
     try:
         now = datetime.now()
@@ -102,7 +103,11 @@ def main_list(request):
     field_names = [f.name for f in main_list_model._meta.get_fields()]
     now = timezone.now()
 
-    excluded_status_end = main_list_model.objects.exclude(Status='END')
+    print('user: ', request.user)
+    # https://stackoverflow.com/questions/2448978/how-to-limit-columns-returned-by-django-query
+    user_main_list = main_list_model.objects.filter(user=request.user)
+    # excluded_status_end = main_list_model.objects.exclude(Status='END')
+    excluded_status_end = user_main_list.exclude(Status='END')
     excluded_status_end_and_past = excluded_status_end.exclude(Status='Past')
 
     #  https://stackoverflow.com/questions/7503241/django-models-selecting-single-field
@@ -121,11 +126,9 @@ def main_list(request):
     provider_set = set(provider_list)
     last_month = datetime.today() - timedelta(days=30)
     today = datetime.today() - timedelta(days=1)
-    # all = main_list_model.objects.all().order_by('Date')
-    # passed = transfer.objects.filter(Date__lt=now).order_by('Date')
 
-    # table_from_last_month = main_list_Table(main_list_model.objects.filter(Date__gte=last_month).order_by('Date'))
-    table_upcoming = main_list_Table(main_list_model.objects.filter(Date__gte=today))
+    # table_upcoming = main_list_Table(main_list_model.objects.filter(Date__gte=today))
+    table_upcoming = main_list_Table(user_main_list.filter(Date__gte=today))
     # table_all = main_list_Table(main_list_model.objects.all())
     RequestConfig(request, paginate=False).configure(table_upcoming)
 
@@ -202,9 +205,10 @@ def main_list(request):
                                                               'customer_list': customer_set,
                                                               'provider_list': provider_set,
                                                               'date_form': date_form})
-
+@login_required(login_url='/login/')
 def whole_list(request):
-    excluded_status_end = main_list_model.objects.exclude(Status__contains='END')
+    user_main_list = main_list_model.objects.filter(user=request.user)
+    excluded_status_end = user_main_list.exclude(Status__contains='END')
     excluded_status_end_and_past = excluded_status_end.exclude(Status__contains='Past')
     p_num_list = excluded_status_end_and_past.values_list('Project_num', flat=True)
     try:
@@ -229,11 +233,12 @@ def whole_list(request):
                                                     'provider_list': provider_set,
                                                     'date_form': date_form})
 
-
+@login_required(login_url='/login/')
 def staged_projects(request):
     print('stage_ended projects function')
     # staged_projects_filter = main_list_model.objects.filter(Client_status__contains='נשלחה חשבונית מס')
-    staged_projects_filter = main_list_model.objects.filter(Status__contains='Past')
+    user_main_list = main_list_model.objects.filter(user=request.user)
+    staged_projects_filter = user_main_list.filter(Status__contains='Past')
     p_num_list = staged_projects_filter.values_list('Project_num', flat=True)
     print('end proj list: ', p_num_list)
     try:
@@ -256,10 +261,11 @@ def staged_projects(request):
                                                     'provider_list': provider_set,
                                                     'date_form': date_form})
 
-
+@login_required(login_url='/login/')
 def ended_projects(request):
     print('ended projects function')
-    ended_projects_filter = main_list_model.objects.filter(Status__contains='END')
+    user_main_list = main_list_model.objects.filter(user=request.user)
+    ended_projects_filter = user_main_list.filter(Status__contains='END')
     p_num_list = ended_projects_filter.values_list('Project_num', flat=True)
     print('end proj list: ', p_num_list)
     try:
@@ -654,7 +660,7 @@ def update_cell_json(request):
     return JsonResponse({})
 
 
-
+@login_required(login_url='/login/')
 def upload_file(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)

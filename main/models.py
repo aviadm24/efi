@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 # from django.contrib.postgres.fields import JSONField
 # https://github.com/psycopg/psycopg2/issues/329
 
@@ -9,7 +10,11 @@ from django.urls import reverse
 
 # backups
 # Asia/Jerusalem
+# important!
+#  https://stackoverflow.com/questions/32123477/django-revert-last-migration
 class main_list_model(models.Model):
+    # https://stackoverflow.com/questions/46343282/foreign-key-defaults-to-auth-user-in-django
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     Project_num = models.CharField(max_length=100, blank=True, null=True, verbose_name='Project number')
     Customer_num = models.CharField(max_length=100, blank=True, null=True, verbose_name='Client Reference Number')
     Customer = models.CharField(max_length=100, blank=True, null=True, verbose_name='Reference customer')

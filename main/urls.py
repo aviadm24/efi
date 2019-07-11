@@ -22,7 +22,7 @@ from . import views
 
 
 urlpatterns = [
-    # url(r'^$', auth_views.login, name='login'),
+    url(r'^login$', auth_views.login, name='login'),
     url(r'^$', views.main_list, name='main_list'),
     url(r'^main_list$', views.main_list, name='main_list'),
     url(r'^logout/$', auth_views.logout, name='logout'),
