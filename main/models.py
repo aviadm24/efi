@@ -12,6 +12,12 @@ from django.urls import reverse
 # Asia/Jerusalem
 # important!
 #  https://stackoverflow.com/questions/32123477/django-revert-last-migration
+
+# https://devcenter.heroku.com/articles/heroku-postgres-backups#creating-a-backup
+# heroku pg:backups:capture --app caneti
+# heroku pg:backups:restore caneti DATABASE_URL --app caneti-staging
+
+
 class main_list_model(models.Model):
     # https://stackoverflow.com/questions/46343282/foreign-key-defaults-to-auth-user-in-django
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
