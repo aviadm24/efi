@@ -6,6 +6,7 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.urls import reverse_lazy, reverse
 from django.utils import timezone
+from django.contrib.auth.models import User
 from .models import main_list_model, Provider_data, Customer_data, From_data, To_data, Yeruka2_data, Yeruka_data,\
     Status_data, Service_data, Car_data, Driver_data, Flight_data, Fields_to_cancel
 from django.http import JsonResponse
@@ -907,6 +908,8 @@ def upload_file(request):
 
                                 # https: // stackoverflow.com / questions / 21797436 / django - how - to - update - model - field - from -json - data
                                 # setattr(model_instance, model_field, cell_val)
+                                if model_field == 'user':
+                                    cell_val = User.objects.get(username=cell_val)
                                 model_instance.update_field(model_field, cell_val)
 
                                 # print('cell val: ', cell_val)
