@@ -104,7 +104,9 @@ def main_list(request):
     field_names = [f.name for f in main_list_model._meta.get_fields()]
     now = timezone.now()
 
-    print('user: ', request.user)
+    user = request.user
+    print('user: ', user)
+    print('user id: ', user.id)
     # https://stackoverflow.com/questions/2448978/how-to-limit-columns-returned-by-django-query
     user_main_list = main_list_model.objects.filter(user=request.user)
     # excluded_status_end = main_list_model.objects.exclude(Status='END')
