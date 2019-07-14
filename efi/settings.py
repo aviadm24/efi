@@ -183,3 +183,4 @@ else:
 
 
 LOGIN_REDIRECT_URL = 'main_list'
+LOGOUT_REDIRECT_URL = 'login'
