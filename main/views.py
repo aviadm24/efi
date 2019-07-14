@@ -181,13 +181,12 @@ def main_list(request):
                     if key == 'Contact' and value != '':
                         main_list_model.objects.filter(Project_num=form.cleaned_data['Project_num']).update(Contact=value)
 
-                # from_changeToDollarSign = form.save(commit=False)
-                # from_changeToDollarSign.Cost_per_client = str(form.cleaned_data['Cost_per_client'])+'33'
-                # print('Cost_per_client: ', from_changeToDollarSign.Cost_per_client)
-                # from_changeToDollarSign.save()
-                # change to dollar sign in form clean functions
-
-                form.save()
+                m_list_model = form.save(commit=False)
+                # commit=False tells Django that "Don't send this to database yet.
+                # I have more things I want to do with it."
+                m_list_model.user = request.user  # Set the user object here
+                m_list_model.save()  # Now you can send it to DB
+                # form.save()
                 messages.success(request, 'Your order was successfully updated!')
                 return redirect('main_list')
             else:

@@ -51,7 +51,8 @@ class main_list_form(forms.ModelForm):
 
     class Meta:
         model = main_list_model
-        fields = '__all__'
+        exclude = ('user',)
+        # fields = '__all__'
 
     def __init__(self, *args, **kwargs):
         super(main_list_form, self).__init__(*args, **kwargs)
