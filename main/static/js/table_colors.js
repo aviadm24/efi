@@ -1,30 +1,37 @@
 
 $(document).ready(function() {
-    $('.Color').hide();
-    $('#id_Color').hide();
+    $('#mainlist tbody tr td').each(function(e){
+        var tag = $(this).html();
+        if (tag == '—'){
+            $(this).css('background-color', 'rgb(255,255,50)');
+        }
+    });
+});
+
+$(document).ready(function() {
+//    $('.Color').hide();
+//    $('#id_Color').hide();
     $('table#mainlist tbody tr').each(function () {
         var color_string = $(this).find(".Color").text();
         //console.log('color_string: '+color_string)
         if (color_string != '—'){
-            //console.log(color_string=='—')
             var obj = JSON.parse(color_string);
         }
-
-        //var color_list = color_string.split("^");
         var row  = $(this);
         $.each(obj, function(key,val){
-               if (key.endsWith('_text')){
-                   //console.log('ends with text! '+key)
-                   var new_key =  key.split("_")[0]
-                   //console.log('new_key: '+new_key)
-                   var td = row.find("."+new_key);
-                   //console.log('td: '+td)
-                   td.css('color', val);
-               }else{
-                   var td = row.find("."+key);
-                   //console.log('td: '+td.text())
-                   td.css('background', val);
-               }
+            console.log('key:  '+key)
+           if (key.endsWith('_text')){
+               console.log('ends with text! '+key)
+               var new_key =  key.replace('_text','');
+               console.log('new_key: '+new_key)
+               var td = row.find("."+new_key);
+               console.log('td: '+td)
+               td.css('color', val);
+           }else{
+               var td = row.find("."+key);
+               //console.log('td: '+td.text())
+               td.css('background', val);
+           }
 
         });
     });
@@ -105,18 +112,4 @@ $(document).ready(function () {
 });
 
 
-$(document).ready(function() {
-//    $(".Provider").each(function(e){
-//    var status_val = $(this).html();
-//    if (status_val=='—'){
-//        $(this).css('background-color', 'yellow');
-//    }
-//    });
-    $('#mainlist tbody tr td').each(function(e){
-//    $('#mainlist').find('tbody tr td:nth-child(5),td:nth-child(6),td:nth-child(7),td:nth-child(8),td:nth-child(9),td:nth-child(10),td:nth-child(11),td:nth-child(12),td:nth-child(13), td:nth-child(14)').each(function () {
-        var tag = $(this).html();
-        if (tag == '—'){
-            $(this).css('background-color', 'rgb(255,255,50)');
-        }
-    });
-});
+
