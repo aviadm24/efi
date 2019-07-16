@@ -9,8 +9,8 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() {
-//    $('.Color').hide();
-//    $('#id_Color').hide();
+    $('.Color').hide();
+    $('#id_Color').hide();
     $('table#mainlist tbody tr').each(function () {
         var color_string = $(this).find(".Color").text();
         //console.log('color_string: '+color_string)
