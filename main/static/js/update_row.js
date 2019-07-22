@@ -301,12 +301,26 @@ function update_row(){
         }else if(current_status == 'END'){
             var status_check = check_status();
             var past_proj_with_invoice = status_check.past_projects_with_invoice;
+            var with_invoice_not_past = status_check.with_invoice_not_past;
             console.log('past_proj_with_invoice: '+past_proj_with_invoice)
+            console.log('with_invoice_not_past: '+with_invoice_not_past)
 
             var pastProj = $('#updating_now').closest('tr').find('.Project_num').text();
             if (in_array(pastProj, past_proj_with_invoice)){
                 $("#m_title").html('Are you sure?');
                 $("#m_body").html('changing this cell to "END" means the whole project: '+pastProj+ '\nwill be sent to the "ended projects table" \nand changes will be restricted!');
+                $('#m_select').show();
+                $('#before_update_buttons').hide();
+                $('#update_buttons').show()
+                $('#m_select').empty();
+                var option = '';
+                   option += '<option value="'+ pastProj + '">' + pastProj + '</option>';
+                $('#m_select').append(option);
+
+                $("#general_purpose_Modal").modal();
+            }else if(in_array(pastProj, with_invoice_not_past)){
+                $("#m_title").html('Are you sure?');
+                $("#m_body").html('The date of this project is still in main list - changing this cell to "END" means the whole project: '+pastProj+ '\nwill be sent to the "ended projects table" \nand changes will be restricted!');
                 $('#m_select').show();
                 $('#before_update_buttons').hide();
                 $('#update_buttons').show()

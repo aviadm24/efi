@@ -7,7 +7,7 @@
     {% if user.is_authenticated %}
         <p>Welcome, {{ user.get_username }}. Thanks for logging in.</p>
     {% else %}
-        <p>Welcome, new user. Please log in.</p>
+        <p>Welcome, new user. Please Sign up.</p>
     {% endif %}
     <div class="container" id="transfer_list">
         {% block transfer_list %}

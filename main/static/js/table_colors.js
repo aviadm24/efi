@@ -21,11 +21,11 @@ $(document).ready(function() {
         $.each(obj, function(key,val){
             console.log('key:  '+key)
            if (key.endsWith('_text')){
-               console.log('ends with text! '+key)
+//               console.log('ends with text! '+key)
                var new_key =  key.replace('_text','');
-               console.log('new_key: '+new_key)
+//               console.log('new_key: '+new_key)
                var td = row.find("."+new_key);
-               console.log('td: '+td)
+//               console.log('td: '+td)
                td.css('color', val);
            }else{
                var td = row.find("."+key);
@@ -40,11 +40,11 @@ $(document).ready(function() {
 $(document).ready(function () {
 
         $('table#mainlist tbody tr td').click(function () {
-        console.log('checked: '+$('#color_on').prop('checked'))
+//        console.log('checked: '+$('#color_on').prop('checked'))
         if ($('#color_on').prop('checked')==true){
             var color = $('#custom').val();
             var color_method = $('#color_method').prop('checked')
-            console.log('color_method: '+color_method)
+//            console.log('color_method: '+color_method)
             var id = $(this).closest('tr').find('.id').text();
             var td_id = $(this).attr('class').split(' ')[0];
             //$('#id_Color').val(color);

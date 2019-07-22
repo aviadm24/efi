@@ -27,7 +27,7 @@ function stage_project(past_projects){
 //    var proj_num = $('#m_select').val()
 
     var past_projects_json = JSON.stringify(past_projects);
-    console.log('proj to stage: '+ past_projects_json)
+//    console.log('proj to stage: '+ past_projects_json)
     $.ajax({
         url: '/ajax/stage_project/',
         data: {
@@ -65,7 +65,7 @@ function stage_project(past_projects){
 
 function dont_close_project(){
     var old_val = $('#last_val').html();
-    console.log('old_val: '+ old_val)
+//    console.log('old_val: '+ old_val)
     $('#updating_now').text(old_val)
 }
 
@@ -81,17 +81,18 @@ function check_status(){
     var today = moment();
     past_projects = [];
     past_projects_with_invoice = [];
+    with_invoice_not_past = [];
     $('#mainlist tbody tr td.Date').each(function() {
         var date = $(this).text();
         var proj_num = $(this).closest('tr').find('.Project_num').text();
+        console.log('project: '+ proj_num)
         var yesterday = moment().subtract(2, 'days').toDate();
 //        let yesterday = moment().subtract(1, 'day').toDate();
 //        console.log(yesterday)
+        var hazmanat_rechesh = $(this).closest('tr').find('.Provider_status').text();
+        var heshbonit = $(this).closest('tr').find('.Client_status').text();
+        var canceled = $(this).closest('tr').find('.Canceled').text();
         if (moment(date).isBefore(yesterday)){
-
-            var hazmanat_rechesh = $(this).closest('tr').find('.Provider_status').text();
-            var heshbonit = $(this).closest('tr').find('.Client_status').text();
-            var canceled = $(this).closest('tr').find('.Canceled').text();
             if (hazmanat_rechesh.includes('נשלחה') && heshbonit.startsWith('נשלחה חשבונית מס') && canceled == '✘'){
 //                console.log('project: '+proj_num)
                 if (!in_array(proj_num, past_projects_with_invoice)){
@@ -120,7 +121,11 @@ function check_status(){
             if (in_array(proj_num, past_projects)) {
               past_projects.splice(index, 1);
             }
-
+            if (hazmanat_rechesh.includes('נשלחה') && heshbonit.startsWith('נשלחה חשבונית מס') && canceled == '✘'){
+                if (!in_array(proj_num, with_invoice_not_past)){
+                  with_invoice_not_past.push(proj_num);
+                }
+            }
         }
     });
     console.log('past_projects_with_invoice: '+past_projects_with_invoice)
@@ -128,6 +133,7 @@ function check_status(){
     return {
      past_projects: past_projects,
      past_projects_with_invoice: past_projects_with_invoice,
+     with_invoice_not_past: with_invoice_not_past,
     };
 }
 
