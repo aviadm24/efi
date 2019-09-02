@@ -514,7 +514,7 @@ def change_for_all_project_rows(request):
 def update_cell_json(request):
     new_value = request.GET.get('new_value')
     print('new val', new_value)
-    if new_value != '':
+    if new_value is not None:
         id = request.GET.get('id')
         td_id = request.GET.get('td_id')
         print('id val', id)
@@ -578,6 +578,7 @@ def update_cell_json(request):
         if td_id == 'Provider_status':
             main_list_model.objects.filter(pk=id).update(Provider_status=new_value)
         if td_id == 'Comments':
+            print('comment new val: ', new_value)
             main_list_model.objects.filter(pk=id).update(Comments=new_value)
         if td_id == 'Status':
             # print('got status!!!!!!!!!!!!!!!!!!!')
