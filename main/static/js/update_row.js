@@ -218,7 +218,9 @@ function update_row(){
             if (td_id.includes('Cost')){
                     if ( new_value.includes('$') || new_value.includes('€') || new_value.includes('₪') ){
                     }else{
-                        new_value = '$'+new_value;
+                        if (new_value != ''){
+                            new_value = '$'+new_value;
+                        }
                     }
                 }
         }
