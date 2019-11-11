@@ -85,7 +85,7 @@ function check_status(){
     $('#mainlist tbody tr td.Date').each(function() {
         var date = $(this).text();
         var proj_num = $(this).closest('tr').find('.Project_num').text();
-        console.log('project: '+ proj_num)
+//        console.log('project: '+ proj_num)
         var yesterday = moment().subtract(2, 'days').toDate();
 //        let yesterday = moment().subtract(1, 'day').toDate();
 //        console.log(yesterday)
@@ -94,7 +94,7 @@ function check_status(){
         var canceled = $(this).closest('tr').find('.Canceled').text();
         if (moment(date).isBefore(yesterday)){
             if (hazmanat_rechesh.includes('נשלחה') && heshbonit.startsWith('נשלחה חשבונית מס') && canceled == '✘'){
-//                console.log('project: '+proj_num)
+                console.log('finished projects: '+proj_num)
                 if (!in_array(proj_num, past_projects_with_invoice)){
                   past_projects_with_invoice.push(proj_num);
                 }
@@ -130,6 +130,7 @@ function check_status(){
     });
     console.log('past_projects_with_invoice: '+past_projects_with_invoice)
     console.log('past_projects: '+past_projects)
+    console.log('with_invoice_not_past: '+with_invoice_not_past)
     return {
      past_projects: past_projects,
      past_projects_with_invoice: past_projects_with_invoice,
