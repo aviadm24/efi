@@ -112,20 +112,23 @@ function check_status(){
                 past_projects.push(proj_num)
             }
         }else{
-
-            var index = past_projects_with_invoice.indexOf(proj_num);
-            if (index > -1) {
-              past_projects_with_invoice.splice(index, 1);
-            }
-            var index = past_projects.indexOf(proj_num);
-            if (in_array(proj_num, past_projects)) {
-              past_projects.splice(index, 1);
-            }
-            if (hazmanat_rechesh.includes('נשלחה') && heshbonit.startsWith('נשלחה חשבונית מס') && canceled == '✘'){
-                if (!in_array(proj_num, with_invoice_not_past)){
-                  with_invoice_not_past.push(proj_num);
+            if (hazmanat_rechesh.includes('נשלחה') && heshbonit.startsWith('נשלחה חשבונית מס') && canceled == '✔'){}
+            else{
+                var index = past_projects_with_invoice.indexOf(proj_num);
+                if (index > -1) {
+                  past_projects_with_invoice.splice(index, 1);
+                }
+                var index = past_projects.indexOf(proj_num);
+                if (in_array(proj_num, past_projects)) {
+                  past_projects.splice(index, 1);
+                }
+                if (hazmanat_rechesh.includes('נשלחה') && heshbonit.startsWith('נשלחה חשבונית מס') && canceled == '✘'){
+                    if (!in_array(proj_num, with_invoice_not_past)){
+                      with_invoice_not_past.push(proj_num);
+                    }
                 }
             }
+
         }
     });
     console.log('past_projects_with_invoice: '+past_projects_with_invoice)

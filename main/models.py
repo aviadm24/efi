@@ -15,7 +15,7 @@ from django.urls import reverse
 
 # https://devcenter.heroku.com/articles/heroku-postgres-backups#creating-a-backup
 # heroku pg:backups:capture --app caneti
-# heroku pg:backups:restore caneti DATABASE_URL --app caneti-staging
+# heroku pg:backups:restore caneti::{id - like b141} DATABASE_URL --app caneti-staging
 
 
 class main_list_model(models.Model):
