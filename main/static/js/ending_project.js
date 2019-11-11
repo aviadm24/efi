@@ -86,7 +86,7 @@ function check_status(){
         var date = $(this).text();
         var proj_num = $(this).closest('tr').find('.Project_num').text();
 //        console.log('project: '+ proj_num)
-        var yesterday = moment().subtract(2, 'days').toDate();
+        var yesterday = moment().subtract(1, 'days').toDate();
 //        let yesterday = moment().subtract(1, 'day').toDate();
 //        console.log(yesterday)
         var hazmanat_rechesh = $(this).closest('tr').find('.Provider_status').text();
